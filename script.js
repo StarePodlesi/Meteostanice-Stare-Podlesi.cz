@@ -56,7 +56,7 @@
                         document.getElementById('teplota').textContent = observation.metric.temp || '--';
                         document.getElementById('vlhkost').textContent = observation.humidity || '--';
                         document.getElementById('tlak').textContent = observation.metric.pressure || '--';
-                        document.getElementById('sracky').textContent = observation.metric.precipTotal || '--';
+                        document.getElementById('srazky').textContent = observation.metric.precipTotal || '--';
                         document.getElementById('smer').textContent = observation.windDir || '--';
                         document.getElementById('vitr').textContent = observation.metric.windSpeed || '--';
                     } else {
@@ -69,7 +69,7 @@
         }
 
         // Aktualizace každých 30 sekund
-        setInterval(updateWeatherData, 30000);
+        setInterval(updateWeatherData, 30);
 
         // První aktualizace ihned po načtení stránky
         document.addEventListener('DOMContentLoaded', () => {
