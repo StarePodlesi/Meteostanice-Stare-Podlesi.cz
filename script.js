@@ -22,6 +22,13 @@ function convertWindSpeed(speedKmH, unit) {
     return speedKmH.toFixed(1);  
 }
 
+function convertPrecipitation(precipMm, unit) {
+    if (unit === 'in') {
+        return (precipMm * 0.0393701).toFixed(2);  
+    }
+    return precipMm.toFixed(1); 
+}
+
 function convertPressure(pressureInHpa, unit) {
     switch (unit) {
         case 'mmHg':
@@ -62,6 +69,10 @@ function updateWeatherData() {
                     document.getElementById('smer').textContent = observation.winddir || '--';  // Stupně
                 }
 
+                const precipInSelectedUnit = convertPrecipitation(observation.metric.precipTotal, precipUnit);
+                document.getElementById('sracky').textContent = precipInSelectedUnit;
+                document.getElementById('precip-unit').textContent = precipUnit;
+                
                 document.getElementById('vlhkost').textContent = observation.humidity || '--';
                 document.getElementById('sracky').textContent = observation.metric.precipTotal || '--';
 
@@ -86,4 +97,4 @@ document.getElementById('temp-unit-select').addEventListener('change', updateWea
 document.getElementById('wind-speed-unit-select').addEventListener('change', updateWeatherData);
 document.getElementById('wind-dir-select').addEventListener('change', updateWeatherData);
 document.getElementById('pressure-unit-select').addEventListener('change', updateWeatherData);
-
+document.getElementById('precip-unit-select').addEventListener('change', updateWeatherData);  
