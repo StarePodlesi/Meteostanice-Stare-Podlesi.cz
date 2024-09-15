@@ -42,8 +42,8 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const apiKey = 'tvůj_API_klíč';  // Zde vlož svůj API klíč
-            const stationId = 'tvůj_station_ID';  // Zde vlož ID své meteostanice
+            const apiKey = 'e351e5d13283470991e5d13283f7098f';  // Zde vlož svůj API klíč
+            const stationId = 'IPODLE19';  // Zde vlož ID své meteostanice
             const url = `https://api.weather.com/v2/pws/observations/current?stationId=${stationId}&format=json&units=m&apiKey=${apiKey}`;
             
             // Získání dat z API
