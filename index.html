@@ -4,22 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meteostanice</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css"> <!-- Styl přidáš později -->
 </head>
 <body>
-    <h1>Meteostanice</h1>
-    <div id="aktuální-data">
-        <h2>Aktuální počasí</h2>
+    <h1>Meteostanice - Aktuální informace</h1>
+    <div id="weather-data">
         <p>Teplota: <span id="teplota">--</span> °C</p>
         <p>Vlhkost: <span id="vlhkost">--</span> %</p>
+        <p>Vítr: <span id="vitr">--</span> km/h</p>
+        <p>Srážky (za den): <span id="srazky">--</span> mm</p>
+        <p>Atmosférický tlak: <span id="tlak">--</span> hPa</p>
     </div>
 
-    <div id="graf">
-        <h2>Graf teplot</h2>
-        <canvas id="grafTeploty"></canvas>
-    </div>
+    <canvas id="graf-teplot" width="400" height="200"></canvas> <!-- Plátno pro graf -->
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Knihovna pro grafy -->
+    <script src="script.js"></script> <!-- Tvůj vlastní JavaScript -->
 </body>
 </html>
