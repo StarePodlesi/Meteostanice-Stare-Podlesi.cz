@@ -1,12 +1,9 @@
-// Zadej svůj API klíč a ID meteostanice
-const apiKey = 'e351e5d13283470991e5d13283f7098f';  // Nahraď tvým API klíčem
-const stationId = 'IPODLE19';  // Nahraď ID tvé meteostanice
+const apiKey = 'e351e5d13283470991e5d13283f7098f'; 
+const stationId = 'IPODLE19';  
 
-// Funkce pro načítání dat z API
 function updateWeatherData() {
     const url = `https://api.weather.com/v2/pws/observations/current?stationId=${stationId}&format=json&units=m&apiKey=${apiKey}`;
 
-    // Načtení dat z API
     fetch(url)
         .then(response => response.json())
         .then(data => {
@@ -27,8 +24,6 @@ function updateWeatherData() {
         });
 }
 
-// Aktualizace dat každých 30 sekund
-setInterval(updateWeatherData, 30);
+setInterval(updateWeatherData, 300);
 
-// Načtení dat ihned po načtení stránky
 document.addEventListener('DOMContentLoaded', updateWeatherData);
