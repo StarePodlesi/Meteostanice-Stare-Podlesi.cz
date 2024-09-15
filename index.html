@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meteostanice Staré Podlesí</title>
+    <title>MeteostaniceStaréPodlesí</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -28,17 +28,49 @@
         p {
             margin: 5px 0;
         }
+
+        select {
+            margin-top: 10px;
+            padding: 5px;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
     <h1>Meteostanice Staré Podlesí - Aktuální data</h1>
     <div id="weather-data">
-        <p>Teplota: <span id="teplota">--</span> °C</p>
+        <p>Teplota: <span id="teplota">--</span> <span id="temp-unit">°C</span></p>
         <p>Vlhkost vzduchu: <span id="vlhkost">--</span> %</p>
-        <p>Atmosférický tlak: <span id="tlak">--</span> hPa</p>
-        <p>Srážky za den: <span id="srazky">--</span> mm</p>
-        <p>Směr větru: <span id="smer">--</span> °</p>
-        <p>Rychlost větru: <span id="vitr">--</span> km/h</p>
+        <p>Atmosférický tlak: <span id="tlak">--</span> <span id="pressure-unit">hPa</span></p>
+        <p>Srážky za den: <span id="sracky">--</span> mm</p>
+        <p>Směr větru: <span id="smer">--</span></p>
+        <p>Rychlost větru: <span id="vitr">--</span> <span id="wind-speed-unit">km/h</span></p>
+
+        <!-- Přepínání jednotek -->
+        <label for="temp-unit-select">Zvolte jednotku teploty:</label>
+        <select id="temp-unit-select">
+            <option value="C">°C</option>
+            <option value="F">°F</option>
+        </select>
+
+        <label for="wind-speed-unit-select">Zvolte jednotku rychlosti větru:</label>
+        <select id="wind-speed-unit-select">
+            <option value="km/h">km/h</option>
+            <option value="mph">mph</option>
+        </select>
+
+        <label for="wind-dir-select">Zvolte jednotku směru větru:</label>
+        <select id="wind-dir-select">
+            <option value="degrees">Stupně</option>
+            <option value="directions">Světové strany</option>
+        </select>
+
+        <label for="pressure-unit-select">Zvolte jednotku tlaku:</label>
+        <select id="pressure-unit-select">
+            <option value="hPa">hPa</option>
+            <option value="mmHg">mmHg</option>
+            <option value="inHg">inHg</option>
+        </select>
     </div>
 
     <script src="script.js"></script>
