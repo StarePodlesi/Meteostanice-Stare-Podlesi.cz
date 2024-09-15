@@ -1,45 +1,85 @@
-<!DOCTYPE html>
-<html lang="cs">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meteostanice - Weather Underground</title>
-</head>
-<body>
-    <h1>Počasí z Wunderground API</h1>
-    <div id="weather-data">
-        <p>Teplota: <span id="teplota">--</span> °C</p>
-        <p>Vlhkost: <span id="vlhkost">--</span> %</p>
-        <p>Vítr: <span id="vitr">--</span> km/h</p>
-        <p>Srážky (za den): <span id="srazky">--</span> mm</p>
-        <p>Atmosférický tlak: <span id="tlak">--</span> hPa</p>
-    </div>
+document.addEventListener('DOMContentLoaded', () => {
+    const apiKey = 'e351e5d13283470991e5d13283f7098f';  
+    const stationId = 'IPODLE19'; 
+    const url = `https://api.weather.com/v2/pws/observations/current?stationId=${stationId}&format=json&units=m&apiKey=${apiKey}`;
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const apiKey = 'e351e5d13283470991e5d13283f7098f';  // Zde vlož svůj API klíč
-            const stationId = 'IPODLE19';  // Zde vlož ID své meteostanice
-            const url = `https://api.weather.com/v2/pws/observations/current?stationId=${stationId}&format=json&units=m&apiKey=${apiKey}`;
-            
-            // Získání dat z API
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    const observation = data.observations[0];  // První záznam z výsledků
+    // Funkce pro načtení aktuálních dat
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const observation = data.observations[0];
 
-                    // Zobrazení dat na stránce
-                    document.getElementById('teplota').textContent = observation.metric.temp;
-                    document.getElementById('vlhkost').textContent = observation.humidity;
-                    document.getElementById('vitr').textContent = observation.metric.windSpeed;
+            // Zobrazení dat na stránce
+            document.getElementById('teplota').textContent = observation.metric.temp;
+            document.getElementById('vlhkost').textContent = observation.humidity;
+            document.getElementById('tlak').textContent = observation.metric.pressure;
+            document.getElementById('srazky').textContent = observation.metric.precipTotal || 0;
+            document.getElementById('rychlost-vetru').textContent = observation.metric.windSpeed;
+            document.getElementById('smer-vetru').textContent = observation.winddir;
 
-                    // Přidání srážek za den a atmosférického tlaku
-                    document.getElementById('srazky').textContent = observation.metric.precipTotal || 0;  // Srážky za celý den
-                    document.getElementById('tlak').textContent = observation.metric.pressure;
-                })
-                .catch(error => {
-                    console.error('Chyba při načítání dat z API:', error);
-                });
+            // Načtení historických dat pro graf
+            loadHistoricalData();
+        })
+        .catch(error => {
+            console.error('Chyba při načítání aktuálních dat:', error);
         });
-    </script>
-</body>
-</html>
+
+    // Funkce pro načtení historických dat a vykreslení grafu
+    function loadHistoricalData() {
+        const historyUrl = `https://api.weather.com/v2/pws/history/all?stationId=${stationId}&format=json&units=m&date=${getCurrentDate()}&apiKey=${apiKey}`;
+
+        fetch(historyUrl)
+            .then(response => response.json())
+            .then(data => {
+                const observations = data.observations;
+
+                // Extrakce časů a teplot
+                const times = observations.map(obs => obs.obsTimeLocal.split(' ')[1]);
+                const temperatures = observations.map(obs => obs.metric.temp);
+
+                // Vykreslení grafu
+                const ctx = document.getElementById('graf-teplot').getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: times,
+                        datasets: [{
+                            label: 'Teplota (°C)',
+                            data: temperatures,
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            fill: false,
+                            tension: 0.1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Čas'
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Teplota (°C)'
+                                }
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Chyba při načítání historických dat:', error);
+            });
+    }
+
+    // Funkce pro získání aktuálního data ve formátu YYYYMMDD
+    function getCurrentDate() {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        return `${year}${month}${day}`;
+    }
+});
