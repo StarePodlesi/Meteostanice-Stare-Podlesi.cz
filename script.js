@@ -9,7 +9,7 @@ function updateWeatherData() {
         .then(data => {
             if (data && data.observations && data.observations.length > 0) {
                 const observation = data.observations[0];  
-                document.getElementById('teplota').textContent = observation.metric.temperature || '--';
+                document.getElementById('teplota').textContent = observation.metric.temp || '--';
                 document.getElementById('vlhkost').textContent = observation.humidity || '--';
                 document.getElementById('tlak').textContent = observation.metric.pressure || '--';
                 document.getElementById('srazky').textContent = observation.metric.precipTotal || '--';
