@@ -12,7 +12,7 @@ function convertTemperature(tempCelsius, unit) {
     if (unit === 'F') {
         return (tempCelsius * 9/5 + 32).toFixed(1);  
     }
-    return tempCelsius;  
+    return tempCelsius.toFixed(1);  
 }
 
 function convertWindSpeed(speedKmH, unit) {
