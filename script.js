@@ -10,9 +10,9 @@ function windDirectionFromDegrees(degrees) {
 
 function convertTemperature(tempCelsius, unit) {
     if (unit === 'F') {
-        return (tempCelsius * 9/5 + 32).toFixed(1);  
+        return (tempCelsius * 9/5 + 32).toFixed(2);  
     }
-    return tempCelsius.toFixed(1);  
+    return tempCelsius.toFixed(2);  
 }
 
 function convertWindSpeed(speedKmH, unit) {
