@@ -10,7 +10,7 @@ function windDirectionFromDegrees(degrees) {
 
 function convertTemperature(tempCelsius, unit) {
     if (unit === 'F') {
-        return (tempCelsius * 9/5 + 32).toFixed(1);  
+        return (tempCelsius * 9/5 + 32);  
     }
     return tempCelsius.toFixed(1);  
 }
