@@ -34,39 +34,46 @@
     <h1>Počasí z Wunderground API</h1>
     <div id="weather-data">
         <p>Teplota: <span id="teplota">--</span> °C</p>
-        <p>Vlhkost: <span id="vlhkost">--</span> %</p>
-        <p>Vítr: <span id="vitr">--</span> km/h</p>
-        <p>Srážky: <span id="sracky">--</span> mm</p>
+        <p>Vlhkost vzduchu: <span id="vlhkost">--</span> %</p>
         <p>Atmosférický tlak: <span id="tlak">--</span> hPa</p>
+        <p>Srážky za den: <span id="sracky">--</span> mm</p>
+        <p>Směr větru: <span id="smer">--</span> °</p>
+        <p>Rychlost větru: <span id="vitr">--</span> km/h</p>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const apiKey = 'e351e5d13283470991e5d13283f7098f';  // Zde vlož svůj API klíč
-            const stationId = 'IPODLE19';  // Zde vlož ID své meteostanice
+        const apiKey = 'e351e5d13283470991e5d13283f7098f';  // Zde vlož svůj API klíč
+        const stationId = 'IPODLE19';  // Zde vlož ID své meteostanice
+
+        function updateWeatherData() {
             const url = `https://api.weather.com/v2/pws/observations/current?stationId=${stationId}&format=json&units=m&apiKey=${apiKey}`;
-            
-            // Získání dat z API
+
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                    const observation = data.observations[0];  // První záznam z výsledků
-                    const temp = observation.metric.temp || '--';  // Teplota
-                    const humidity = observation.humidity || '--';  // Vlhkost
-                    const windSpeed = observation.metric.windSpeed || '--';  // Vítr
-                    const precip = observation.metric.precipTotal || '--';  // Srážky
-                    const pressure = observation.metric.pressure || '--';  // Atmosférický tlak
-                    
-                    // Aktualizace HTML prvků
-                    document.getElementById('teplota').textContent = temp;
-                    document.getElementById('vlhkost').textContent = humidity;
-                    document.getElementById('vitr').textContent = windSpeed;
-                    document.getElementById('sracky').textContent = precip;
-                    document.getElementById('tlak').textContent = pressure;
+                    if (data && data.observations && data.observations.length > 0) {
+                        const observation = data.observations[0];  // První záznam
+                        document.getElementById('teplota').textContent = observation.metric.temp || '--';
+                        document.getElementById('vlhkost').textContent = observation.humidity || '--';
+                        document.getElementById('tlak').textContent = observation.metric.pressure || '--';
+                        document.getElementById('sracky').textContent = observation.metric.precipTotal || '--';
+                        document.getElementById('smer').textContent = observation.windDir || '--';
+                        document.getElementById('vitr').textContent = observation.metric.windSpeed || '--';
+                    } else {
+                        console.error('Chyba: Data nejsou dostupná.');
+                    }
                 })
                 .catch(error => {
                     console.error('Chyba při načítání dat z API:', error);
                 });
+        }
+
+        // Aktualizace každých 30 sekund
+        setInterval(updateWeatherData, 30000);
+
+        // První aktualizace ihned po načtení stránky
+        document.addEventListener('DOMContentLoaded', () => {
+            updateWeatherData();
         });
     </script>
 </body>
