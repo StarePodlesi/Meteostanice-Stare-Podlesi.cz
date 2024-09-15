@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meteostanice</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Meteostanice</h1>
+    <div id="aktuální-data">
+        <h2>Aktuální počasí</h2>
+        <p>Teplota: <span id="teplota">--</span> °C</p>
+        <p>Vlhkost: <span id="vlhkost">--</span> %</p>
+    </div>
+
+    <div id="graf">
+        <h2>Graf teplot</h2>
+        <canvas id="grafTeploty"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
