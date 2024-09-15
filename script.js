@@ -12,7 +12,7 @@ function updateWeatherData() {
                 document.getElementById('teplota').textContent = observation.metric.temp || '--';
                 document.getElementById('vlhkost').textContent = observation.humidity || '--';
                 document.getElementById('tlak').textContent = observation.metric.pressure || '--';
-                document.getElementById('sracky').textContent = observation.metric.precipTotal || '--';
+                document.getElementById('srazky').textContent = observation.metric.precipTotal || '--';
                 document.getElementById('smer').textContent = observation.winddir || '--';
                 document.getElementById('vitr').textContent = observation.metric.windSpeed || '--';
             } else {
