@@ -10,12 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const observation = data.observations[0];
             
             // Získání dat o počasí
-            const teplota = observation.metric.temp;  // Teplota v °C
-            const vlhkost = observation.humidity;  // Vlhkost v %
-            const tlak = observation.metric.pressure;  // Atmosférický tlak v hPa
-            const srazky = observation.metric.precipTotal || 0;  // Srážky za den v mm
-            const vitrRychlost = observation.metric.windSpeed;  // Rychlost větru v km/h
-            const smerVetry = observation.winddir;  // Směr větru
+            const teplota = observation.metric.temp;  
+            const vlhkost = observation.humidity;  
+            const tlak = observation.metric.pressure;  
+            const srazky = observation.metric.precipTotal || 0;  
+            const vitrRychlost = observation.metric.windSpeed;  
+            const smerVetry = observation.winddir;  
 
             // Zobrazení dat na stránce
             document.getElementById('teplota').textContent = teplota + ' °C';
