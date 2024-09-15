@@ -3,22 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meteostanice</title>
-    <link rel="stylesheet" href="style.css"> <!-- Styl přidáš později -->
+    <title>Meteostanice Staré Podlesí</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #weather-data {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+
+        p {
+            margin: 5px 0;
+        }
+    </style>
 </head>
 <body>
-    <h1>Meteostanice Staré Podlesí - Aktuální informace</h1>
+    <h1>Aktuální data z meteostanice</h1>
     <div id="weather-data">
         <p>Teplota: <span id="teplota">--</span> °C</p>
-        <p>Vlhkost: <span id="vlhkost">--</span> %</p>
-        <p>Vítr: <span id="vitr">--</span> km/h</p>
-        <p>Srážky (za den): <span id="srazky">--</span> mm</p>
+        <p>Vlhkost vzduchu: <span id="vlhkost">--</span> %</p>
         <p>Atmosférický tlak: <span id="tlak">--</span> hPa</p>
+        <p>Srážky za den: <span id="srazky">--</span> mm</p>
+        <p>Směr větru: <span id="smer">--</span> °</p>
+        <p>Rychlost větru: <span id="vitr">--</span> km/h</p>
     </div>
 
-    <canvas id="graf-teplot" width="400" height="200"></canvas> <!-- Plátno pro graf -->
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Knihovna pro grafy -->
-    <script src="script.js"></script> <!-- Tvůj vlastní JavaScript -->
+    <script src="script.js"></script>
 </body>
 </html>
