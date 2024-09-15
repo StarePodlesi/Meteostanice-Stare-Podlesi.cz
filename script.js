@@ -16,3 +16,34 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('vitr').textContent = observation.metric.windSpeed + ' km/h';
             document.getElementById('smer-vetru').textContent = observation.winddir;
 
+            // Příklad grafu teploty (historická data)
+            const teploty = [12, 14, 18, 21, 19]; // Zde můžeš načíst skutečná data z API
+            const casy = ['00:00', '06:00', '12:00', '18:00', '00:00'];
+
+            const ctx = document.getElementById('graf-teplot').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: casy,
+                    datasets: [{
+                        label: 'Teplota (°C)',
+                        data: teploty,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        fill: true,
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => console.error('Chyba při načítání dat:', error));
+});
+
+
