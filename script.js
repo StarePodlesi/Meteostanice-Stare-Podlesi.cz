@@ -78,7 +78,7 @@ function updateWeatherData() {
         });
 }
 
-setInterval(updateWeatherData, 30000);
+setInterval(updateWeatherData, 30);
 
 document.addEventListener('DOMContentLoaded', updateWeatherData);
 
