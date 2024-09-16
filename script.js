@@ -1,8 +1,8 @@
 // script.js
 
 async function fetchWeatherData() {
-    const apiKey = 'YOUR_API_KEY'; // Zde vložte svůj klíč API Weather Underground
-    const location = 'your_location'; // Zde vložte svou lokaci
+    const apiKey = '0f95fd0f58a2451a95fd0f58a2a51a75'; 
+    const location = 'Příbram'; 
 
     const response = await fetch(`https://api.weather.com/v3/wx/conditions/current?apiKey=${apiKey}&language=cs&format=json&geocode=${location}`);
     if (!response.ok) {
