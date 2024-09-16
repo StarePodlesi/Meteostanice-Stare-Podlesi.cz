@@ -1,10 +1,9 @@
-// script.js
+
+const apiKey = '0f95fd0f58a2451a95fd0f58a2a51a75'; 
+const stationId = 'IPODLE19'; 
 
 async function fetchWeatherData() {
-    const apiKey = '0f95fd0f58a2451a95fd0f58a2a51a75'; 
-    const location = 'Příbram'; 
-
-    const response = await fetch(`https://api.weather.com/v3/wx/conditions/current?apiKey=${apiKey}&language=cs&format=json&geocode=${location}`);
+    const response = await fetch(`https://api.weather.com/v3/wx/conditions/current?apiKey=${apiKey}&language=cs&format=json&stationId=${stationId}`);
     if (!response.ok) {
         throw new Error('Nebylo možné získat data o počasí');
     }
@@ -61,4 +60,36 @@ function updateWeatherData(data) {
     document.getElementById('windSpeedMetric').classList.toggle('active', windUnit === 'metric');
     document.getElementById('windSpeedImperial').classList.toggle('active', windUnit === 'imperial');
     document.getElementById('windSpeedKmh').classList.toggle('active', windUnit === 'kmh');
-    document.getElementById
+    document.getElementById('windDirectionDegrees').classList.toggle('active', windDirFormat === 'degrees');
+    document.getElementById('windDirectionCompass').classList.toggle('active', windDirFormat === 'compass');
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        const data = await fetchWeatherData();
+        updateWeatherData(data);
+
+        document.getElementById('tempSelect').addEventListener('change', async () => {
+            const data = await fetchWeatherData();
+            updateWeatherData(data);
+        });
+        document.getElementById('windSelect').addEventListener('change', async () => {
+            const data = await fetchWeatherData();
+            updateWeatherData(data);
+        });
+        document.getElementById('windDirSelect').addEventListener('change', async () => {
+            const data = await fetchWeatherData();
+            updateWeatherData(data);
+        });
+        document.getElementById('pressureSelect').addEventListener('change', async () => {
+            const data = await fetchWeatherData();
+            updateWeatherData(data);
+        });
+        document.getElementById('rainSelect').addEventListener('change', async () => {
+            const data = await fetchWeatherData();
+            updateWeatherData(data);
+        });
+    } catch (error) {
+        console.error('Chyba při načítání dat:', error);
+    }
+});
