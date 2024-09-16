@@ -20,10 +20,6 @@ function convertWindSpeed(speedKmH, unit) {
     }
     return speedKmH.toFixed(1);  
 }
-  
-    }
-    return precipMm.toFixed(1); 
-}
 
 function convertPressure(pressureInHpa, unit) {
     switch (unit) {
@@ -64,7 +60,7 @@ function updateWeatherData() {
                 } else {
                     document.getElementById('smer').textContent = observation.winddir || '--';  // Stupně
                 }
-                
+
                 document.getElementById('vlhkost').textContent = observation.humidity || '--';
                 document.getElementById('sracky').textContent = observation.metric.precipTotal || '--';
 
