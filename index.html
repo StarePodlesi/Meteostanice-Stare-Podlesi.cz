@@ -34,7 +34,8 @@
         }
         .controls {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            gap: 10px;
             margin-top: 10px;
         }
         select {
@@ -47,11 +48,23 @@
             text-align: center;
             color: #00796b;
         }
+        .weather-image {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .weather-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="weather-container">
         <h1>Meteostanice Staré Podlesí - Aktuální data</h1>
+        <div class="weather-image">
+            <img src="images/weather-icon.png" alt="Ikona počasí">
+        </div>
         <div class="weather-item">
             <span>Teplota:</span>
             <span id="temperature">--</span>
@@ -89,6 +102,7 @@
                 <select id="windSelect">
                     <option value="metric">m/s</option>
                     <option value="imperial">mph</option>
+                    <option value="kmh">km/h</option>
                 </select>
             </div>
             <div>
