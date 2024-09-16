@@ -1,6 +1,6 @@
 // Zadej svůj API klíč a ID meteostanice
-const apiKey = 'tvůj_API_klíč';  // Nahraď tvým API klíčem
-const stationId = 'tvůj_station_ID';  // Nahraď ID tvé meteostanice
+const apiKey = 'e351e5d13283470991e5d13283f7098f';  // Nahraď tvým API klíčem
+const stationId = 'IPODLE19';  // Nahraď ID tvé meteostanice
 
 // Funkce pro převedení směru větru z úhlů na světové strany
 function windDirectionFromDegrees(degrees) {
