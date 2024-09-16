@@ -7,69 +7,57 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
+            margin: 20px;
         }
-
-        h1 {
-            color: #333;
+        .weather-data {
+            margin-bottom: 20px;
         }
-
-        #weather-data {
-            background-color: #fff;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            margin: auto;
-        }
-
-        p {
-            margin: 5px 0;
-        }
-
-        select {
-            margin-top: 10px;
-            padding: 5px;
-            font-size: 14px;
+        label, select {
+            margin-right: 10px;
         }
     </style>
 </head>
 <body>
     <h1>Meteostanice Staré Podlesí - Aktuální data</h1>
-    <div id="weather-data">
-        <p>Teplota: <span id="teplota">--</span> <span id="temp-unit">°C</span></p>
-        <p>Vlhkost vzduchu: <span id="vlhkost">--</span> %</p>
-        <p>Atmosférický tlak: <span id="tlak">--</span> <span id="pressure-unit">hPa</span></p>
-        <p>Srážky za den: <span id="sracky">--</span> mm</p>
-        <p>Směr větru: <span id="smer">--</span></p>
-        <p>Rychlost větru: <span id="vitr">--</span> <span id="wind-speed-unit">km/h</span></p>
+    <div class="weather-data">
+        <strong>Teplota:</strong> <span id="teplota">--</span> <span id="temp-unit">°C</span><br>
+        <strong>Vlhkost vzduchu:</strong> <span id="vlhkost">--</span>%<br>
+        <strong>Směr větru:</strong> <span id="smer">--</span><br>
+        <strong>Rychlost větru:</strong> <span id="vitr">--</span> <span id="wind-speed-unit">km/h</span><br>
+        <strong>Tlak:</strong> <span id="tlak">--</span> <span id="pressure-unit">hPa</span><br>
+        <strong>Srážky:</strong> <span id="srazky">--</span> <span id="precip-unit">mm</span><br>
+    </div>
 
-        <!-- Přepínání jednotek -->
-        <label for="temp-unit-select">Zvolte jednotku teploty:</label>
+    <div>
+        <label for="temp-unit-select">Teplota:</label>
         <select id="temp-unit-select">
-            <option value="C">°C</option>
-            <option value="F">°F</option>
+            <option value="C">Celsius (°C)</option>
+            <option value="F">Fahrenheit (°F)</option>
         </select>
 
-        <label for="wind-speed-unit-select">Zvolte jednotku rychlosti větru:</label>
+        <label for="wind-speed-unit-select">Rychlost větru:</label>
         <select id="wind-speed-unit-select">
             <option value="km/h">km/h</option>
             <option value="mph">mph</option>
         </select>
 
-        <label for="wind-dir-select">Zvolte jednotku směru větru:</label>
+        <label for="wind-dir-select">Směr větru:</label>
         <select id="wind-dir-select">
-            <option value="degrees">Stupně</option>
+            <option value="degrees">Stupně (°)</option>
             <option value="directions">Světové strany</option>
         </select>
 
-        <label for="pressure-unit-select">Zvolte jednotku tlaku:</label>
+        <label for="pressure-unit-select">Tlak:</label>
         <select id="pressure-unit-select">
             <option value="hPa">hPa</option>
             <option value="mmHg">mmHg</option>
             <option value="inHg">inHg</option>
+        </select>
+
+        <label for="precip-unit-select">Srážky:</label>
+        <select id="precip-unit-select">
+            <option value="mm">Milimetry (mm)</option>
+            <option value="in">Palce (in)</option>
         </select>
     </div>
 
