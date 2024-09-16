@@ -1,4 +1,4 @@
-const apiKey = 'e351e5d13283470991e5d13283f7098f';  
+const apiKey = '0f95fd0f58a2451a95fd0f58a2a51a75';  
 const stationId = 'IPODLE19';  
 
 function windDirectionFromDegrees(degrees) {
@@ -27,7 +27,7 @@ function convertPrecipitation(precipMm, unit) {
 }
 
 function updateWeatherData() {
-    const url = `https://api.weather.com/v2/pws/observations/current?stationId=${IPODLE19}&format=json&units=m&apiKey=${e351e5d13283470991e5d13283f7098f}`;
+    const url = `https://api.weather.com/v2/pws/observations/current?stationId=${IPODLE19}&format=json&units=m&apiKey=${0f95fd0f58a2451a95fd0f58a2a51a75}`;
 
     fetch(url)
         .then(response => response.json())
