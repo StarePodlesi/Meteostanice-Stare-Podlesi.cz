@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,59 +9,104 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #f0f0f0;
+            background-color: #e0f7fa;
+            color: #333;
         }
         .weather-container {
             display: flex;
             flex-direction: column;
             gap: 10px;
-            max-width: 400px;
+            max-width: 500px;
             margin: 0 auto;
-            background-color: #fff;
+            background-color: #ffffff;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         .weather-item {
             display: flex;
             justify-content: space-between;
             font-size: 18px;
+            padding: 5px 0;
+        }
+        .weather-item span {
+            font-weight: bold;
+        }
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
         }
         select {
-            margin-top: 10px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            text-align: center;
+            color: #00796b;
         }
     </style>
 </head>
 <body>
     <div class="weather-container">
+        <h1>Meteostanice Staré Podlesí - Aktuální data</h1>
         <div class="weather-item">
-            <span>Temperature:</span>
+            <span>Teplota:</span>
             <span id="temperature">--</span>
         </div>
         <div class="weather-item">
-            <span>Humidity:</span>
+            <span>Vlhkost:</span>
             <span id="humidity">--</span>
         </div>
         <div class="weather-item">
-            <span>Wind Speed:</span>
+            <span>Rychlost větru:</span>
             <span id="windSpeed">--</span>
         </div>
         <div class="weather-item">
-            <span>Wind Direction:</span>
+            <span>Směr větru:</span>
             <span id="windDirection">--</span>
         </div>
         <div class="weather-item">
-            <span>Pressure:</span>
+            <span>Atmosférický tlak:</span>
             <span id="pressure">--</span>
         </div>
         <div class="weather-item">
-            <span>Rainfall:</span>
+            <span>Srážky:</span>
             <span id="rainfall">--</span>
         </div>
-        <select id="unitSelect">
-            <option value="metric">Metric (°C, m/s, hPa)</option>
-            <option value="imperial">Imperial (°F, mph, inHg)</option>
-        </select>
+        <div class="controls">
+            <div>
+                <label for="tempSelect">Jednotky teploty:</label>
+                <select id="tempSelect">
+                    <option value="metric">Celsius (°C)</option>
+                    <option value="imperial">Fahrenheit (°F)</option>
+                </select>
+            </div>
+            <div>
+                <label for="windSelect">Jednotky větru:</label>
+                <select id="windSelect">
+                    <option value="metric">m/s</option>
+                    <option value="imperial">mph</option>
+                </select>
+            </div>
+            <div>
+                <label for="pressureSelect">Jednotky tlaku:</label>
+                <select id="pressureSelect">
+                    <option value="hPa">hPa</option>
+                    <option value="mmHg">mmHg</option>
+                    <option value="inHg">inHg</option>
+                </select>
+            </div>
+            <div>
+                <label for="rainSelect">Jednotky srážek:</label>
+                <select id="rainSelect">
+                    <option value="mm">mm</option>
+                    <option value="in">in</option>
+                </select>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>
