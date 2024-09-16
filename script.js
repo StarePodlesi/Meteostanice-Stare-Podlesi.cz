@@ -1,76 +1,64 @@
-const apiKey = '0f95fd0f58a2451a95fd0f58a2a51a75';  
-const stationId = 'IPODLE19';  
+// script.js
 
-let tempUnit = 'metric';  
-let windUnit = 'metric';  
-let pressureUnit = 'hPa'; 
-let rainUnit = 'mm';      
+async function fetchWeatherData() {
+    const apiKey = 'YOUR_API_KEY'; // Zde vložte svůj klíč API Weather Underground
+    const location = 'your_location'; // Zde vložte svou lokaci
 
-function getWindDirection(degree) {
-    const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
-    const index = Math.floor((degree + 22.5) / 45) % 8;
-    return directions[index];
+    const response = await fetch(`https://api.weather.com/v3/wx/conditions/current?apiKey=${apiKey}&language=cs&format=json&geocode=${location}`);
+    if (!response.ok) {
+        throw new Error('Nebylo možné získat data o počasí');
+    }
+    return response.json();
 }
 
-function convertPressure(pressure) {
-    switch (pressureUnit) {
-        case 'mmHg':
-            return (pressure * 0.75006).toFixed(2);  
-        case 'inHg':
-            return (pressure * 0.02953).toFixed(2);  
+function convertWindSpeed(speed, unit) {
+    switch (unit) {
+        case 'metric':
+            return speed; // m/s
+        case 'imperial':
+            return speed * 2.237; // m/s na mph
+        case 'kmh':
+            return speed * 3.6; // m/s na km/h
         default:
-            return pressure.toFixed(1);  
+            return speed;
     }
 }
 
-function convertRain(rainfall) {
-    return rainUnit === 'in' ? (rainfall * 0.0393701).toFixed(2) : rainfall.toFixed(1);
+function convertWindDirection(degrees, format) {
+    if (format === 'degrees') {
+        return `${degrees}°`;
+    } else if (format === 'compass') {
+        const directions = [
+            'Sever', 'Severovýchod', 'Východ', 'Jihovýchod',
+            'Jih', 'Jihozápad', 'Západ', 'Severozápad'
+        ];
+        const index = Math.round((degrees % 360) / 45) % 8;
+        return directions[index];
+    }
+    return `${degrees}°`;
 }
 
-function updateWeatherData() {
-    const url = `https://api.weather.com/v2/pws/observations/current?stationId=${stationId}&format=json&units=${tempUnit}&apiKey=${apiKey}`;
+function updateWeatherData(data) {
+    const tempUnit = document.getElementById('tempSelect').value;
+    const windUnit = document.getElementById('windSelect').value;
+    const windDirFormat = document.getElementById('windDirSelect').value;
+    const pressureUnit = document.getElementById('pressureSelect').value;
+    const rainUnit = document.getElementById('rainSelect').value;
 
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            const observation = data.observations[0];
+    document.getElementById('temperature').textContent = tempUnit === 'metric' 
+        ? `${data.temperature} °C` 
+        : `${(data.temperature * 9/5) + 32} °F`; // Převod teploty na °F
 
-            const temperature = observation[tempUnit === 'metric' ? 'metric' : 'imperial'].temp;
-            const humidity = observation.humidity;
-            const windSpeed = observation[tempUnit === 'metric' ? 'metric' : 'imperial'].windSpeed;
-            const windDirection = observation.winddir;
-            const pressure = observation[tempUnit === 'metric' ? 'metric' : 'imperial'].pressure;
-            const rainfall = observation[tempUnit === 'metric' ? 'metric' : 'imperial'].precipTotal;
+    document.getElementById('humidity').textContent = `${data.humidity} %`;
 
-            document.getElementById('temperature').textContent = `${temperature.toFixed(1)} °${tempUnit === 'metric' ? 'C' : 'F'}`;
-            document.getElementById('humidity').textContent = `${humidity} %`;
-            document.getElementById('windSpeed').textContent = `${windSpeed.toFixed(1)} ${windUnit === 'metric' ? 'm/s' : 'mph'}`;
-            document.getElementById('windDirection').textContent = getWindDirection(observation.winddir);
-            document.getElementById('pressure').textContent = `${convertPressure(pressure)} ${pressureUnit}`;
-            document.getElementById('rainfall').textContent = `${convertRain(rainfall)} ${rainUnit}`;
-        })
-        .catch(error => console.error('Chyba při načítání dat:', error));
-}
+    const convertedWindSpeed = convertWindSpeed(data.windSpeed, windUnit);
+    document.getElementById('windSpeed').textContent = windUnit === 'kmh'
+        ? `${convertedWindSpeed.toFixed(2)} km/h`
+        : `${convertedWindSpeed.toFixed(2)} ${windUnit === 'metric' ? 'm/s' : 'mph'}`;
 
-document.getElementById('tempSelect').addEventListener('change', function () {
-    tempUnit = this.value;
-    updateWeatherData();
-});
+    document.getElementById('windDirection').textContent = convertWindDirection(data.windDirection, windDirFormat);
 
-document.getElementById('windSelect').addEventListener('change', function () {
-    windUnit = this.value;
-    updateWeatherData();
-});
-
-document.getElementById('pressureSelect').addEventListener('change', function () {
-    pressureUnit = this.value;
-    updateWeatherData();
-});
-
-document.getElementById('rainSelect').addEventListener('change', function () {
-    rainUnit = this.value;
-    updateWeatherData();
-});
-
-updateWeatherData();
-setInterval(updateWeatherData, 30000);
+    document.getElementById('windSpeedMetric').classList.toggle('active', windUnit === 'metric');
+    document.getElementById('windSpeedImperial').classList.toggle('active', windUnit === 'imperial');
+    document.getElementById('windSpeedKmh').classList.toggle('active', windUnit === 'kmh');
+    document.getElementById
