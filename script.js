@@ -27,7 +27,7 @@ function convertPrecipitation(precipMm, unit) {
 }
 
 function updateWeatherData() {
-    const url = `https://api.weather.com/v2/pws/observations/current?stationId=${stationId}&format=json&units=m&apiKey=${apiKey}`;
+    const url = `https://api.weather.com/v2/pws/observations/current?stationId=${IPODLE19}&format=json&units=m&apiKey=${e351e5d13283470991e5d13283f7098f}`;
 
     fetch(url)
         .then(response => response.json())
@@ -64,7 +64,7 @@ function updateWeatherData() {
         .catch(error => console.error('Chyba při načítání dat z API:', error));
 }
 
-setInterval(updateWeatherData, 30000);
+setInterval(updateWeatherData, 60000);
 document.getElementById('temp-unit-select').addEventListener('change', updateWeatherData);
 document.getElementById('wind-speed-unit-select').addEventListener('change', updateWeatherData);
 document.getElementById('wind-dir-select').addEventListener('change', updateWeatherData);
