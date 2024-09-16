@@ -1,6 +1,6 @@
 
 const apiKey = '0f95fd0f58a2451a95fd0f58a2a51a75'; 
-const stationId = 'IPODLE19'; 
+const stationId = 'IPBRAM43'; 
 
 async function fetchWeatherData() {
     const response = await fetch(`https://api.weather.com/v3/wx/conditions/current?apiKey=${apiKey}&language=cs&format=json&stationId=${stationId}`);
