@@ -1,74 +1,51 @@
 const apiKey = '0f95fd0f58a2451a95fd0f58a2a51a75';  
 const stationId = 'IPODLE19';  
 
-function windDirectionFromDegrees(degrees) {
-    const directions = ['S', 'SSV', 'SV', 'VSV', 'V', 'VJV', 'JV', 'JJV', 'J', 'JJZ', 'JZ', 'ZJZ', 'Z', 'ZSZ', 'SZ', 'SSZ'];
-    return directions[Math.round(degrees / 22.5) % 16];
+let unitSystem = 'm';  
+
+function getWindDirection(degree) {
+    const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+    const index = Math.floor((degree + 22.5) / 45) % 8;
+    return directions[index];
 }
 
-function convertTemperature(tempCelsius, unit) {
-    return unit === 'F' ? (tempCelsius * 9/5 + 32).toFixed(1) : tempCelsius.toFixed(1);
+function convertPressure(pressure, unit) {
+    return unit === 'imperial' ? (pressure * 0.02953).toFixed(2) : pressure.toFixed(1);
 }
 
-function convertWindSpeed(speedKmH, unit) {
-    return unit === 'mph' ? (speedKmH * 0.621371).toFixed(1) : speedKmH.toFixed(1);
-}
-
-function convertPressure(pressureInHpa, unit) {
-    switch (unit) {
-        case 'mmHg': return (pressureInHpa * 0.75006).toFixed(2);
-        case 'inHg': return (pressureInHpa * 0.02953).toFixed(2);
-        default: return pressureInHpa.toFixed(2);
-    }
-}
-
-function convertPrecipitation(precipMm, unit) {
-    return unit === 'in' ? (precipMm * 0.0393701).toFixed(2) : precipMm.toFixed(2);
+function convertRain(rainfall, unit) {
+    return unit === 'imperial' ? (rainfall * 0.0393701).toFixed(2) : rainfall.toFixed(1);
 }
 
 function updateWeatherData() {
-    const url = `https://api.weather.com/v2/pws/observations/current?stationId=${IPODLE19}&format=json&units=m&apiKey=${0f95fd0f58a2451a95fd0f58a2a51a75}`;
+    const url = `https://api.weather.com/v2/pws/observations/current?stationId=${stationId}&format=json&units=${unitSystem}&apiKey=${apiKey}`;
 
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            if (data && data.observations && data.observations.length > 0) {
-                const observation = data.observations[0];
-                
-                const tempUnit = document.getElementById('temp-unit-select').value;
-                const windSpeedUnit = document.getElementById('wind-speed-unit-select').value;
-                const windDirUnit = document.getElementById('wind-dir-select').value;
-                const pressureUnit = document.getElementById('pressure-unit-select').value;
-                const precipUnit = document.getElementById('precip-unit-select').value;
+            const observation = data.observations[0];
 
-                document.getElementById('teplota').textContent = convertTemperature(observation.metric.temp, tempUnit);
-                document.getElementById('temp-unit').textContent = `°${tempUnit}`;
+            const temperature = observation.metric.temp;
+            const humidity = observation.humidity;
+            const windSpeed = observation.metric.windSpeed;
+            const windDirection = observation.winddir;
+            const pressure = observation.metric.pressure;
+            const rainfall = observation.metric.precipTotal;
 
-                document.getElementById('vitr').textContent = convertWindSpeed(observation.metric.windSpeed, windSpeedUnit);
-                document.getElementById('wind-speed-unit').textContent = windSpeedUnit;
-
-                if (windDirUnit === 'directions') {
-                    document.getElementById('smer').textContent = windDirectionFromDegrees(observation.winddir) || '--';
-                } else {
-                    document.getElementById('smer').textContent = observation.winddir || '--';
-                }
-
-                document.getElementById('vlhkost').textContent = observation.humidity || '--';
-                document.getElementById('tlak').textContent = convertPressure(observation.metric.pressure, pressureUnit);
-                document.getElementById('pressure-unit').textContent = pressureUnit;
-
-                document.getElementById('srazky').textContent = convertPrecipitation(observation.metric.precipTotal, precipUnit);
-                document.getElementById('precip-unit').textContent = precipUnit;
-            }
+            document.getElementById('temperature').textContent = `${temperature.toFixed(1)} °${unitSystem === 'm' ? 'C' : 'F'}`;
+            document.getElementById('humidity').textContent = `${humidity} %`;
+            document.getElementById('windSpeed').textContent = `${windSpeed.toFixed(1)} ${unitSystem === 'm' ? 'm/s' : 'mph'}`;
+            document.getElementById('windDirection').textContent = getWindDirection(windDirection);
+            document.getElementById('pressure').textContent = `${convertPressure(pressure, unitSystem === 'm' ? 'metric' : 'imperial')} ${unitSystem === 'm' ? 'hPa' : 'inHg'}`;
+            document.getElementById('rainfall').textContent = `${convertRain(rainfall, unitSystem === 'm' ? 'metric' : 'imperial')} ${unitSystem === 'm' ? 'mm' : 'in'}`;
         })
-        .catch(error => console.error('Chyba při načítání dat z API:', error));
+        .catch(error => console.error('Error fetching weather data:', error));
 }
 
-setInterval(updateWeatherData, 60000);
-document.getElementById('temp-unit-select').addEventListener('change', updateWeatherData);
-document.getElementById('wind-speed-unit-select').addEventListener('change', updateWeatherData);
-document.getElementById('wind-dir-select').addEventListener('change', updateWeatherData);
-document.getElementById('pressure-unit-select').addEventListener('change', updateWeatherData);
-document.getElementById('precip-unit-select').addEventListener('change', updateWeatherData);
+document.getElementById('unitSelect').addEventListener('change', function () {
+    unitSystem = this.value === 'metric' ? 'm' : 'e';
+    updateWeatherData();
+});
 
 updateWeatherData();
+setInterval(updateWeatherData, 30000);
