@@ -1,5 +1,5 @@
-const apiKey = 0f95fd0f58a2451a95fd0f58a2a51a75;  
-const stationId = IPODLE19;  
+const apiKey = '0f95fd0f58a2451a95fd0f58a2a51a75';  
+const stationId = 'IPODLE19';  
 
 let tempUnit = 'metric';  
 let windUnit = 'metric';  
