@@ -3,46 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aktuální data - Meteostanice Staré Podlesí</title>
+    <title>Aktuální Počasí</title>
     <style>
         body {
-            background: linear-gradient(to right, #4facfe, #00f2fe);
-            color: white;
-            font-family: 'Arial', sans-serif;
-            text-align: center;
-            padding: 50px;
+            background: linear-gradient(to right, #00bcd4, #ffffff);
+            font-family: Arial, sans-serif;
+            color: #333;
             margin: 0;
+            padding: 0;
         }
-        .container {
+        .weather-container {
             max-width: 800px;
-            margin: 0 auto;
-            padding: 50px;
-            background: rgba(255, 255, 255, 0.1);
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #ffffff;
             border-radius: 15px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            text-align: center;
         }
         h1 {
-            font-size: 42px;
-            margin-bottom: 30px;
+            color: #00796b;
+            margin-bottom: 20px;
         }
-        .weather-data {
-            font-size: 20px;
-            line-height: 1.8;
-            text-align: left;
+        .weather-item {
+            font-size: 22px;
+            margin: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
         }
-        .weather-data div {
-            margin-bottom: 15px;
-        }
-        .button-container {
-            margin-top: 30px;
+        .weather-item span {
+            font-weight: bold;
         }
         a {
             text-decoration: none;
             color: #ffffff;
             background-color: #00796b;
-            padding: 15px 30px;
+            padding: 10px 20px;
             border-radius: 8px;
-            font-size: 20px;
+            margin-top: 20px;
+            display: inline-block;
             transition: background-color 0.3s ease;
         }
         a:hover {
@@ -51,21 +52,44 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Aktuální data - Meteostanice Staré Podlesí</h1>
-        <div class="weather-data">
-            <div>Teplota: <span id="temperature">--</span></div>
-            <div>Vlhkost: <span id="humidity">--</span></div>
-            <div>Rychlost větru: <span id="windSpeed">--</span></div>
-            <div>Směr větru: <span id="windDirection">--</span></div>
-            <div>Atmosférický tlak: <span id="pressure">--</span></div>
-            <div>Srážky: <span id="rainfall">--</span></div>
-            <div>Sluneční záření: <span id="solarRadiation">--</span></div>
-            <div>UV index: <span id="uvIndex">--</span></div>
+    <div class="weather-container">
+        <h1>Aktuální Data z Meteostanice</h1>
+
+        <div class="weather-item">
+            <span>Teplota:</span>
+            <span id="temperature">-- °C</span>
         </div>
-        <div class="button-container">
-            <a href="index.html">Zpět na úvodní stránku</a>
+        <div class="weather-item">
+            <span>Vlhkost:</span>
+            <span id="humidity">-- %</span>
         </div>
+        <div class="weather-item">
+            <span>Rychlost větru:</span>
+            <span id="windSpeed">-- km/h</span>
+        </div>
+        <div class="weather-item">
+            <span>Směr větru:</span>
+            <span id="windDirection">--</span>
+        </div>
+        <div class="weather-item">
+            <span>Atmosférický tlak:</span>
+            <span id="pressure">-- hPa</span>
+        </div>
+        <div class="weather-item">
+            <span>Srážky:</span>
+            <span id="rainfall">-- mm</span>
+        </div>
+        <div class="weather-item">
+            <span>Sluneční záření:</span>
+            <span id="solarRadiation">-- W/m²</span>
+        </div>
+        <div class="weather-item">
+            <span>UV index:</span>
+            <span id="uvIndex">--</span>
+        </div>
+
+        <!-- Tlačítko zpět na úvodní stránku -->
+        <a href="index.html">Zpět na úvodní stránku</a>
     </div>
 
     <script src="script.js"></script>
