@@ -95,13 +95,13 @@
         <a href="index.html">Zpět na úvodní stránku</a>
     </div>
 
-    <!-- Script to redirect to the homepage on reload -->
+    <!-- Script to redirect back to homepage if the page is reloaded -->
     <script>
-        window.onload = function() {
-            if (window.location.pathname !== '/index.html') {
-                window.location.href = 'index.html';
-            }
-        };
+        // Detect if the page is reloaded
+        if (performance.navigation.type === performance.navigation.TYPE_RELOAD) {
+            // Redirect to the homepage (index.html)
+            window.location.href = "index.html";
+        }
     </script>
 
     <script src="script.js"></script>
