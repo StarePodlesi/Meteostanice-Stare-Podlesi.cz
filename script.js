@@ -1,95 +1,107 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meteostanice Staré Podlesí</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #00bcd4, #ffffff);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
 
-const apiKey = '0f95fd0f58a2451a95fd0f58a2a51a75'; 
-const stationId = 'IPBRAM43'; 
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 15px;
+            max-width: 800px;
+            width: 90%;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
 
-async function fetchWeatherData() {
-    const response = await fetch(`https://api.weather.com/v3/wx/conditions/current?apiKey=${apiKey}&language=cs&format=json&stationId=${stationId}`);
-    if (!response.ok) {
-        throw new Error('Nebylo možné získat data o počasí');
-    }
-    return response.json();
-}
+        h1 {
+            color: #00796b;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
 
-function convertWindSpeed(speed, unit) {
-    switch (unit) {
-        case 'metric':
-            return speed; // m/s
-        case 'imperial':
-            return speed * 2.237; // m/s na mph
-        case 'kmh':
-            return speed * 3.6; // m/s na km/h
-        default:
-            return speed;
-    }
-}
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin: 20px 0;
+        }
 
-function convertWindDirection(degrees, format) {
-    if (format === 'degrees') {
-        return `${degrees}°`;
-    } else if (format === 'compass') {
-        const directions = [
-            'Sever', 'Severovýchod', 'Východ', 'Jihovýchod',
-            'Jih', 'Jihozápad', 'Západ', 'Severozápad'
-        ];
-        const index = Math.round((degrees % 360) / 45) % 8;
-        return directions[index];
-    }
-    return `${degrees}°`;
-}
+        .records {
+            margin-top: 20px;
+            font-size: 1.1rem;
+        }
 
-function updateWeatherData(data) {
-    const tempUnit = document.getElementById('tempSelect').value;
-    const windUnit = document.getElementById('windSelect').value;
-    const windDirFormat = document.getElementById('windDirSelect').value;
-    const pressureUnit = document.getElementById('pressureSelect').value;
-    const rainUnit = document.getElementById('rainSelect').value;
+        .records p {
+            margin: 10px 0;
+            font-weight: bold;
+        }
 
-    document.getElementById('temperature').textContent = tempUnit === 'metric' 
-        ? `${data.temperature} °C` 
-        : `${(data.temperature * 9/5) + 32} °F`; // Převod teploty na °F
+        a {
+            text-decoration: none;
+            background-color: #00796b;
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+            margin-top: 20px;
+        }
 
-    document.getElementById('humidity').textContent = `${data.humidity} %`;
+        a:hover {
+            background-color: #004d40;
+        }
 
-    const convertedWindSpeed = convertWindSpeed(data.windSpeed, windUnit);
-    document.getElementById('windSpeed').textContent = windUnit === 'kmh'
-        ? `${convertedWindSpeed.toFixed(2)} km/h`
-        : `${convertedWindSpeed.toFixed(2)} ${windUnit === 'metric' ? 'm/s' : 'mph'}`;
+        /* Responsivní styl */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.5rem;
+            }
 
-    document.getElementById('windDirection').textContent = convertWindDirection(data.windDirection, windDirFormat);
+            p {
+                font-size: 1rem;
+            }
 
-    document.getElementById('windSpeedMetric').classList.toggle('active', windUnit === 'metric');
-    document.getElementById('windSpeedImperial').classList.toggle('active', windUnit === 'imperial');
-    document.getElementById('windSpeedKmh').classList.toggle('active', windUnit === 'kmh');
-    document.getElementById('windDirectionDegrees').classList.toggle('active', windDirFormat === 'degrees');
-    document.getElementById('windDirectionCompass').classList.toggle('active', windDirFormat === 'compass');
-}
+            .records p {
+                font-size: 1rem;
+            }
 
-document.addEventListener('DOMContentLoaded', async () => {
-    try {
-        const data = await fetchWeatherData();
-        updateWeatherData(data);
-
-        document.getElementById('tempSelect').addEventListener('change', async () => {
-            const data = await fetchWeatherData();
-            updateWeatherData(data);
-        });
-        document.getElementById('windSelect').addEventListener('change', async () => {
-            const data = await fetchWeatherData();
-            updateWeatherData(data);
-        });
-        document.getElementById('windDirSelect').addEventListener('change', async () => {
-            const data = await fetchWeatherData();
-            updateWeatherData(data);
-        });
-        document.getElementById('pressureSelect').addEventListener('change', async () => {
-            const data = await fetchWeatherData();
-            updateWeatherData(data);
-        });
-        document.getElementById('rainSelect').addEventListener('change', async () => {
-            const data = await fetchWeatherData();
-            updateWeatherData(data);
-        });
-    } catch (error) {
-        console.error('Chyba při načítání dat:', error);
-    }
-});
+            a {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Meteostanice Staré Podlesí</h1>
+        <p>
+            Meteorologická stanice Staré Podlesí se nachází ve stejnojmenné vesnici v Podbrdí, v katastru města Příbram, Středočeský kraj.
+        </p>
+        <p>
+            <strong>Měření:</strong> Meteostanice začala nahrávat svá data 27. prosince roku 2023. Nachází se zde i čidla na měření vlhkosti a teploty půdy, teploty a vlhkosti vzduchu a sněhoměr (ve výstavbě).
+        </p>
+        <div class="records">
+            <h2>Rekordy meteostanice:</h2>
+            <p>Maximální teplota vzduchu: 34,6 °C</p>
+            <p>Minimální teplota vzduchu: -8,3 °C</p>
+            <p>Maximální výška sněhu: 25 cm</p>
+            <p>Maximální náraz větru: 16,5 km/h</p>
+        </div>
+        <a href="weather.html">Zobrazit aktuální počasí</a>
+    </div>
+</body>
+</html>
