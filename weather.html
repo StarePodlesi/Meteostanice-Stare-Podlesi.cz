@@ -3,142 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meteostanice Staré Podlesí - Aktuální data</title>
+    <title>Aktuální data - Meteostanice Staré Podlesí</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            color: white;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            padding: 50px;
             margin: 0;
-            padding: 0;
-            background: linear-gradient(to right, #00bcd4, #ffffff);
-            color: #333;
         }
-        .weather-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            max-width: 700px;
-            margin: 40px auto;
-            background-color: #ffffff;
-            padding: 30px;
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 50px;
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 15px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            text-align: center;
-        }
-        .weather-item {
-            display: flex;
-            justify-content: space-between;
-            font-size: 22px;
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-        }
-        .weather-item span {
-            font-weight: bold;
-        }
-        .controls {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            margin-top: 20px;
-        }
-        select {
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            background-color: #f9f9f9;
-            font-size: 16px;
         }
         h1 {
-            color: #00796b;
-            margin-bottom: 20px;
+            font-size: 42px;
+            margin-bottom: 30px;
         }
-        .weather-images {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 20px;
+        .weather-data {
+            font-size: 20px;
+            line-height: 1.8;
+            text-align: left;
         }
-        .weather-images img {
-            max-width: 120px;
-            height: auto;
-            display: none;
+        .weather-data div {
+            margin-bottom: 15px;
         }
-        .weather-images img.active {
-            display: inline;
+        .button-container {
+            margin-top: 30px;
+        }
+        a {
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #00796b;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 20px;
+            transition: background-color 0.3s ease;
+        }
+        a:hover {
+            background-color: #004d40;
         }
     </style>
 </head>
 <body>
-    <div class="weather-container">
-        <h1>Meteostanice Staré Podlesí - Aktuální data</h1>
-        <div class="weather-images">
-            <img id="windSpeedMetric" src="https://via.placeholder.com/120x120?text=m/s" alt="m/s">
-            <img id="windSpeedImperial" src="https://via.placeholder.com/120x120?text=mph" alt="mph">
-            <img id="windSpeedKmh" src="https://via.placeholder.com/120x120?text=km/h" alt="km/h">
-            <img id="windDirectionDegrees" src="https://via.placeholder.com/120x120?text=Degrees" alt="Stupně">
-            <img id="windDirectionCompass" src="https://via.placeholder.com/120x120?text=Compass" alt="Světové strany">
+    <div class="container">
+        <h1>Aktuální data - Meteostanice Staré Podlesí</h1>
+        <div class="weather-data">
+            <div>Teplota: <span id="temperature">--</span></div>
+            <div>Vlhkost: <span id="humidity">--</span></div>
+            <div>Rychlost větru: <span id="windSpeed">--</span></div>
+            <div>Směr větru: <span id="windDirection">--</span></div>
+            <div>Atmosférický tlak: <span id="pressure">--</span></div>
+            <div>Srážky: <span id="rainfall">--</span></div>
+            <div>Sluneční záření: <span id="solarRadiation">--</span></div>
+            <div>UV index: <span id="uvIndex">--</span></div>
         </div>
-        <div class="weather-item">
-            <span>Teplota:</span>
-            <span id="temperature">--</span>
-        </div>
-        <div class="weather-item">
-            <span>Vlhkost:</span>
-            <span id="humidity">--</span>
-        </div>
-        <div class="weather-item">
-            <span>Rychlost větru:</span>
-            <span id="windSpeed">--</span>
-        </div>
-        <div class="weather-item">
-            <span>Směr větru:</span>
-            <span id="windDirection">--</span>
-        </div>
-        <div class="weather-item">
-            <span>Atmosférický tlak:</span>
-            <span id="pressure">--</span>
-        </div>
-        <div class="weather-item">
-            <span>Srážky:</span>
-            <span id="rainfall">--</span>
-        </div>
-        <div class="controls">
-            <div>
-                <label for="tempSelect">Jednotky teploty:</label>
-                <select id="tempSelect">
-                    <option value="metric">Celsius (°C)</option>
-                    <option value="imperial">Fahrenheit (°F)</option>
-                </select>
-            </div>
-            <div>
-                <label for="windSelect">Jednotky větru:</label>
-                <select id="windSelect">
-                    <option value="metric">m/s</option>
-                    <option value="imperial">mph</option>
-                    <option value="kmh">km/h</option>
-                </select>
-            </div>
-            <div>
-                <label for="windDirSelect">Směr větru:</label>
-                <select id="windDirSelect">
-                    <option value="degrees">Stupně</option>
-                    <option value="compass">Světové strany</option>
-                </select>
-            </div>
-            <div>
-                <label for="pressureSelect">Jednotky tlaku:</label>
-                <select id="pressureSelect">
-                    <option value="hPa">hPa</option>
-                    <option value="mmHg">mmHg</option>
-                    <option value="inHg">inHg</option>
-                </select>
-            </div>
-            <div>
-                <label for="rainSelect">Jednotky srážek:</label>
-                <select id="rainSelect">
-                    <option value="mm">mm</option>
-                    <option value="in">in</option>
-                </select>
-            </div>
+        <div class="button-container">
+            <a href="index.html">Zpět na úvodní stránku</a>
         </div>
     </div>
 
