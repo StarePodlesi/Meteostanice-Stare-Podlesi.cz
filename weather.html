@@ -11,10 +11,14 @@
             color: #333;
             margin: 0;
             padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
         .weather-container {
             max-width: 800px;
-            margin: 20px auto;
+            margin: 40px auto;
             padding: 30px;
             background-color: #ffffff;
             border-radius: 15px;
@@ -26,8 +30,8 @@
             margin-bottom: 20px;
         }
         .weather-item {
-            font-size: 20px;
-            margin: 15px 0;
+            font-size: 22px;
+            margin: 20px 0;
             display: flex;
             justify-content: space-between;
             border-bottom: 1px solid #eee;
@@ -35,24 +39,6 @@
         }
         .weather-item span {
             font-weight: bold;
-        }
-        .controls {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            margin: 20px 0;
-        }
-        .control-group {
-            margin: 10px 0;
-            width: 100%;
-        }
-        select {
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            background-color: #f9f9f9;
-            font-size: 16px;
-            width: 100%;
         }
         a {
             text-decoration: none;
@@ -66,14 +52,6 @@
         }
         a:hover {
             background-color: #004d40;
-        }
-        @media (min-width: 600px) {
-            .controls {
-                flex-direction: row;
-            }
-            .control-group {
-                width: 48%;
-            }
         }
     </style>
 </head>
@@ -114,62 +92,17 @@
             <span id="uvIndex">--</span>
         </div>
 
-        <div class="controls">
-            <div class="control-group">
-                <label for="tempSelect">Jednotky teploty:</label>
-                <select id="tempSelect">
-                    <option value="metric">Celsius (°C)</option>
-                    <option value="imperial">Fahrenheit (°F)</option>
-                </select>
-            </div>
-            <div class="control-group">
-                <label for="windSelect">Jednotky větru:</label>
-                <select id="windSelect">
-                    <option value="kmh">km/h</option>
-                    <option value="metric">m/s</option>
-                    <option value="imperial">mph</option>
-                </select>
-            </div>
-            <div class="control-group">
-                <label for="windDirSelect">Směr větru:</label>
-                <select id="windDirSelect">
-                    <option value="compass">Světové strany</option>
-                    <option value="degrees">Stupně</option>
-                </select>
-            </div>
-            <div class="control-group">
-                <label for="pressureSelect">Jednotky tlaku:</label>
-                <select id="pressureSelect">
-                    <option value="hPa">hPa</option>
-                    <option value="mmHg">mmHg</option>
-                    <option value="inHg">inHg</option>
-                </select>
-            </div>
-            <div class="control-group">
-                <label for="rainSelect">Jednotky srážek:</label>
-                <select id="rainSelect">
-                    <option value="mm">mm</option>
-                    <option value="inches">palce</option>
-                </select>
-            </div>
-            <div class="control-group">
-                <label for="solarSelect">Jednotky slunečního záření:</label>
-                <select id="solarSelect">
-                    <option value="w_m2">W/m²</option>
-                    <option value="lux">Lux</option>
-                </select>
-            </div>
-            <div class="control-group">
-                <label for="uvSelect">Jednotky UV indexu:</label>
-                <select id="uvSelect">
-                    <option value="uv_index">UV index</option>
-                    <option value="mw_m2">mW/m²</option>
-                </select>
-            </div>
-        </div>
-
         <a href="index.html">Zpět na úvodní stránku</a>
     </div>
+
+    <!-- Script to redirect to the homepage on reload -->
+    <script>
+        window.onload = function() {
+            if (window.location.pathname !== '/index.html') {
+                window.location.href = 'index.html';
+            }
+        };
+    </script>
 
     <script src="script.js"></script>
 </body>
