@@ -6,7 +6,7 @@
     <title>Meteostanice Staré Podlesí</title>
     <style>
         body {
-            background: linear-gradient(to right, #00bcd4, #ffffff);
+            background: linear-gradient(to right, #f5f5f5, #e0f7fa);
             font-family: Arial, sans-serif;
             color: #333;
             margin: 0;
@@ -15,15 +15,15 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            text-align: center;
         }
         .container {
-            text-align: center;
+            max-width: 800px;
+            margin: 40px;
+            padding: 20px;
             background-color: #ffffff;
-            padding: 30px;
             border-radius: 15px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            max-width: 800px;
-            margin: 20px;
         }
         h1 {
             color: #00796b;
@@ -32,7 +32,12 @@
         p {
             font-size: 18px;
             line-height: 1.6;
-            margin-bottom: 30px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+            border-radius: 8px;
         }
         a {
             text-decoration: none;
@@ -40,6 +45,8 @@
             background-color: #00796b;
             padding: 10px 20px;
             border-radius: 8px;
+            margin-top: 20px;
+            display: inline-block;
             transition: background-color 0.3s ease;
         }
         a:hover {
@@ -48,16 +55,24 @@
     </style>
 </head>
 <body>
+
     <div class="container">
+        <!-- Obrázek meteostanice -->
+        <img src="meteostanice.jpg" alt="Meteostanice Staré Podlesí">
+
         <h1>Meteostanice Staré Podlesí</h1>
         <p>Meteorologická stanice Staré Podlesí se nachází ve stejnojmenné vesnici v Podbrdí, v katastru města Příbram, Středočeský kraj.</p>
-        <p>Měření: Meteostanice začala nahrávat svá data 27. prosince roku 2023. Nachází se zde i čidla na měření vlhkosti a teploty půdy, teploty a vlhkosti vzduchu a sněhoměr (ve výstavbě)</p>
-        <p>Rekordy meteostanice:<br>
+        <p><strong>Měření:</strong> Meteostanice začala nahrávat svá data 27. prosince roku 2023. Nachází se zde i čidla na měření vlhkosti a teploty půdy, teploty a vlhkosti vzduchu a sněhoměr (ve výstavbě).</p>
+        <p><strong>Rekordy meteostanice:</strong><br>
         Maximální teplota vzduchu: 34,6 °C<br>
         Minimální teplota vzduchu: -8,3 °C<br>
         Maximální výška sněhu: 25 cm<br>
-        Maximální náraz větru: 16,5 km/h</p>
-        <a href="weather.html">Přejít na aktuální počasí</a>
+        Maximální náraz větru: 16,5 km/h
+        </p>
+
+        <a href="weather.html">Aktuální data z meteostanice</a>
     </div>
+
 </body>
 </html>
+
