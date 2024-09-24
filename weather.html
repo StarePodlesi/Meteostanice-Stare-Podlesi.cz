@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aktuální Počasí - Meteostanice Staré Podlesí</title>
+    <title>Aktuální Počasí</title>
     <style>
         body {
             background: linear-gradient(to right, #00bcd4, #ffffff);
@@ -11,15 +11,10 @@
             color: #333;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            height: 100vh;
-            flex-direction: column;
         }
         .weather-container {
             max-width: 800px;
-            margin: 20px;
+            margin: 20px auto;
             padding: 30px;
             background-color: #ffffff;
             border-radius: 15px;
@@ -29,10 +24,9 @@
         h1 {
             color: #00796b;
             margin-bottom: 20px;
-            font-size: 2.5em;
         }
         .weather-item {
-            font-size: 22px;
+            font-size: 20px;
             margin: 15px 0;
             display: flex;
             justify-content: space-between;
@@ -64,96 +58,119 @@
             text-decoration: none;
             color: #ffffff;
             background-color: #00796b;
-            padding: 15px 30px;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-        .sitemap {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
-        }
-        .sitemap h3 {
-            margin-bottom: 10px;
-            color: #00796b;
-        }
-        .sitemap a {
-            color: #ffffff;
-            background-color: #00796b;
-            padding: 10px;
+            padding: 10px 20px;
             border-radius: 8px;
-            display: block;
-            margin-bottom: 10px;
-            text-align: center;
+            margin-top: 20px;
+            display: inline-block;
+            transition: background-color 0.3s ease;
         }
-        .sitemap a:hover {
+        a:hover {
             background-color: #004d40;
         }
-        @media (max-width: 600px) {
+        @media (min-width: 600px) {
             .controls {
-                flex-direction: column;
+                flex-direction: row;
             }
             .control-group {
-                width: 100%;
-            }
-            .weather-container {
-                width: 90%;
+                width: 48%;
             }
         }
     </style>
 </head>
 <body>
     <div class="weather-container">
-        <h1>Aktuální počasí</h1>
+        <h1>Aktuální data z meteostanice</h1>
+
+        <div class="weather-item">
+            <span>Teplota:</span>
+            <span id="temperature">-- °C</span>
+        </div>
+        <div class="weather-item">
+            <span>Vlhkost:</span>
+            <span id="humidity">-- %</span>
+        </div>
+        <div class="weather-item">
+            <span>Rychlost větru:</span>
+            <span id="windSpeed">-- km/h</span>
+        </div>
+        <div class="weather-item">
+            <span>Směr větru:</span>
+            <span id="windDirection">--</span>
+        </div>
+        <div class="weather-item">
+            <span>Atmosférický tlak:</span>
+            <span id="pressure">-- hPa</span>
+        </div>
+        <div class="weather-item">
+            <span>Srážky:</span>
+            <span id="rainfall">-- mm</span>
+        </div>
+        <div class="weather-item">
+            <span>Sluneční záření:</span>
+            <span id="solarRadiation">-- W/m²</span>
+        </div>
+        <div class="weather-item">
+            <span>UV index:</span>
+            <span id="uvIndex">--</span>
+        </div>
+
         <div class="controls">
             <div class="control-group">
-                <select id="weatherParameter">
-                    <option value="temperature">Teplota</option>
-                    <option value="humidity">Vlhkost</option>
-                    <option value="pressure">Tlak</option>
-                    <option value="wind_speed">Rychlost větru</option>
+                <label for="tempSelect">Jednotky teploty:</label>
+                <select id="tempSelect">
+                    <option value="metric">Celsius (°C)</option>
+                    <option value="imperial">Fahrenheit (°F)</option>
                 </select>
             </div>
             <div class="control-group">
-                <button id="updateWeather">Aktualizovat</button>
+                <label for="windSelect">Jednotky větru:</label>
+                <select id="windSelect">
+                    <option value="kmh">km/h</option>
+                    <option value="metric">m/s</option>
+                    <option value="imperial">mph</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="windDirSelect">Směr větru:</label>
+                <select id="windDirSelect">
+                    <option value="compass">Světové strany</option>
+                    <option value="degrees">Stupně</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="pressureSelect">Jednotky tlaku:</label>
+                <select id="pressureSelect">
+                    <option value="hPa">hPa</option>
+                    <option value="mmHg">mmHg</option>
+                    <option value="inHg">inHg</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="rainSelect">Jednotky srážek:</label>
+                <select id="rainSelect">
+                    <option value="mm">mm</option>
+                    <option value="inches">palce</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="solarSelect">Jednotky slunečního záření:</label>
+                <select id="solarSelect">
+                    <option value="w_m2">W/m²</option>
+                    <option value="lux">Lux</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="uvSelect">Jednotky UV indexu:</label>
+                <select id="uvSelect">
+                    <option value="uv_index">UV index</option>
+                    <option value="mw_m2">mW/m²</option>
+                </select>
             </div>
         </div>
-        <div class="weather-item">
-            <span>Teplota:</span> <span id="temperature">-- °C</span>
-        </div>
-        <div class="weather-item">
-            <span>Vlhkost:</span> <span id="humidity">-- %</span>
-        </div>
-        <div class="weather-item">
-            <span>Tlak:</span> <span id="pressure">-- hPa</span>
-        </div>
-        <div class="weather-item">
-            <span>Rychlost větru:</span> <span id="wind_speed">-- km/h</span>
-        </div>
+
         <a href="index.html">Zpět na úvodní stránku</a>
     </div>
 
-    <div class="sitemap">
-        <h3>Mapa stránek</h3>
-        <a href="index.html">Domů</a>
-        <a href="about.html">O meteostanici</a>
-        <a href="records.html">Rekordy</a>
-        <a href="map.html">Mapa</a>
-        <a href="weather.html">Počasí</a>
-    </div>
-
-    <script>
-        document.getElementById("updateWeather").onclick = function() {
-            // Zde můžete přidat logiku pro aktualizaci počasí
-            // Například pomocí AJAX požadavku
-            // Pro tento příklad použijeme fiktivní hodnoty
-            document.getElementById("temperature").innerText = Math.random() * 30 + " °C";
-            document.getElementById("humidity").innerText = Math.random() * 100 + " %";
-            document.getElementById("pressure").innerText = Math.random() * 50 + 1000 + " hPa";
-            document.getElementById("wind_speed").innerText = Math.random() * 15 + " km/h";
-        };
-    </script>
+    <script src="script.js"></script>
 </body>
-</html>
+</html>                                                                                   
