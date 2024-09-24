@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rekordy Meteostanice</title>
+    <title>Rekordy - Meteostanice Staré Podlesí</title>
     <style>
         body {
             background: linear-gradient(to right, #00bcd4, #ffffff);
@@ -15,27 +15,29 @@
             justify-content: center;
             align-items: flex-start;
             height: 100vh;
+            flex-direction: column;
         }
         .container {
-            text-align: center;
+            max-width: 800px;
+            margin: 20px;
+            padding: 30px;
             background-color: #ffffff;
-            padding: 50px;
             border-radius: 15px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            max-width: 900px;
-            margin: 20px;
-            box-sizing: border-box;
+            text-align: center;
         }
         h1 {
             color: #00796b;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             font-size: 2.5em;
         }
-        p {
-            font-size: 22px;
-            line-height: 1.8;
-            margin-bottom: 40px;
-            text-align: center;
+        ul {
+            list-style: none;
+            padding: 0;
+            font-size: 18px;
+        }
+        li {
+            margin: 15px 0;
         }
         a {
             text-decoration: none;
@@ -43,61 +45,52 @@
             background-color: #00796b;
             padding: 15px 30px;
             border-radius: 10px;
-            margin-top: 20px;
             display: inline-block;
+            margin-top: 20px;
         }
-        /* Mapa webu */
         .sitemap {
             background-color: #ffffff;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            position: relative;
-            top: 30px;
-            max-width: 200px;
-            margin-left: 20px;
+            margin-top: 20px;
         }
         .sitemap h3 {
-            margin-bottom: 10px;
             color: #00796b;
         }
         .sitemap a {
+            display: block;
             color: #ffffff;
             background-color: #00796b;
             padding: 10px;
             border-radius: 8px;
-            display: block;
-            margin-bottom: 10px;
-            text-align: center;
+            margin: 10px 0;
         }
         .sitemap a:hover {
-            background-color: #00796b;
-            color: #ffffff;
+            background-color: #004d40;
         }
         @media (max-width: 600px) {
-            p {
-                font-size: 20px;
-            }
-            a {
-                padding: 10px 20px;
+            .container {
+                width: 90%;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Rekordy Meteostanice</h1>
-        <p>
-            <strong>Maximální teplota vzduchu:</strong> 34,6 °C (16. srpna 2024)<br>
-            <strong>Minimální teplota vzduchu:</strong> -8,3 °C (2. února 2024)<br>
-            <strong>Maximální výška sněhu:</strong> 25 cm (26. února 2024)<br>
-            <strong>Maximální náraz větru:</strong> 16,5 km/h (15. června 2024)
-        </p>
-
-        <a href="index.html">Zpět na Domovskou stránku</a>
+        <h1>Rekordy meteostanice</h1>
+        <ul>
+            <li>Nejvyšší teplota: -- °C</li>
+            <li>Nejnižší teplota: -- °C</li>
+            <li>Nejvyšší vlhkost: -- %</li>
+            <li>Nejnižší vlhkost: -- %</li>
+            <li>Nejvyšší rychlost větru: -- km/h</li>
+            <li>Nejnižší tlak: -- hPa</li>
+            <li>Nejvyšší srážky: -- mm</li>
+        </ul>
+        <a href="index.html">Zpět na úvodní stránku</a>
     </div>
 
-    <!-- Mapa webu (sitemap) -->
     <div class="sitemap">
         <h3>Mapa stránek</h3>
         <a href="index.html">Domů</a>
