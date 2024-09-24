@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O Meteostanici</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #00bcd4, #ffffff);
+            font-family: Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+        }
+        .container {
+            text-align: center;
+            background-color: #ffffff;
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            max-width: 900px;
+            margin: 20px;
+            box-sizing: border-box;
+        }
+        h1 {
+            color: #00796b;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        p {
+            font-size: 22px;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        a {
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #00796b;
+            padding: 15px 30px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: inline-block;
+        }
+        /* Mapa webu */
+        .sitemap {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            top: 30px;
+            max-width: 200px;
+            margin-left: 20px;
+        }
+        .sitemap h3 {
+            margin-bottom: 10px;
+            color: #00796b;
+        }
+        .sitemap a {
+            color: #ffffff;
+            background-color: #00796b;
+            padding: 10px;
+            border-radius: 8px;
+            display: block;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .sitemap a:hover {
+            background-color: #00796b;
+            color: #ffffff;
+        }
+        @media (max-width: 600px) {
+            p {
+                font-size: 20px;
+            }
+            a {
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>O Meteostanici</h1>
+        <p>
+            Meteorologická stanice Staré Podlesí se nachází v katastru města Příbram na pozemku domu č.p 18 ve Starém Podlesí.
+            Stanice byla zahájena v prosinci roku 2023 a dokončena v srpnu 2024. Automatická meteostanice zaznamenává nepřetržitě hodnoty teploty vzduchu, vlhkosti vzduchu, tlaku vzduchu, půdní teploty a další parametry.
+        </p>
+
+        <a href="index.html">Zpět na Domovskou stránku</a>
+    </div>
+
+    <!-- Mapa webu (sitemap) -->
+    <div class="sitemap">
+        <h3>Mapa stránek</h3>
+        <a href="index.html">Domů</a>
+        <a href="about.html">O meteostanici</a>
+        <a href="records.html">Rekordy</a>
+        <a href="map.html">Mapa</a>
+        <a href="weather.html">Počasí</a>
+    </div>
+</body>
+</html>
