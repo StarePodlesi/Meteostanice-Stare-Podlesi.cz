@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="cs">
 <head>
@@ -13,60 +14,73 @@
             padding: 0;
             display: flex;
             justify-content: center;
-            align-items: center;
-            flex-direction: column;
+            align-items: flex-start;
             height: 100vh;
         }
         .container {
             text-align: center;
             background-color: #ffffff;
-            padding: 30px;
+            padding: 50px;
             border-radius: 15px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            max-width: 800px;
+            max-width: 900px;
             margin: 20px;
             box-sizing: border-box;
         }
         h1 {
             color: #00796b;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            font-size: 2.5em; /* Zvětšení písma na hlavní stránce */
         }
         p {
-            font-size: 18px;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            text-align: justify; /* Zarovná text do bloku */
+            font-size: 22px;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            text-align: center;
         }
         a {
             text-decoration: none;
             color: #ffffff;
             background-color: #00796b;
-            padding: 10px 20px;
-            border-radius: 8px;
-            transition: background-color 0.3s ease;
+            padding: 15px 30px;
+            border-radius: 10px;
             margin-top: 20px;
+            display: inline-block;
         }
-        a:hover {
-            background-color: #004d40;
+        /* Mapa webu */
+        .sitemap {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            top: 30px;
+            max-width: 200px;
+            margin-left: 20px;
         }
-        /* Flexbox styl pro tlačítka */
-        .button-container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap; /* Zajišťuje, že tlačítka se zalomí na menších obrazovkách */
+        .sitemap h3 {
+            margin-bottom: 10px;
+            color: #00796b;
         }
-        /* Změny pro malé obrazovky (telefony) */
+        .sitemap a {
+            color: #ffffff;
+            background-color: #00796b;
+            padding: 10px;
+            border-radius: 8px;
+            display: block;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .sitemap a:hover {
+            background-color: #00796b;
+            color: #ffffff;
+        }
         @media (max-width: 600px) {
             p {
-                font-size: 16px; /* Mírně zmenší text na menších obrazovkách */
+                font-size: 20px;
             }
             a {
-                padding: 10px 15px; /* Zmenší tlačítka */
-            }
-            .button-container {
-                flex-direction: column; /* Na malých obrazovkách se tlačítka umístí vertikálně */
-                gap: 10px; /* Zmenší mezery mezi tlačítky na mobilu */
+                padding: 10px 20px;
             }
         }
     </style>
@@ -77,18 +91,21 @@
         <p>Meteorologická stanice Staré Podlesí se nachází ve stejnojmenné vesnici v Podbrdí, v katastru města Příbram, Středočeský kraj.</p>
         <p>Měření: Meteostanice začala nahrávat svá data 27. prosince roku 2023. Nachází se zde i čidla na měření vlhkosti a teploty půdy, teploty a vlhkosti vzduchu a sněhoměr (ve výstavbě).</p>
         <p>Rekordy meteostanice:<br>
-        Maximální teplota vzduchu: 34,6 °C<br>
-        Minimální teplota vzduchu: -8,3 °C<br>
-        Maximální výška sněhu: 25 cm<br>
-        Maximální náraz větru: 16,5 km/h</p>
-        
-        <h2>Mapa Lokality</h2>
-        <p>Na této mapě můžete najít umístění meteostanice Staré Podlesí:</p>
-        
-        <div class="button-container">
-            <a href="map.html">Zobrazit mapu</a>
-            <a href="weather.html">Přejít na aktuální počasí</a>
-        </div>
+            Maximální teplota vzduchu: 34,6 °C<br>
+            Minimální teplota vzduchu: -8,3 °C<br>
+            Maximální výška sněhu: 25 cm<br>
+            Maximální náraz větru: 16,5 km/h
+        </p>
+    </div>
+
+    <!-- Mapa webu (sitemap) -->
+    <div class="sitemap">
+        <h3>Mapa stránek</h3>
+        <a href="index.html">Domů</a>
+        <a href="about.html">O meteostanici</a>
+        <a href="records.html">Rekordy</a>
+        <a href="map.html">Mapa</a>
+        <a href="weather.html">Počasí</a>
     </div>
 </body>
 </html>
