@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>O Meteostanici</title>
+    <title>O meteostanici - Staré Podlesí</title>
     <style>
         body {
             background: linear-gradient(to right, #00bcd4, #ffffff);
@@ -16,27 +15,25 @@
             justify-content: center;
             align-items: flex-start;
             height: 100vh;
+            flex-direction: column;
         }
         .container {
-            text-align: center;
+            max-width: 800px;
+            margin: 20px;
+            padding: 30px;
             background-color: #ffffff;
-            padding: 50px;
             border-radius: 15px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            max-width: 900px;
-            margin: 20px;
-            box-sizing: border-box;
+            text-align: center;
         }
         h1 {
             color: #00796b;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             font-size: 2.5em;
         }
         p {
-            font-size: 22px;
-            line-height: 1.8;
-            margin-bottom: 40px;
-            text-align: center;
+            font-size: 18px;
+            margin: 15px 0;
         }
         a {
             text-decoration: none;
@@ -44,59 +41,44 @@
             background-color: #00796b;
             padding: 15px 30px;
             border-radius: 10px;
-            margin-top: 20px;
             display: inline-block;
+            margin-top: 20px;
         }
-        /* Mapa webu */
         .sitemap {
             background-color: #ffffff;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            position: relative;
-            top: 30px;
-            max-width: 200px;
-            margin-left: 20px;
+            margin-top: 20px;
         }
         .sitemap h3 {
-            margin-bottom: 10px;
             color: #00796b;
         }
         .sitemap a {
+            display: block;
             color: #ffffff;
             background-color: #00796b;
             padding: 10px;
             border-radius: 8px;
-            display: block;
-            margin-bottom: 10px;
-            text-align: center;
+            margin: 10px 0;
         }
         .sitemap a:hover {
-            background-color: #00796b;
-            color: #ffffff;
+            background-color: #004d40;
         }
         @media (max-width: 600px) {
-            p {
-                font-size: 20px;
-            }
-            a {
-                padding: 10px 20px;
+            .container {
+                width: 90%;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>O Meteostanici</h1>
-        <p>
-            Meteorologická stanice Staré Podlesí se nachází v katastru města Příbram na pozemku domu č.p 18 ve Starém Podlesí.
-            Stanice byla zahájena v prosinci roku 2023 a dokončena v srpnu 2024. Automatická meteostanice zaznamenává nepřetržitě hodnoty teploty vzduchu, vlhkosti vzduchu, tlaku vzduchu, půdní teploty a další parametry.
-        </p>
-
-        <a href="index.html">Zpět na Domovskou stránku</a>
+        <h1>O meteostanici</h1>
+        <p>Meteorologická stanice Staré Podlesí se nachází v katastru města Příbram na pozemku domu č.p 18 ve Starém Podlesí. Stanici, která se na soukromém pozemku začala budovat v prosinci roku 2023 a dokončena byla v srpnu 2024. Byla zahájena jako stanice dočasně účelová a provoz byl zahájen 27.prosince 2023. Automatická met. stanice zaznamenává nepřetržitě hodnoty teploty vzduchu, vlhkosti vzduchu, tlaku vzduchu, půdní teploty v hloubkách 10 cm pod povrchem, srážky, směr a rychlost větru. V zimě se provádí měření výšky sněhové pokrývky a vodní hodnoty sněhové pokrývky. Přístup k meteorologické stanici je soukromý.</p>
+        <a href="index.html">Zpět na úvodní stránku</a>
     </div>
 
-    <!-- Mapa webu (sitemap) -->
     <div class="sitemap">
         <h3>Mapa stránek</h3>
         <a href="index.html">Domů</a>
