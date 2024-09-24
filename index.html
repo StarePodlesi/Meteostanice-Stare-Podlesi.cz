@@ -25,6 +25,7 @@
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
             max-width: 800px;
             margin: 20px;
+            box-sizing: border-box;
         }
         h1 {
             color: #00796b;
@@ -34,6 +35,7 @@
             font-size: 18px;
             line-height: 1.6;
             margin-bottom: 30px;
+            text-align: justify; /* Zarovná text do bloku */
         }
         a {
             text-decoration: none;
@@ -46,6 +48,26 @@
         }
         a:hover {
             background-color: #004d40;
+        }
+        /* Flexbox styl pro tlačítka */
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap; /* Zajišťuje, že tlačítka se zalomí na menších obrazovkách */
+        }
+        /* Změny pro malé obrazovky (telefony) */
+        @media (max-width: 600px) {
+            p {
+                font-size: 16px; /* Mírně zmenší text na menších obrazovkách */
+            }
+            a {
+                padding: 10px 15px; /* Zmenší tlačítka */
+            }
+            .button-container {
+                flex-direction: column; /* Na malých obrazovkách se tlačítka umístí vertikálně */
+                gap: 10px; /* Zmenší mezery mezi tlačítky na mobilu */
+            }
         }
     </style>
 </head>
@@ -62,10 +84,13 @@
         
         <h2>Mapa Lokality</h2>
         <p>Na této mapě můžete najít umístění meteostanice Staré Podlesí:</p>
-        <a href="map.html">Zobrazit mapu</a>
-
-        <a href="weather.html">Přejít na aktuální počasí</a>
+        
+        <div class="button-container">
+            <a href="map.html">Zobrazit mapu</a>
+            <a href="weather.html">Přejít na aktuální počasí</a>
+        </div>
     </div>
 </body>
 </html>
+
 
