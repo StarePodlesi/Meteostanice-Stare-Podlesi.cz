@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fotogalerie - Meteostanice Staré Podlesí</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #00bcd4, #ffffff);
+            font-family: Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 20px;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        h1 {
+            color: #00796b;
+            margin-bottom: 20px;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.05);
+        }
+
+        a {
+            display: inline-block;
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #00796b;
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #004d40;
+        }
+
+        /* Mapa stránek */
+        .mapa-stranek {
+            position: fixed;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #00796b;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .mapa-stranek h3 {
+            margin-top: 0;
+        }
+
+        .mapa-stranek ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .mapa-stranek li {
+            margin: 10px 0;
+        }
+
+        .mapa-stranek a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .mapa-stranek a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .mapa-stranek {
+                position: static;
+                transform: none;
+                margin-top: 20px;
+                text-align: center;
+            }
+
+            .container {
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fotogalerie Meteostanice Staré Podlesí</h1>
+
+        <div class="gallery">
+            <img src="photo1.jpg" alt="Meteostanice">
+            <img src="photo2.jpg" alt="Vybavení stanice">
+            <img src="photo3.jpg" alt="Příroda okolo stanice">
+            <img src="photo4.jpg" alt="Sníh a měření">
+        </div>
+
+        <a href="index.html">Zpět na úvodní stránku</a>
+    </div>
+
+    <!-- Mapa stránek -->
+    <div class="mapa-stranek">
+        <h3>Mapa stránek</h3>
+        <ul>
+            <li><a href="index.html">Úvodní stránka</a></li>
+            <li><a href="about.html">O meteostanici</a></li>
+            <li><a href="records.html">Rekordy</a></li>
+            <li><a href="weather.html">Aktuální počasí</a></li>
+            <li><a href="map.html">Mapa</a></li>
+            <li><a href="fotogalerie.html">Fotogalerie</a></li>
+        </ul>
+    </div>
+</body>
+</html>
