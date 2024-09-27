@@ -13,18 +13,24 @@
             padding: 0;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             height: 100vh;
-            flex-direction: column;
-            text-align: center;
+        }
+        .main-content {
+            display: flex;
+            justify-content: center;
+            width: 80%;
+            max-width: 1200px;
+            margin: 20px;
         }
         .container {
             max-width: 800px;
-            margin: 20px;
             padding: 30px;
             background-color: #ffffff;
             border-radius: 15px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            margin-right: 50px;
         }
         h1 {
             color: #00796b;
@@ -49,8 +55,8 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
-            margin-left: 10%;
+            width: 200px;
+            align-self: flex-start;
         }
         .sitemap h3 {
             color: #00796b;
@@ -67,30 +73,37 @@
             background-color: #004d40;
         }
         @media (max-width: 600px) {
+            .main-content {
+                flex-direction: column;
+                align-items: center;
+            }
             .container {
-                width: 90%;
+                margin-right: 0;
+                margin-bottom: 20px;
             }
             .sitemap {
-                margin-left: 0;
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>O meteostanici</h1>
-        <p>Meteorologická stanice Staré Podlesí se nachází v katastru města Příbram na pozemku domu č.p 18 ve Starém Podlesí. Stanici, která se na soukromém pozemku začala budovat v prosinci roku 2023 a dokončena byla v srpnu 2024. Byla zahájena jako stanice dočasně účelová a provoz byl zahájen 27. prosince 2023. Automatická met. stanice zaznamenává nepřetržitě hodnoty teploty vzduchu, vlhkosti vzduchu, tlaku vzduchu, půdní teploty v hloubkách 10 cm pod povrchem, srážky, směr a rychlost větru. V zimě se provádí měření výšky sněhové pokrývky a vodní hodnoty sněhové pokrývky. Přístup k meteorologické stanici je soukromý.</p>
-        <a href="index.html">Zpět na úvodní stránku</a>
-    </div>
+    <div class="main-content">
+        <div class="container">
+            <h1>O meteostanici</h1>
+            <p>Meteorologická stanice Staré Podlesí se nachází v katastru města Příbram na pozemku domu č.p 18 ve Starém Podlesí. Stanici, která se na soukromém pozemku začala budovat v prosinci roku 2023 a dokončena byla v srpnu 2024. Byla zahájena jako stanice dočasně účelová a provoz byl zahájen 27.prosince 2023. Automatická met. stanice zaznamenává nepřetržitě hodnoty teploty vzduchu, vlhkosti vzduchu, tlaku vzduchu, půdní teploty v hloubkách 10 cm pod povrchem, srážky, směr a rychlost větru. V zimě se provádí měření výšky sněhové pokrývky a vodní hodnoty sněhové pokrývky. Přístup k meteorologické stanici je soukromý.</p>
+            <a href="index.html">Zpět na úvodní stránku</a>
+        </div>
 
-    <div class="sitemap">
-        <h3>Mapa stránek</h3>
-        <a href="index.html">Domů</a>
-        <a href="about.html">O meteostanici</a>
-        <a href="records.html">Rekordy</a>
-        <a href="map.html">Mapa</a>
-        <a href="weather.html">Počasí</a>
-        <a href="fotogalerie.html">Fotogalerie</a>
+        <div class="sitemap">
+            <h3>Mapa stránek</h3>
+            <a href="index.html">Domů</a>
+            <a href="about.html">O meteostanici</a>
+            <a href="records.html">Rekordy</a>
+            <a href="map.html">Mapa</a>
+            <a href="weather.html">Počasí</a>
+            <a href="fotogalerie.html">Fotogalerie</a>
+        </div>
     </div>
 </body>
 </html>
