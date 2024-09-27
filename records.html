@@ -13,9 +13,10 @@
             padding: 0;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
+            align-items: center;
             height: 100vh;
             flex-direction: column;
+            text-align: center;
         }
         .container {
             max-width: 800px;
@@ -24,7 +25,6 @@
             background-color: #ffffff;
             border-radius: 15px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            text-align: center;
         }
         h1 {
             color: #00796b;
@@ -54,6 +54,7 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             margin-top: 20px;
+            margin-left: 10%; /* Mírný posun doprava */
         }
         .sitemap h3 {
             color: #00796b;
@@ -73,6 +74,9 @@
             .container {
                 width: 90%;
             }
+            .sitemap {
+                margin-left: 0; /* Na menších zařízeních bude mapa stránek vystředěna */
+            }
         }
     </style>
 </head>
@@ -80,13 +84,14 @@
     <div class="container">
         <h1>Rekordy meteostanice</h1>
         <ul>
-            <li>Nejvyšší teplota: -- °C</li>
-            <li>Nejnižší teplota: -- °C</li>
-            <li>Nejvyšší vlhkost: -- %</li>
-            <li>Nejnižší vlhkost: -- %</li>
-            <li>Nejvyšší rychlost větru: -- km/h</li>
-            <li>Nejnižší tlak: -- hPa</li>
-            <li>Nejvyšší srážky: -- mm</li>
+            <li>Nejvyšší teplota: 34,6 °C, 94,3 °F</li>
+            <li>Nejnižší teplota: -8,3 °C, 17 °F</li>
+            <li>Nejvyšší vlhkost: 99,9 %</li>
+            <li>Nejnižší vlhkost: 8 %</li>
+            <li>Nejvyšší rychlost větru: 21 km/h, 5,8 m/s</li>
+            <li>Nejvyšší tlak: 1031 hPa, 773,3 mmHg</li>
+            <li>Nejnižší tlak: 991 hPa, 743,3 mmHg</li>
+            <li>Nejvyšší srážky: 77 mm</li>
         </ul>
         <a href="index.html">Zpět na úvodní stránku</a>
     </div>
