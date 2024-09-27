@@ -13,18 +13,24 @@
             padding: 0;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             height: 100vh;
-            flex-direction: column;
-            text-align: center;
+        }
+        .main-content {
+            display: flex;
+            justify-content: center;
+            width: 80%;
+            max-width: 1200px;
+            margin: 20px;
         }
         .container {
             max-width: 800px;
-            margin: 20px;
             padding: 30px;
             background-color: #ffffff;
             border-radius: 15px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            margin-right: 50px;
         }
         h1 {
             color: #00796b;
@@ -53,8 +59,8 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
-            margin-left: 10%; /* Mírný posun doprava */
+            width: 200px;
+            align-self: flex-start;
         }
         .sitemap h3 {
             color: #00796b;
@@ -70,40 +76,93 @@
         .sitemap a:hover {
             background-color: #004d40;
         }
+        /* Přepínání jednotek */
+        .unit-switch {
+            margin-top: 20px;
+        }
+        .unit-switch button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 8px;
+            background-color: #00796b;
+            color: #fff;
+            cursor: pointer;
+        }
+        .unit-switch button:hover {
+            background-color: #004d40;
+        }
         @media (max-width: 600px) {
+            .main-content {
+                flex-direction: column;
+                align-items: center;
+            }
             .container {
-                width: 90%;
+                margin-right: 0;
+                margin-bottom: 20px;
             }
             .sitemap {
-                margin-left: 0; /* Na menších zařízeních bude mapa stránek vystředěna */
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Rekordy meteostanice</h1>
-        <ul>
-            <li>Nejvyšší teplota: 34,6 °C, 94,3 °F</li>
-            <li>Nejnižší teplota: -8,3 °C, 17 °F</li>
-            <li>Nejvyšší vlhkost: 99,9 %</li>
-            <li>Nejnižší vlhkost: 8 %</li>
-            <li>Nejvyšší rychlost větru: 21 km/h, 5,8 m/s</li>
-            <li>Nejvyšší tlak: 1031 hPa, 773,3 mmHg</li>
-            <li>Nejnižší tlak: 991 hPa, 743,3 mmHg</li>
-            <li>Nejvyšší srážky: 77 mm</li>
-        </ul>
-        <a href="index.html">Zpět na úvodní stránku</a>
+    <div class="main-content">
+        <div class="container">
+            <h1>Rekordy meteostanice</h1>
+            <ul id="records-list">
+                <li>Nejvyšší teplota: <span id="max-temp">34.6</span> °C</li>
+                <li>Nejnižší teplota: <span id="min-temp">-8.3</span> °C</li>
+                <li>Nejvyšší vlhkost: <span id="max-humidity">98</span> %</li>
+                <li>Nejnižší vlhkost: <span id="min-humidity">12</span> %</li>
+                <li>Nejvyšší rychlost větru: <span id="max-wind">16.5</span> km/h</li>
+                <li>Nejvyšší tlak: <span id="max-pressure">1024</span> hPa</li>
+                <li>Nejvyšší srážky: <span id="max-rainfall">50</span> mm</li>
+            </ul>
+            <a href="index.html">Zpět na úvodní stránku</a>
+            <!-- Přepínání jednotek -->
+            <div class="unit-switch">
+                <button onclick="switchToMetric()">Metrické jednotky</button>
+                <button onclick="switchToImperial()">Imperiální jednotky</button>
+            </div>
+        </div>
+
+        <div class="sitemap">
+            <h3>Mapa stránek</h3>
+            <a href="index.html">Domů</a>
+            <a href="about.html">O meteostanici</a>
+            <a href="records.html">Rekordy</a>
+            <a href="map.html">Mapa</a>
+            <a href="weather.html">Počasí</a>
+            <a href="fotogalerie.html">Fotogalerie</a>
+        </div>
     </div>
 
-    <div class="sitemap">
-        <h3>Mapa stránek</h3>
-        <a href="index.html">Domů</a>
-        <a href="about.html">O meteostanici</a>
-        <a href="records.html">Rekordy</a>
-        <a href="map.html">Mapa</a>
-        <a href="weather.html">Počasí</a>
-        <a href="fotogalerie.html">Fotogalerie</a>
-    </div>
+    <script>
+        // Funkce pro přepínání mezi metrickými a imperiálními jednotkami
+        function switchToMetric() {
+            document.getElementById("max-temp").innerText = '34.6';
+            document.getElementById("min-temp").innerText = '-8.3';
+            document.getElementById("max-wind").innerText = '16.5';
+            document.getElementById("max-pressure").innerText = '1024';
+            document.getElementById("max-rainfall").innerText = '50';
+        }
+
+        function switchToImperial() {
+            // Převod na imperiální jednotky
+            let maxTempF = (34.6 * 9/5) + 32;
+            let minTempF = (-8.3 * 9/5) + 32;
+            let windSpeedMph = 16.5 / 1.609;  // km/h na mph
+            let pressureInHg = 1024 / 33.864;  // hPa na inHg
+            let rainfallInches = 50 / 25.4;    // mm na palce
+
+            document.getElementById("max-temp").innerText = maxTempF.toFixed(1);
+            document.getElementById("min-temp").innerText = minTempF.toFixed(1);
+            document.getElementById("max-wind").innerText = windSpeedMph.toFixed(1);
+            document.getElementById("max-pressure").innerText = pressureInHg.toFixed(2);
+            document.getElementById("max-rainfall").innerText = rainfallInches.toFixed(2);
+        }
+    </script>
 </body>
 </html>
