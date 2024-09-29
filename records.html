@@ -173,7 +173,7 @@
             let humidityMaxImperial = 99.9; // Vlhkost zůstává v procentech
             let humidityMinImperial = 4; // Vlhkost zůstává v procentech
             let windSpeedMps = 22.6 / 3.6;  // km/h na m/s
-            let pressureInHg = 1032 * 0.75;  // hPa na mmHg
+            let pressuremmHg = 1032 * 0.75;  // hPa na mmHg
             let rainfallInches = 74 / 25.4;    // mm na palce
             let rainfallMaxImperialcm = 74; //Výška sněhu zůstává v centimetrech   
 
@@ -183,7 +183,7 @@
             document.getElementById("max-humidity").innerText = humidityMaxImperial.toFixed(1);
             document.getElementById("min-humidity").innerText = humidityMinImperial.toFixed(0);
             document.getElementById("max-wind").innerText = windSpeedMps.toFixed(2);
-            document.getElementById("max-pressure").innerText = pressureInHg.toFixed(2);
+            document.getElementById("max-pressure").innerText = pressuremmHg.toFixed(2);
             document.getElementById("max-rainfall").innerText = rainfallInches.toFixed(2);
             document.getElementById("max-snowfall").innerText = snowfallcm.toFixed(1);
 
