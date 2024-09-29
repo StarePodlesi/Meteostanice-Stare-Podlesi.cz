@@ -4,126 +4,124 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meteostanice Staré Podlesí - Mapa</title>
-    <title>Mapa Lokality</title>
     <style>
         body {
             background: linear-gradient(to right, #00bcd4, #ffffff);
+            font-family: Arial, sans-serif;
+            color: #333;
+            margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
-            align-items: center;
             align-items: flex-start;
             height: 100vh;
         }
+        .main-content {
+            display: flex;
+            justify-content: center;
+            width: 80%;
+            max-width: 1200px;
+            margin: 20px;
+        }
         .container {
-            text-align: center;
-            background-color: #ffffff;
+            max-width: 800px;
             padding: 30px;
-            padding: 50px;
+            background-color: #ffffff;
             border-radius: 15px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            max-width: 800px;
-            max-width: 900px;
-            margin: 20px;
-            box-sizing: border-box;
+            text-align: center;
+            margin-right: 50px;
         }
         h1 {
             color: #00796b;
-            margin-bottom: 20px;
             margin-bottom: 30px;
             font-size: 2.5em;
-        }
-        p {
-            font-size: 22px;
-            line-height: 1.8;
-            margin-bottom: 40px;
-            text-align: center;
         }
         iframe {
             border: 0;
             width: 100%;
-            height: 450px; /* Můžete upravit výšku podle potřeby */
-            border-radius: 15px; /* Zaoblení rohů */
             height: 450px;
-            border: 0;
+            border-radius: 15px;
             margin-bottom: 40px;
         }
         a {
             text-decoration: none;
             color: #ffffff;
             background-color: #00796b;
-            padding: 10px 20px;
-            border-radius: 8px;
-            transition: background-color 0.3s ease;
-            display: inline-block;
             padding: 15px 30px;
             border-radius: 10px;
-            margin-top: 20px;
             display: inline-block;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
         }
-        /* Mapa webu */
+        a:hover {
+            background-color: #004d40;
+        }
         .sitemap {
             background-color: #ffffff;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            position: relative;
-            top: 30px;
-            max-width: 200px;
-            margin-left: 20px;
+            width: 200px;
+            align-self: flex-start;
         }
         .sitemap h3 {
-            margin-bottom: 10px;
             color: #00796b;
         }
         .sitemap a {
+            display: block;
             color: #ffffff;
             background-color: #00796b;
             padding: 10px;
             border-radius: 8px;
-            display: block;
-            margin-bottom: 10px;
+            margin: 10px 0;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
             text-align: center;
         }
-        a:hover {
-            background-color: #004d40;
         .sitemap a:hover {
-            background-color: #00796b;
-            color: #ffffff;
+            background-color: #004d40;
         }
         @media (max-width: 600px) {
-            p {
-                font-size: 20px;
+            .main-content {
+                flex-direction: column;
+                align-items: center;
+            }
+            .container {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            .sitemap {
+                width: 100%;
             }
             iframe {
                 height: 300px;
-            }
-            a {
-                padding: 10px 20px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Meteostanice Staré Podlesí - Mapa</h1>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d271.30219979077754!2d13.981166739338201!3d49.6905406587936!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1scs!2scz!4v1726942167974!5m2!1scs!2scz" 
-            allowfullscreen="" 
-            loading="lazy" 
-            referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
-        <a href="index.html">Zpět na Domovskou stránku</a>
-    </div>
-    <!-- Mapa webu (sitemap) -->
-    <div class="sitemap">
-        <h3>Mapa stránek</h3>
-        <a href="index.html">Domů</a>
-        <a href="about.html">O meteostanici</a>
-        <a href="records.html">Rekordy</a>
-        <a href="map.html">Mapa</a>
-        <a href="weather.html">Počasí</a>
-        <a href="fotogalerie.html">Fotogalerie</a>
-        
+    <div class="main-content">
+        <div class="container">
+            <h1>Meteostanice Staré Podlesí - Mapa</h1>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d271.30219979077754!2d13.981166739338201!3d49.6905406587936!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1scs!2scz!4v1726942167974!5m2!1scs!2scz" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+            <a href="index.html">Zpět na Domovskou stránku</a>
+        </div>
+
+        <!-- Mapa webu (sitemap) -->
+        <div class="sitemap">
+            <h3>Mapa stránek</h3>
+            <a href="index.html">Domů</a>
+            <a href="about.html">O meteostanici</a>
+            <a href="records.html">Rekordy</a>
+            <a href="map.html">Mapa</a>
+            <a href="weather.html">Počasí</a>
+            <a href="fotogalerie.html">Fotogalerie</a>
+        </div>
     </div>
 </body>
 </html>
