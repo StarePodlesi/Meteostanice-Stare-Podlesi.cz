@@ -128,6 +128,7 @@
                 <li>Nejvyšší rychlost větru: <span id="max-wind">22.6</span> km/h</li>
                 <li>Nejvyšší tlak: <span id="max-pressure">1032</span> hPa</li>
                 <li>Nejvyšší srážky: <span id="max-rainfall">74</span> mm</li>
+                <li>Nejvyšší výška sněhu: <span id="max-snowfall">37</span> cm</li>
             </ul>
             <a href="index.html">Zpět na úvodní stránku</a>
             <!-- Přepínání jednotek -->
@@ -159,9 +160,10 @@
             document.getElementById("max-wind").innerText = '22.6';
             document.getElementById("max-pressure").innerText = '1032';
             document.getElementById("max-rainfall").innerText = '74';
+            document.getElementById("max-snowfall").innerText = '37';
 
             // Aktualizace jednotek
-            updateUnits('°C', 'km/h', 'hPa', 'mm');
+            updateUnits('°C', 'km/h', 'hPa', 'mm', 'cm');
         }
 
         function switchToImperial() {
@@ -173,6 +175,7 @@
             let windSpeedMps = 22.6 / 3.6;  // km/h na m/s
             let pressureInHg = 1032 * 0.75;  // hPa na mmHg
             let rainfallInches = 74 / 25.4;    // mm na palce
+            let rainfallMaxImperialcm = 74; //Výška sněhu zůstává v centimetrech   
 
             // Aktualizace hodnot
             document.getElementById("max-temp").innerText = maxTempF.toFixed(1);
@@ -182,6 +185,7 @@
             document.getElementById("max-wind").innerText = windSpeedMps.toFixed(2);
             document.getElementById("max-pressure").innerText = pressureInHg.toFixed(2);
             document.getElementById("max-rainfall").innerText = rainfallInches.toFixed(2);
+            document.getElementById("max-snowfall").innerText = snowfallcm.toFixed(1);
 
             // Aktualizace jednotek
             updateUnits('°F', 'm/s', 'mmHg', 'in');
