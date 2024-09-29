@@ -123,11 +123,11 @@
             <ul id="records-list">
                 <li>Nejvyšší teplota: <span id="max-temp">34.6</span> °C</li>
                 <li>Nejnižší teplota: <span id="min-temp">-8.3</span> °C</li>
-                <li>Nejvyšší vlhkost: <span id="max-humidity">98</span> %</li>
-                <li>Nejnižší vlhkost: <span id="min-humidity">12</span> %</li>
-                <li>Nejvyšší rychlost větru: <span id="max-wind">16.5</span> km/h</li>
-                <li>Nejvyšší tlak: <span id="max-pressure">1024</span> hPa</li>
-                <li>Nejvyšší srážky: <span id="max-rainfall">50</span> mm</li>
+                <li>Nejvyšší vlhkost: <span id="max-humidity">99,9</span> %</li>
+                <li>Nejnižší vlhkost: <span id="min-humidity">4</span> %</li>
+                <li>Nejvyšší rychlost větru: <span id="max-wind">22,6</span> km/h</li>
+                <li>Nejvyšší tlak: <span id="max-pressure">1032</span> hPa</li>
+                <li>Nejvyšší srážky: <span id="max-rainfall">74</span> mm</li>
             </ul>
             <a href="index.html">Zpět na úvodní stránku</a>
             <!-- Přepínání jednotek -->
@@ -154,9 +154,9 @@
             // Aktualizace hodnot na metrické
             document.getElementById("max-temp").innerText = '34.6';
             document.getElementById("min-temp").innerText = '-8.3';
-            document.getElementById("max-wind").innerText = '16.5';
-            document.getElementById("max-pressure").innerText = '1024';
-            document.getElementById("max-rainfall").innerText = '50';
+            document.getElementById("max-wind").innerText = '22,6';
+            document.getElementById("max-pressure").innerText = '1032';
+            document.getElementById("max-rainfall").innerText = '74';
 
             // Aktualizace jednotek
             updateUnits('°C', 'km/h', 'hPa', 'mm');
@@ -166,19 +166,19 @@
             // Převod na imperiální jednotky
             let maxTempF = (34.6 * 9/5) + 32;
             let minTempF = (-8.3 * 9/5) + 32;
-            let windSpeedMph = 16.5 / 1.609;  // km/h na mph
-            let pressureInHg = 1024 / 33.864;  // hPa na inHg
-            let rainfallInches = 50 / 25.4;    // mm na palce
+            let windSpeedMph = 22.6 / 1.609;  // km/h na mph
+            let pressureInHg = 1032 / 0.750;  // hPa na mmHg
+            let rainfallInches = 74 / 25.4;    // mm na palce
 
             // Aktualizace hodnot
             document.getElementById("max-temp").innerText = maxTempF.toFixed(1);
             document.getElementById("min-temp").innerText = minTempF.toFixed(1);
             document.getElementById("max-wind").innerText = windSpeedMph.toFixed(1);
-            document.getElementById("max-pressure").innerText = pressureInHg.toFixed(2);
+            document.getElementById("max-pressure").innerText = pressuremmHg.toFixed(2);
             document.getElementById("max-rainfall").innerText = rainfallInches.toFixed(2);
 
             // Aktualizace jednotek
-            updateUnits('°F', 'mph', 'inHg', 'in');
+            updateUnits('°F', 'mph', 'mmHg', 'in');
         }
 
         // Funkce na aktualizaci jednotek
