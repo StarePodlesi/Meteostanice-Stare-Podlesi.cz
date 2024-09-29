@@ -43,6 +43,7 @@
             justify-content: space-around;
             align-items: center;
             margin-bottom: 40px;
+            flex-wrap: wrap;
         }
         .weather-item {
             background-color: #e0f7fa;
@@ -50,6 +51,7 @@
             border-radius: 15px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             width: 45%;
+            margin: 10px;
             text-align: center;
         }
         .weather-item h2 {
@@ -67,13 +69,24 @@
             color: #00796b;
             margin-bottom: 20px;
         }
-        /* Přepínač jednotek */
+        /* Přepínače jednotek */
         .unit-switch {
+            display: flex;
+            justify-content: center;
             margin: 20px 0;
         }
-        .unit-switch label {
-            margin-right: 10px;
-            font-size: 1.2em;
+        .unit-button {
+            background-color: #00796b;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin: 0 5px;
+            transition: background-color 0.3s ease;
+        }
+        .unit-button:hover {
+            background-color: #004d40;
         }
         /* Mapa webu */
         .sitemap {
@@ -122,75 +135,31 @@
             }
         }
     </style>
-    <script>
-        function updateWeather(unit) {
-            const temperatureElement = document.getElementById('temperature');
-            const humidityElement = document.getElementById('humidity');
-            const pressureElement = document.getElementById('pressure');
-            const windSpeedElement = document.getElementById('wind-speed');
-
-            let temperature = 23; // Původní teplota v °C
-            let humidity = 65; // Vlhkost v %
-            let pressure = 1012; // Tlak v hPa
-            let windSpeed = 12; // Rychlost větru v km/h
-
-            if (unit === 'F') {
-                temperature = (temperature * 9/5) + 32; // °C na °F
-                temperatureElement.innerHTML = `${temperature.toFixed(1)} °F`;
-            } else {
-                temperatureElement.innerHTML = `${temperature} °C`;
-            }
-
-            humidityElement.innerHTML = unit === 'g/m³' ? `${(humidity * 0.0133).toFixed(1)} g/m³` : `${humidity} %`;
-
-            pressureElement.innerHTML = unit === 'mmHg' ? `${(pressure * 0.750062).toFixed(1)} mmHg` : `${pressure} hPa`;
-
-            windSpeedElement.innerHTML = unit === 'mph' ? `${(windSpeed * 0.621371).toFixed(1)} mph` : `${windSpeed} km/h`;
-        }
-
-        window.onload = function() {
-            updateWeather('C'); // Nastavení výchozích jednotek
-        };
-    </script>
 </head>
 <body>
     <div class="main-content">
         <div class="container">
             <h1>Aktuální Počasí</h1>
+
+            <!-- Přepínače jednotek -->
             <div class="unit-switch">
-                <label>Teplota:</label>
-                <select onchange="updateWeather(this.value)">
-                    <option value="C">Celsius</option>
-                    <option value="F">Fahrenheit</option>
-                </select>
-                <label>Vlhkost:</label>
-                <select onchange="updateWeather(this.value)">
-                    <option value="%">%</option>
-                    <option value="g/m³">g/m³</option>
-                </select>
-                <label>Tlak:</label>
-                <select onchange="updateWeather(this.value)">
-                    <option value="hPa">hPa</option>
-                    <option value="mmHg">mmHg</option>
-                </select>
-                <label>Rychlost větru:</label>
-                <select onchange="updateWeather(this.value)">
-                    <option value="km/h">km/h</option>
-                    <option value="mph">mph</option>
-                </select>
+                <button class="unit-button" onclick="switchUnits('metric')">Celsius</button>
+                <button class="unit-button" onclick="switchUnits('imperial')">Fahrenheit</button>
+                <button class="unit-button" onclick="switchUnits('pressure')">hPa</button>
+                <button class="unit-button" onclick="switchUnits('mm')">mm</button>
             </div>
 
             <div class="weather-container">
                 <!-- Teplota -->
                 <div class="weather-item">
                     <div class="weather-icon">🌡️</div>
-                    <h2 id="temperature"></h2>
+                    <h2 id="temperature">23°C</h2>
                     <p>Teplota vzduchu</p>
                 </div>
                 <!-- Vlhkost -->
                 <div class="weather-item">
                     <div class="weather-icon">💧</div>
-                    <h2 id="humidity"></h2>
+                    <h2 id="humidity">65%</h2>
                     <p>Relativní vlhkost</p>
                 </div>
             </div>
@@ -199,13 +168,13 @@
                 <!-- Tlak vzduchu -->
                 <div class="weather-item">
                     <div class="weather-icon">🌬️</div>
-                    <h2 id="pressure"></h2>
+                    <h2 id="pressure">1012 hPa</h2>
                     <p>Tlak vzduchu</p>
                 </div>
                 <!-- Rychlost větru -->
                 <div class="weather-item">
                     <div class="weather-icon">💨</div>
-                    <h2 id="wind-speed"></h2>
+                    <h2 id="windSpeed">12 km/h</h2>
                     <p>Rychlost větru</p>
                 </div>
             </div>
@@ -214,13 +183,28 @@
                 <!-- Srážky -->
                 <div class="weather-item">
                     <div class="weather-icon">🌧️</div>
-                    <h2>2 mm</h2>
+                    <h2 id="precipitation">2 mm</h2>
                     <p>Srážky</p>
+                </div>
+                <!-- UV index -->
+                <div class="weather-item">
+                    <div class="weather-icon">☀️</div>
+                    <h2 id="uvIndex">5</h2>
+                    <p>UV Index</p>
+                </div>
+            </div>
+
+            <div class="weather-container">
+                <!-- Sluneční záření -->
+                <div class="weather-item">
+                    <div class="weather-icon">🌞</div>
+                    <h2 id="solarRadiation">400 W/m²</h2>
+                    <p>Sluneční záření</p>
                 </div>
                 <!-- Stav počasí -->
                 <div class="weather-item">
                     <div class="weather-icon">⛅</div>
-                    <h2>Polojasno</h2>
+                    <h2 id="currentCondition">Polojasno</h2>
                     <p>Aktuální stav</p>
                 </div>
             </div>
@@ -237,5 +221,36 @@
             <a href="fotogalerie.html">Fotogalerie</a>
         </div>
     </div>
+
+    <script>
+        // Funkce pro přepínání jednotek
+        function switchUnits(unitType) {
+            if (unitType === 'metric') {
+                document.getElementById('temperature').innerHTML = '23°C';
+                document.getElementById('humidity').innerHTML = '65%';
+                document.getElementById('pressure').innerHTML = '1012 hPa';
+                document.getElementById('windSpeed').innerHTML = '12 km/h';
+                document.getElementById('precipitation').innerHTML = '2 mm';
+                document.getElementById('uvIndex').innerHTML = '5';
+                document.getElementById('solarRadiation').innerHTML = '400 W/m²';
+                document.getElementById('currentCondition').innerHTML = 'Polojasno';
+            } else if (unitType === 'imperial') {
+                document.getElementById('temperature').innerHTML = '73°F';
+                document.getElementById('humidity').innerHTML = '65%';
+                document.getElementById('pressure').innerHTML = '29.92 inHg';
+                document.getElementById('windSpeed').innerHTML = '7.5 mph';
+                document.getElementById('precipitation').innerHTML = '0.08 in';
+                document.getElementById('uvIndex').innerHTML = '5';
+                document.getElementById('solarRadiation').innerHTML = '400 W/m²';
+                document.getElementById('currentCondition').innerHTML = 'Polojasno';
+            } else if (unitType === 'pressure') {
+                // Přepínání tlaku
+                document.getElementById('pressure').innerHTML = '1012 hPa'; // Zde byste mohli použít logiku pro další typy tlaku
+            } else if (unitType === 'mm') {
+                // Přepínání pro srážky
+                document.getElementById('precipitation').innerHTML = '2 mm'; // Zde byste mohli použít logiku pro další typy
+            }
+        }
+    </script>
 </body>
 </html>
