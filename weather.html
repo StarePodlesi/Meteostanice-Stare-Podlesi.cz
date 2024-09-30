@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meteostanice Staré Podlesí - Počasí</title>
+    <title>Počasí - Meteostanice</title>
     <style>
         body {
             background: linear-gradient(to right, #00bcd4, #ffffff);
@@ -16,6 +16,7 @@
             align-items: flex-start;
             height: 100vh;
         }
+
         .main-content {
             display: flex;
             justify-content: center;
@@ -23,6 +24,7 @@
             max-width: 1200px;
             margin: 20px;
         }
+
         .container {
             max-width: 800px;
             padding: 50px;
@@ -32,124 +34,66 @@
             text-align: center;
             margin-right: 50px;
         }
+
         h1 {
             color: #00796b;
             margin-bottom: 30px;
             font-size: 2.5em;
         }
-        /* Počasí stylizace */
-        .weather-container {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
-        }
-        .weather-item {
-            background-color: #e0f7fa;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 45%;
-            margin: 10px 0;
-            text-align: center;
-        }
-        .weather-item h2 {
-            font-size: 3em;
-            color: #00796b;
-            margin: 10px 0;
-        }
-        .weather-item p {
-            font-size: 1.5em;
-            margin: 10px 0;
-            color: #004d40;
-        }
-        .weather-icon {
-            font-size: 4em;
-            color: #00796b;
-            margin-bottom: 20px;
-        }
-        /* Přepínání jednotek */
-        .unit-selector {
-            position: relative;
-            display: inline-block;
-            margin-top: 10px;
-        }
-        .unit-button {
-            background-color: #00796b;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: background-color 0.3s ease;
-        }
-        .unit-button:hover {
-            background-color: #004d40;
-        }
-        .unit-options {
-            display: none;
-            position: absolute;
-            background-color: white;
-            border: 1px solid #00796b;
-            border-radius: 5px;
-            z-index: 1;
+
+        img {
             width: 100%;
-        }
-        .unit-options button {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            background: none;
-            text-align: left;
-            color: #00796b;
-            cursor: pointer;
-        }
-        .unit-options button:hover {
-            background-color: #f1f1f1;
-        }
-        /* Mapa webu */
-        .sitemap {
-            background-color: #ffffff;
-            padding: 20px;
+            max-width: 600px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 200px;
-            align-self: flex-start;
+            margin-bottom: 30px;
         }
-        .sitemap h3 {
-            color: #00796b;
-        }
-        .sitemap a {
-            display: block;
-            color: #ffffff;
+
+        /* Tlačítko pro zobrazení nejvyšších a nejnižších hodnot */
+        .show-btn {
             background-color: #00796b;
-            padding: 10px;
-            border-radius: 8px;
-            margin: 10px 0;
-            text-decoration: none;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
             transition: background-color 0.3s ease;
-            text-align: center;
         }
-        .sitemap a:hover {
+
+        .show-btn:hover {
             background-color: #004d40;
         }
-        @media (max-width: 600px) {
-            .main-content {
-                flex-direction: column;
-                align-items: center;
-            }
-            .container {
-                margin-right: 0;
-                margin-bottom: 20px;
-            }
-            .sitemap {
-                width: 100%;
-            }
-            .weather-item {
-                width: 100%;
-            }
+
+        /* Tabulka pro zobrazení nejvyšších a nejnižších hodnot */
+        .record-table {
+            display: none;
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .record-table th, .record-table td {
+            padding: 10px 15px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        .record-table th {
+            background-color: #00796b;
+            color: white;
+            font-size: 1.2em;
+        }
+
+        .record-table td {
+            font-size: 1em;
+            color: #004d40;
+        }
+
+        .record-table td:first-child {
+            font-weight: bold;
         }
     </style>
 </head>
@@ -157,209 +101,48 @@
     <div class="main-content">
         <div class="container">
             <h1>Aktuální Počasí</h1>
-            <div class="weather-container">
-                <!-- Teplota -->
-                <div class="weather-item">
-                    <div class="weather-icon">🌡️</div>
-                    <h2 id="temperature">23°C</h2>
-                    <div class="unit-selector">
-                        <button class="unit-button" onclick="toggleUnitOptions('temp')">Celsius</button>
-                        <div class="unit-options" id="temp-options">
-                            <button onclick="setTemperatureUnit('C')">Celsius</button>
-                            <button onclick="setTemperatureUnit('F')">Fahrenheit</button>
-                            <button onclick="setTemperatureUnit('K')">Kelvin</button>
-                        </div>
-                    </div>
-                    <p>Teplota vzduchu</p>
-                </div>
-                <!-- Vlhkost -->
-                <div class="weather-item">
-                    <div class="weather-icon">💧</div>
-                    <h2 id="humidity">65%</h2>
-                    <div class="unit-selector">
-                        <button class="unit-button" onclick="toggleUnitOptions('humidity')">%</button>
-                        <div class="unit-options" id="humidity-options">
-                            <button onclick="setHumidityUnit('%')">%</button>
-                        </div>
-                    </div>
-                    <p>Relativní vlhkost</p>
-                </div>
-            </div>
 
-            <div class="weather-container">
-                <!-- Tlak vzduchu -->
-                <div class="weather-item">
-                    <div class="weather-icon">🌬️</div>
-                    <h2 id="pressure">1012 hPa</h2>
-                    <div class="unit-selector">
-                        <button class="unit-button" onclick="toggleUnitOptions('pressure')">hPa</button>
-                        <div class="unit-options" id="pressure-options">
-                            <button onclick="setPressureUnit('hPa')">hPa</button>
-                            <button onclick="setPressureUnit('mmHg')">mmHg</button>
-                            <button onclick="setPressureUnit('atm')">atm</button>
-                        </div>
-                    </div>
-                    <p>Tlak vzduchu</p>
-                </div>
-                <!-- Rychlost větru -->
-                <div class="weather-item">
-                    <div class="weather-icon">💨</div>
-                    <h2 id="wind-speed">12 km/h</h2>
-                    <div class="unit-selector">
-                        <button class="unit-button" onclick="toggleUnitOptions('wind')">km/h</button>
-                        <div class="unit-options" id="wind-options">
-                            <button onclick="setWindSpeedUnit('km/h')">km/h</button>
-                            <button onclick="setWindSpeedUnit('m/s')">m/s</button>
-                            <button onclick="setWindSpeedUnit('mph')">mph</button>
-                        </div>
-                    </div>
-                    <p>Rychlost větru</p>
-                </div>
-            </div>
+            <!-- Obrázek s aktuálními hodnotami a grafy -->
+            <img src="/mnt/data/Snímek%20obrazovky%202024-09-29%20160109.png" alt="Aktuální podmínky počasí">
 
-            <div class="weather-container">
-                <!-- Srážky -->
-                <div class="weather-item">
-                    <div class="weather-icon">🌧️</div>
-                    <h2 id="precipitation">2 mm</h2>
-                    <div class="unit-selector">
-                        <button class="unit-button" onclick="toggleUnitOptions('precipitation')">mm</button>
-                        <div class="unit-options" id="precipitation-options">
-                            <button onclick="setPrecipitationUnit('mm')">mm</button>
-                            <button onclick="setPrecipitationUnit('in')">in</button>
-                        </div>
-                    </div>
-                    <p>Srážky</p>
-                </div>
-                <!-- Stav počasí -->
-                <div class="weather-item">
-                    <div class="weather-icon">⛅</div>
-                    <h2 id="weather-condition">Polojasno</h2>
-                    <p>Aktuální stav</p>
-                </div>
-            </div>
+            <!-- Tlačítko pro zobrazení nejvyšších a nejnižších hodnot -->
+            <button class="show-btn" onclick="toggleTable()">Zobrazit nejvyšší a nejnižší hodnoty</button>
 
-            <div class="weather-container">
-                <!-- UV index -->
-                <div class="weather-item">
-                    <div class="weather-icon">☀️</div>
-                    <h2 id="uv-index">5</h2>
-                    <p>UV Index</p>
-                </div>
-                <!-- Sluneční záření -->
-                <div class="weather-item">
-                    <div class="weather-icon">🌞</div>
-                    <h2 id="solar-radiation">700 W/m²</h2>
-                    <div class="unit-selector">
-                        <button class="unit-button" onclick="toggleUnitOptions('solar')">W/m²</button>
-                        <div class="unit-options" id="solar-options">
-                            <button onclick="setSolarRadiationUnit('W/m²')">W/m²</button>
-                            <button onclick="setSolarRadiationUnit('kW/m²')">kW/m²</button>
-                        </div>
-                    </div>
-                    <p>Sluneční záření</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mapa webu (sitemap) -->
-        <div class="sitemap">
-            <h3>Mapa stránek</h3>
-            <a href="index.html">Domů</a>
-            <a href="about.html">O meteostanici</a>
-            <a href="records.html">Rekordy</a>
-            <a href="map.html">Mapa</a>
-            <a href="weather.html">Počasí</a>
-            <a href="fotogalerie.html">Fotogalerie</a>
+            <!-- Tabulka s nejvyššími a nejnižšími hodnotami -->
+            <table class="record-table" id="recordTable">
+                <tr>
+                    <th>Veličina</th>
+                    <th>Nejvyšší</th>
+                    <th>Nejnižší</th>
+                </tr>
+                <tr>
+                    <td>Teplota</td>
+                    <td>13 °C (2023-04-27)</td>
+                    <td>0.7 °C (2023-04-28)</td>
+                </tr>
+                <tr>
+                    <td>Rosný bod</td>
+                    <td>10.5 °C (2023-04-27)</td>
+                    <td>-0.5 °C (2023-04-26)</td>
+                </tr>
+                <tr>
+                    <td>Tlak</td>
+                    <td>1022.69 hPa (2023-04-28)</td>
+                    <td>1007.79 hPa (2023-04-27)</td>
+                </tr>
+                <tr>
+                    <td>Vlhkost</td>
+                    <td>99 % (2023-04-25)</td>
+                    <td>45.2 % (2023-04-27)</td>
+                </tr>
+            </table>
         </div>
     </div>
 
     <script>
-        function toggleUnitOptions(unitType) {
-            const options = document.getElementById(unitType + '-options');
-            options.style.display = options.style.display === 'block' ? 'none' : 'block';
-        }
-
-        function setTemperatureUnit(unit) {
-            const temperatureElement = document.getElementById('temperature');
-            let currentTemperature = parseFloat(temperatureElement.innerText);
-            if (unit === 'F') {
-                currentTemperature = currentTemperature * 9 / 5 + 32;
-                temperatureElement.innerText = currentTemperature.toFixed(1) + '°F';
-            } else if (unit === 'K') {
-                currentTemperature = currentTemperature + 273.15;
-                temperatureElement.innerText = currentTemperature.toFixed(2) + 'K';
-            } else {
-                temperatureElement.innerText = '23°C'; // Zde by mělo být původní záznamy, které se vezmou ze serveru
-            }
-            closeAllOptions();
-        }
-
-        function setHumidityUnit(unit) {
-            const humidityElement = document.getElementById('humidity');
-            if (unit === '%') {
-                humidityElement.innerText = '65%'; // Původní hodnota
-            }
-            closeAllOptions();
-        }
-
-        function setPressureUnit(unit) {
-            const pressureElement = document.getElementById('pressure');
-            if (unit === 'mmHg') {
-                pressureElement.innerText = (1012 * 0.75006).toFixed(2) + ' mmHg'; // Převod
-            } else if (unit === 'atm') {
-                pressureElement.innerText = (1012 / 1013.25).toFixed(2) + ' atm'; // Převod
-            } else {
-                pressureElement.innerText = '1012 hPa'; // Původní hodnota
-            }
-            closeAllOptions();
-        }
-
-        function setWindSpeedUnit(unit) {
-            const windSpeedElement = document.getElementById('wind-speed');
-            let currentSpeed = parseFloat(windSpeedElement.innerText);
-            if (unit === 'm/s') {
-                currentSpeed = currentSpeed / 3.6;
-                windSpeedElement.innerText = currentSpeed.toFixed(2) + ' m/s';
-            } else if (unit === 'mph') {
-                currentSpeed = currentSpeed / 1.60934;
-                windSpeedElement.innerText = currentSpeed.toFixed(2) + ' mph';
-            } else {
-                windSpeedElement.innerText = '12 km/h'; // Původní hodnota
-            }
-            closeAllOptions();
-        }
-
-        function setPrecipitationUnit(unit) {
-            const precipitationElement = document.getElementById('precipitation');
-            if (unit === 'in') {
-                precipitationElement.innerText = (2 / 25.4).toFixed(2) + ' in'; // Převod
-            } else {
-                precipitationElement.innerText = '2 mm'; // Původní hodnota
-            }
-            closeAllOptions();
-        }
-
-        function setSolarRadiationUnit(unit) {
-            const solarElement = document.getElementById('solar-radiation');
-            if (unit === 'kW/m²') {
-                solarElement.innerText = (700 / 1000).toFixed(2) + ' kW/m²'; // Převod
-            } else {
-                solarElement.innerText = '700 W/m²'; // Původní hodnota
-            }
-            closeAllOptions();
-        }
-
-        function closeAllOptions() {
-            const allOptions = document.querySelectorAll('.unit-options');
-            allOptions.forEach(option => option.style.display = 'none');
-        }
-
-        // Zavření rozbalených možností při kliknutí mimo ně
-        window.onclick = function(event) {
-            if (!event.target.matches('.unit-button')) {
-                closeAllOptions();
-            }
+        function toggleTable() {
+            const table = document.getElementById('recordTable');
+            table.style.display = table.style.display === 'table' ? 'none' : 'table';
         }
     </script>
 </body>
