@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Počasí - Meteostanice</title>
+    <title>Počasí - Weather</title>
     <style>
         body {
             background: linear-gradient(to right, #00bcd4, #ffffff);
@@ -12,72 +12,184 @@
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: center;
-            align-items: flex-start;
+            flex-direction: column;
+            align-items: center;
             height: 100vh;
         }
-
         .main-content {
-            display: flex;
-            justify-content: center;
             width: 80%;
             max-width: 1200px;
             margin: 20px;
         }
-
-        .container {
-            max-width: 800px;
-            padding: 50px;
-            background-color: #ffffff;
+        .header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .box {
+            background-color: #e0f7fa;
+            padding: 20px;
             border-radius: 15px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            margin-right: 50px;
-        }
-
-        h1 {
-            color: #00796b;
-            margin-bottom: 30px;
-            font-size: 2.5em;
-        }
-
-        img {
-            width: 100%;
-            max-width: 600px;
-            border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
+            text-align: center;
+            width: 45%;
         }
-
-        /* Tlačítko pro přepnutí na stránku s nejvyššími a nejnižšími hodnotami */
-        .show-btn {
+        .small-box {
+            width: 22%;
+            background-color: #ffffff;
+            border: 1px solid #00796b;
+            border-radius: 15px;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .graph-selector {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+        .button {
             background-color: #00796b;
             color: white;
-            padding: 10px 20px;
+            padding: 10px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 1.2em;
             transition: background-color 0.3s ease;
         }
-
-        .show-btn:hover {
+        .button:hover {
             background-color: #004d40;
+        }
+        .graph-container {
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        .info-box {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .sitemap {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            margin-top: 20px;
+        }
+        .sitemap h3 {
+            color: #00796b;
+        }
+        .sitemap a {
+            display: block;
+            color: #ffffff;
+            background-color: #00796b;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            text-align: center;
+        }
+        .sitemap a:hover {
+            background-color: #004d40;
+        }
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: center;
+            }
+            .box {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            .small-box {
+                width: 45%;
+            }
+            .graph-selector {
+                flex-direction: column;
+                align-items: center;
+            }
         }
     </style>
 </head>
 <body>
     <div class="main-content">
-        <div class="container">
-            <h1>Aktuální Počasí</h1>
+        <div class="header">
+            <div class="box">
+                <p>Ostrava</p>
+                <p>Nadmořská výška: 235 m</p>
+                <p>Rosný bod: 1.6°C</p>
+            </div>
+            <div class="box">
+                <p>Směr větru: ZSZ</p>
+                <p>Rychlost větru: 6.1 km/h</p>
+                <p>Poryv větru: 6.1 km/h</p>
+            </div>
+        </div>
+        <div class="header">
+            <div class="small-box">
+                <p>Počasí</p>
+                <p>Slunečno</p>
+            </div>
+            <div class="small-box">
+                <p>Teplota</p>
+                <p>5.3°C</p>
+            </div>
+            <div class="small-box">
+                <p>Tlak</p>
+                <p>1022 hPa</p>
+            </div>
+            <div class="small-box">
+                <p>Vlhkost</p>
+                <p>77%</p>
+            </div>
+        </div>
+        <div class="graph-selector">
+            <button class="button">Teplota</button>
+            <button class="button">Vlhkost</button>
+            <button class="button">Srážky</button>
+            <button class="button">Tlak</button>
+            <button class="button">Rychlost větru</button>
+            <button class="button">Sluneční záření</button>
+            <button class="button">UV Index</button>
+        </div>
+        <div class="graph-container">
+            <h2>Teplotní graf</h2>
+            <img src="graph.png" alt="Graph" width="100%">
+        </div>
+        <div class="info-box">
+            <div class="small-box">
+                <p>Srážky</p>
+                <p>0 mm</p>
+            </div>
+            <div class="small-box">
+                <p>Denní srážky</p>
+                <p>0 mm</p>
+            </div>
+            <div class="small-box">
+                <p>Sluneční záření</p>
+                <p>236.2 W/m²</p>
+            </div>
+            <div class="small-box">
+                <p>UV Index</p>
+                <p>2.1</p>
+            </div>
+        </div>
 
-            <!-- Obrázek s aktuálními hodnotami a grafy -->
-            <img src="/mnt/data/Snímek%20obrazovky%202024-09-29%20160109.png" alt="Aktuální podmínky počasí">
-
-            <!-- Tlačítko pro přepnutí na stránku s nejvyššími a nejnižšími hodnotami -->
-            <a href="records.html">
-                <button class="show-btn">Zobrazit nejvyšší a nejnižší naměřené hodnoty</button>
-            </a>
+        <!-- Mapa webu (sitemap) -->
+        <div class="sitemap">
+            <h3>Mapa stránek</h3>
+            <a href="index.html">Domů</a>
+            <a href="about.html">O meteostanici</a>
+            <a href="records.html">Rekordy</a>
+            <a href="map.html">Mapa</a>
+            <a href="weather.html">Počasí</a>
+            <a href="fotogalerie.html">Fotogalerie</a>
         </div>
     </div>
 </body>
