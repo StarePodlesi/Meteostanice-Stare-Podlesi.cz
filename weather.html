@@ -49,7 +49,7 @@
             margin-bottom: 30px;
         }
 
-        /* Tlačítko pro zobrazení nejvyšších a nejnižších hodnot */
+        /* Tlačítko pro přepnutí na stránku s nejvyššími a nejnižšími hodnotami */
         .show-btn {
             background-color: #00796b;
             color: white;
@@ -64,37 +64,6 @@
         .show-btn:hover {
             background-color: #004d40;
         }
-
-        /* Tabulka pro zobrazení nejvyšších a nejnižších hodnot */
-        .record-table {
-            display: none;
-            width: 100%;
-            max-width: 600px;
-            margin: 20px auto;
-            border-collapse: collapse;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .record-table th, .record-table td {
-            padding: 10px 15px;
-            text-align: center;
-            border: 1px solid #ddd;
-        }
-
-        .record-table th {
-            background-color: #00796b;
-            color: white;
-            font-size: 1.2em;
-        }
-
-        .record-table td {
-            font-size: 1em;
-            color: #004d40;
-        }
-
-        .record-table td:first-child {
-            font-weight: bold;
-        }
     </style>
 </head>
 <body>
@@ -105,45 +74,11 @@
             <!-- Obrázek s aktuálními hodnotami a grafy -->
             <img src="/mnt/data/Snímek%20obrazovky%202024-09-29%20160109.png" alt="Aktuální podmínky počasí">
 
-            <!-- Tlačítko pro zobrazení nejvyšších a nejnižších hodnot -->
-            <button class="show-btn" onclick="toggleTable()">Zobrazit nejvyšší a nejnižší hodnoty</button>
-
-            <!-- Tabulka s nejvyššími a nejnižšími hodnotami -->
-            <table class="record-table" id="recordTable">
-                <tr>
-                    <th>Veličina</th>
-                    <th>Nejvyšší</th>
-                    <th>Nejnižší</th>
-                </tr>
-                <tr>
-                    <td>Teplota</td>
-                    <td>13 °C (2023-04-27)</td>
-                    <td>0.7 °C (2023-04-28)</td>
-                </tr>
-                <tr>
-                    <td>Rosný bod</td>
-                    <td>10.5 °C (2023-04-27)</td>
-                    <td>-0.5 °C (2023-04-26)</td>
-                </tr>
-                <tr>
-                    <td>Tlak</td>
-                    <td>1022.69 hPa (2023-04-28)</td>
-                    <td>1007.79 hPa (2023-04-27)</td>
-                </tr>
-                <tr>
-                    <td>Vlhkost</td>
-                    <td>99 % (2023-04-25)</td>
-                    <td>45.2 % (2023-04-27)</td>
-                </tr>
-            </table>
+            <!-- Tlačítko pro přepnutí na stránku s nejvyššími a nejnižšími hodnotami -->
+            <a href="records.html">
+                <button class="show-btn">Zobrazit nejvyšší a nejnižší naměřené hodnoty</button>
+            </a>
         </div>
     </div>
-
-    <script>
-        function toggleTable() {
-            const table = document.getElementById('recordTable');
-            table.style.display = table.style.display === 'table' ? 'none' : 'table';
-        }
-    </script>
 </body>
 </html>
