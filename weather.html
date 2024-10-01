@@ -135,33 +135,33 @@
     <div class="main-content">
         <div class="left-content">
             <div class="header">
-                <div class="box">
-                    <p>Staré Podlesí</p>
-                    <p>Nadmořská výška: 503,2 m.n.m</p>
-                    <p>Rosný bod: 6,6 °C</p>
+                <div class="box" id="location-box">
+                    <p id="location">Staré Podlesí</p>
+                    <p id="elevation">Nadmořská výška: 503,2 m.n.m</p>
+                    <p id="dewpoint">Rosný bod: 6,6 °C</p>
                 </div>
-                <div class="box">
-                    <p>Směr větru: ZSZ</p>
-                    <p>Rychlost větru: 22,6 km/h</p>
-                    <p>Poryv větru: 30,4 km/h</p>
+                <div class="box" id="wind-box">
+                    <p id="wind-direction">Směr větru: ZSZ</p>
+                    <p id="wind-speed">Rychlost větru: 22,6 km/h</p>
+                    <p id="wind-gust">Poryv větru: 30,4 km/h</p>
                 </div>
             </div>
             <div class="header">
-                <div class="small-box">
+                <div class="small-box" id="weather-box">
                     <p>Počasí</p>
-                    <p>Deštivo</p>
+                    <p id="current-weather">Deštivo</p>
                 </div>
-                <div class="small-box">
+                <div class="small-box" id="temperature-box">
                     <p>Teplota</p>
-                    <p>9,5 °C</p>
+                    <p id="temperature">9,5 °C</p>
                 </div>
-                <div class="small-box">
+                <div class="small-box" id="pressure-box">
                     <p>Tlak</p>
-                    <p>1015,9 hPa</p>
+                    <p id="pressure">1015,9 hPa</p>
                 </div>
-                <div class="small-box">
+                <div class="small-box" id="humidity-box">
                     <p>Vlhkost</p>
-                    <p>77 %</p>
+                    <p id="humidity">77 %</p>
                 </div>
             </div>
             <div class="graph-selector">
@@ -208,5 +208,38 @@
             <a href="fotogalerie.html">Fotogalerie</a>
         </div>
     </div>
+
+    <script>
+        const apiKey = 'TVŮJ_API_KLÍČ'; // Zde vložte svůj API klíč z Weather Underground
+        const stationId = 'TVŮJ_STANICE_ID'; // Sem vložte ID meteostanice
+        const apiUrl = `https://api.weather.com/v2/pws/observations/current?stationId=${stationId}&format=json&units=m&apiKey=${apiKey}`;
+
+        async function fetchWeatherData() {
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+                const observation = data.observations[0];
+
+                // Aktualizace údajů na stránce
+                document.getElementById('location').textContent = observation.neighborhood;
+                document.getElementById('elevation').textContent = `Nadmořská výška: ${observation.elev} m`;
+                document.getElementById('dewpoint').textContent = `Rosný bod: ${observation.dewpt} °C`;
+
+                document.getElementById('wind-direction').textContent = `Směr větru: ${observation.winddir}`;
+                document.getElementById('wind-speed').textContent = `Rychlost větru: ${observation.windspeed} km/h`;
+                document.getElementById('wind-gust').textContent = `Poryv větru: ${observation.windgust} km/h`;
+
+                document.getElementById('current-weather').textContent = observation.weather;
+                document.getElementById('temperature').textContent = `${observation.temp} °C`;
+                document.getElementById('pressure').textContent = `${observation.pressure} hPa`;
+                document.getElementById('humidity').textContent = `${observation.humidity} %`;
+            } catch (error) {
+                console.error('Chyba při načítání dat:', error);
+            }
+        }
+
+        // Načíst data při načtení stránky
+        window.onload = fetchWeatherData;
+    </script>
 </body>
 </html>
