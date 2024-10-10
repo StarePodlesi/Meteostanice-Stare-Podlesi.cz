@@ -121,14 +121,15 @@
         <div class="container">
             <h1>Rekordy meteostanice</h1>
             <ul id="records-list">
-                <li>Nejvyšší teplota: <span id="max-temp">34.6</span> °C</li>
-                <li>Nejnižší teplota: <span id="min-temp">-8.3</span> °C</li>
-                <li>Nejvyšší vlhkost: <span id="max-humidity">99.9</span> %</li>
-                <li>Nejnižší vlhkost: <span id="min-humidity">4</span> %</li>
-                <li>Nejvyšší rychlost větru: <span id="max-wind">22.6</span> km/h</li>
-                <li>Nejvyšší tlak: <span id="max-pressure">1032</span> hPa</li>
-                <li>Nejvyšší srážky: <span id="max-rainfall">74</span> mm</li>
-                <li>Nejvyšší výška sněhu: <span id="max-snowfall">37</span> cm</li>
+                <li>Nejvyšší teplota: <span id="max-temp">34,6</span> °C - 6. 8 2024</li>
+                <li>Nejnižší teplota: <span id="min-temp">-8,3</span> °C - 21. 2 2024</li>
+                <li>Nejvyšší vlhkost: <span id="max-humidity">99,9</span> % - 23. 3 2024</li>
+                <li>Nejnižší vlhkost: <span id="min-humidity">4</span> % - 26. 7 2024</li>
+                <li>Nejvyšší rychlost větru: <span id="max-wind">22,6</span> km/h - 15. 6 2024</li>
+                <li>Nejvyšší tlak: <span id="max-pressure">1032,4</span> hPa - 15. 6 2024</li>
+                <li>Nejnižší tlak: <span id="max-pressure">981,04</span> hPa - 10. 10 2024</li>
+                <li>Nejvyšší srážky: <span id="max-rainfall">74</span> mm - 3. 7 2024</li>
+                <li>Nejvyšší výška sněhu: <span id="max-snowfall">37</span> cm - 27. 1 2024</li>
             </ul>
             <a href="index.html">Zpět na úvodní stránku</a>
             <!-- Přepínání jednotek -->
@@ -153,12 +154,13 @@
         // Funkce pro přepínání mezi metrickými a imperiálními jednotkami
         function switchToMetric() {
             // Aktualizace hodnot na metrické
-            document.getElementById("max-temp").innerText = '34.6';
-            document.getElementById("min-temp").innerText = '-8.3';
-            document.getElementById("max-humidity").innerText = '99.9';
+            document.getElementById("max-temp").innerText = '34,6';
+            document.getElementById("min-temp").innerText = '-8,3';
+            document.getElementById("max-humidity").innerText = '99,9';
             document.getElementById("min-humidity").innerText = '4';
-            document.getElementById("max-wind").innerText = '22.6';
-            document.getElementById("max-pressure").innerText = '1032';
+            document.getElementById("max-wind").innerText = '22,6';
+            document.getElementById("max-pressure").innerText = '1032,4';
+            document.getElementById("min-pressure").innerText = '981,04';
             document.getElementById("max-rainfall").innerText = '74';
             document.getElementById("max-snowfall").innerText = '37';
 
@@ -168,12 +170,13 @@
 
         function switchToImperial() {
             // Převod na imperiální jednotky
-            let maxTempF = (34.6 * 9/5) + 32;
-            let minTempF = (-8.3 * 9/5) + 32;
-            let humidityMaxImperial = 99.9; // Vlhkost zůstává v procentech
+            let maxTempF = (34,6 * 9/5) + 32;
+            let minTempF = (-8,3 * 9/5) + 32;
+            let humidityMaxImperial = 99,9; // Vlhkost zůstává v procentech
             let humidityMinImperial = 4; // Vlhkost zůstává v procentech
-            let windSpeedMps = 22.6 / 3.6;  // km/h na m/s
-            let pressuremmHg = 1032 * 0.75;  // hPa na mmHg
+            let windSpeedMps = 22,6 / 3.6;  // km/h na m/s
+            let pressuremmHg = 1032,4 * 0.75;  // hPa na mmHg
+            let pressuremmHg = 981,04 * 0.75;  // hPa na mmHg
             let rainfallInches = 74 / 25.4;    // mm na palce
             let rainfallMaxImperialcm = 74; //Výška sněhu zůstává v centimetrech   
 
