@@ -14,33 +14,34 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            height: 100vh;
+            min-height: 100vh;
         }
         .main-content {
             display: flex;
+            flex-wrap: wrap;
             justify-content: center;
-            width: 80%;
-            max-width: 1200px;
-            margin: 20px;
+            width: 100%;
+            padding: 20px;
         }
         .container {
             max-width: 800px;
-            padding: 30px;
+            width: 100%;
+            padding: 20px;
             background-color: #ffffff;
             border-radius: 15px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
             text-align: center;
-            margin-right: 50px;
+            margin-bottom: 20px;
         }
         h1 {
             color: #00796b;
             margin-bottom: 20px;
-            font-size: 2.5em;
+            font-size: 2em;
         }
         ul {
             list-style: none;
             padding: 0;
-            font-size: 18px;
+            font-size: 1.1rem;
             text-align: left;
             line-height: 1.6;
         }
@@ -51,7 +52,7 @@
             text-decoration: none;
             color: #ffffff;
             background-color: #00796b;
-            padding: 15px 30px;
+            padding: 12px 24px;
             border-radius: 10px;
             display: inline-block;
             margin-top: 20px;
@@ -65,7 +66,8 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 200px;
+            max-width: 200px;
+            width: 100%;
             align-self: flex-start;
         }
         .sitemap h3 {
@@ -80,6 +82,7 @@
             margin: 10px 0;
             text-decoration: none;
             transition: background-color 0.3s ease;
+            text-align: center;
         }
         .sitemap a:hover {
             background-color: #004d40;
@@ -101,17 +104,32 @@
         .unit-switch button:hover {
             background-color: #004d40;
         }
-        @media (max-width: 600px) {
+        @media (min-width: 600px) {
+            .container {
+                margin-right: 50px;
+            }
+        }
+        @media (min-width: 1024px) {
             .main-content {
-                flex-direction: column;
-                align-items: center;
+                flex-wrap: nowrap;
             }
             .container {
-                margin-right: 0;
-                margin-bottom: 20px;
+                flex: 1;
+                margin-right: 50px;
             }
             .sitemap {
-                width: 100%;
+                flex: 0 0 200px;
+            }
+        }
+        @media (max-width: 599px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            ul {
+                font-size: 1rem;
+            }
+            .unit-switch button {
+                padding: 8px 16px;
             }
         }
     </style>
@@ -121,13 +139,13 @@
         <div class="container">
             <h1>Rekordy meteostanice</h1>
             <ul id="records-list">
-                <li>Nejvyšší teplota: <span id="max-temp">34,6</span> °C - 6. 8 2024</li>
-                <li>Nejnižší teplota: <span id="min-temp">-8,3</span> °C - 21. 2 2024</li>
-                <li>Nejvyšší vlhkost: <span id="max-humidity">99,9</span> % - 23. 3 2024</li>
+                <li>Nejvyšší teplota: <span id="max-temp">34.6</span> °C - 6. 8 2024</li>
+                <li>Nejnižší teplota: <span id="min-temp">-8.3</span> °C - 21. 2 2024</li>
+                <li>Nejvyšší vlhkost: <span id="max-humidity">99.9</span> % - 23. 3 2024</li>
                 <li>Nejnižší vlhkost: <span id="min-humidity">4</span> % - 26. 7 2024</li>
-                <li>Nejvyšší rychlost větru: <span id="max-wind">22,6</span> km/h - 15. 6 2024</li>
-                <li>Nejvyšší tlak: <span id="max-pressure">1032,4</span> hPa - 15. 6 2024</li>
-                <li>Nejnižší tlak: <span id="max-pressure">981,04</span> hPa - 10. 10 2024</li>
+                <li>Nejvyšší rychlost větru: <span id="max-wind">22.6</span> km/h - 15. 6 2024</li>
+                <li>Nejvyšší tlak: <span id="max-pressure">1032.4</span> hPa - 15. 6 2024</li>
+                <li>Nejnižší tlak: <span id="min-pressure">981.04</span> hPa - 10. 10 2024</li>
                 <li>Nejvyšší srážky: <span id="max-rainfall">74</span> mm - 3. 7 2024</li>
                 <li>Nejvyšší výška sněhu: <span id="max-snowfall">37</span> cm - 27. 1 2024</li>
             </ul>
@@ -153,63 +171,50 @@
     <script>
         // Funkce pro přepínání mezi metrickými a imperiálními jednotkami
         function switchToMetric() {
-            // Aktualizace hodnot na metrické
-            document.getElementById("max-temp").innerText = '34,6';
-            document.getElementById("min-temp").innerText = '-8,3';
-            document.getElementById("max-humidity").innerText = '99,9';
+            document.getElementById("max-temp").innerText = '34.6';
+            document.getElementById("min-temp").innerText = '-8.3';
+            document.getElementById("max-humidity").innerText = '99.9';
             document.getElementById("min-humidity").innerText = '4';
-            document.getElementById("max-wind").innerText = '22,6';
-            document.getElementById("max-pressure").innerText = '1032,4';
-            document.getElementById("min-pressure").innerText = '981,04';
+            document.getElementById("max-wind").innerText = '22.6';
+            document.getElementById("max-pressure").innerText = '1032.4';
+            document.getElementById("min-pressure").innerText = '981.04';
             document.getElementById("max-rainfall").innerText = '74';
             document.getElementById("max-snowfall").innerText = '37';
 
-            // Aktualizace jednotek
             updateUnits('°C', 'km/h', 'hPa', 'mm', 'cm');
         }
 
         function switchToImperial() {
             // Převod na imperiální jednotky
-            let maxTempF = (34,6 * 9/5) + 32;
-            let minTempF = (-8,3 * 9/5) + 32;
-            let humidityMaxImperial = 99,9; // Vlhkost zůstává v procentech
-            let humidityMinImperial = 4; // Vlhkost zůstává v procentech
-            let windSpeedMps = 22,6 / 3.6;  // km/h na m/s
-            let pressuremmHg = 1032,4 * 0.75;  // hPa na mmHg
-            let pressuremmHg = 981,04 * 0.75;  // hPa na mmHg
-            let rainfallInches = 74 / 25.4;    // mm na palce
-            let rainfallMaxImperialcm = 74; //Výška sněhu zůstává v centimetrech   
+            let maxTempF = (34.6 * 9/5) + 32;
+            let minTempF = (-8.3 * 9/5) + 32;
+            let windSpeedMph = 22.6 / 1.609;
+            let pressureMmHgMax = 1032.4 * 0.75006;
+            let pressureMmHgMin = 981.04 * 0.75006;
+            let rainfallInches = 74 / 25.4;
+            let snowfallInches = 37 / 2.54;
 
             // Aktualizace hodnot
             document.getElementById("max-temp").innerText = maxTempF.toFixed(1);
             document.getElementById("min-temp").innerText = minTempF.toFixed(1);
-            document.getElementById("max-humidity").innerText = humidityMaxImperial.toFixed(1);
-            document.getElementById("min-humidity").innerText = humidityMinImperial.toFixed(0);
-            document.getElementById("max-wind").innerText = windSpeedMps.toFixed(2);
-            document.getElementById("max-pressure").innerText = pressuremmHg.toFixed(2);
+            document.getElementById("max-wind").innerText = windSpeedMph.toFixed(2);
+            document.getElementById("max-pressure").innerText = pressureMmHgMax.toFixed(2);
+            document.getElementById("min-pressure").innerText = pressureMmHgMin.toFixed(2);
             document.getElementById("max-rainfall").innerText = rainfallInches.toFixed(2);
-            document.getElementById("max-snowfall").innerText = snowfallcm.toFixed(1);
+            document.getElementById("max-snowfall").innerText = snowfallInches.toFixed(1);
 
-            // Aktualizace jednotek
-            updateUnits('°F', 'm/s', 'mmHg', 'in');
+            updateUnits('°F', 'mph', 'mmHg', 'in', 'in');
         }
 
         // Funkce na aktualizaci jednotek
-        function updateUnits(tempUnit, windUnit, pressureUnit, rainfallUnit) {
-            let tempElements = document.querySelectorAll('#max-temp, #min-temp');
-            tempElements.forEach(el => el.nextSibling.nodeValue = ' ' + tempUnit);
-
-            let humidityElements = document.querySelectorAll('#max-humidity, #min-humidity');
-            humidityElements.forEach(el => el.nextSibling.nodeValue = ' %');
-
-            let windElement = document.getElementById('max-wind');
-            windElement.nextSibling.nodeValue = ' ' + windUnit;
-
-            let pressureElement = document.getElementById('max-pressure');
-            pressureElement.nextSibling.nodeValue = ' ' + pressureUnit;
-
-            let rainfallElement = document.getElementById('max-rainfall');
-            rainfallElement.nextSibling.nodeValue = ' ' + rainfallUnit;
+        function updateUnits(tempUnit, windUnit, pressureUnit, rainfallUnit, snowUnit) {
+            document.querySelector('#max-temp').nextSibling.nodeValue = ' ' + tempUnit;
+            document.querySelector('#min-temp').nextSibling.nodeValue = ' ' + tempUnit;
+            document.getElementById('max-wind').nextSibling.nodeValue = ' ' + windUnit;
+            document.getElementById('max-pressure').nextSibling.nodeValue = ' ' + pressureUnit;
+            document.getElementById('min-pressure').nextSibling.nodeValue = ' ' + pressureUnit;
+            document.getElementById('max-rainfall').nextSibling.nodeValue = ' ' + rainfallUnit;
+            document.getElementById('max-snowfall').nextSibling.nodeValue = ' ' + snowUnit;
         }
     </script>
 </body>
