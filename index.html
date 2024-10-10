@@ -12,8 +12,9 @@
             margin: 0;
             padding: 0;
             display: flex;
+            flex-direction: column;
             justify-content: center;
-            align-items: flex-start;
+            align-items: center;
             height: 100vh;
         }
         .main-content {
@@ -98,6 +99,30 @@
         .unit-switch button:hover {
             background-color: #004d40;
         }
+        /* Oznámení o cookies */
+        .cookie-notice {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #00796b;
+            color: #ffffff;
+            padding: 15px;
+            text-align: center;
+            display: none; /* Skryté, dokud není potřeba zobrazení */
+            z-index: 1000;
+        }
+        .cookie-notice button {
+            margin-left: 10px;
+            background-color: #004d40;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .cookie-notice button:hover {
+            background-color: #003030;
+        }
         @media (max-width: 600px) {
             .main-content {
                 flex-direction: column;
@@ -146,12 +171,18 @@
         </div>
     </div>
 
+    <!-- Oznámení o cookies -->
+    <div class="cookie-notice" id="cookie-notice">
+        Tato stránka používá cookies pro zajištění nejlepšího zážitku. 
+        <button onclick="acceptCookies()">Přijmout</button>
+    </div>
+
     <script>
         // Nastavení cookie
         function setCookie(cname, cvalue, exdays) {
             const d = new Date();
-            d.setTime(d.getTime() + (exdays*24*60*60*1000));
-            let expires = "expires="+ d.toUTCString();
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+            let expires = "expires=" + d.toUTCString();
             document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
         }
 
@@ -160,7 +191,7 @@
             let name = cname + "=";
             let decodedCookie = decodeURIComponent(document.cookie);
             let ca = decodedCookie.split(';');
-            for(let i = 0; i < ca.length; i++) {
+            for (let i = 0; i < ca.length; i++) {
                 let c = ca[i];
                 while (c.charAt(0) == ' ') {
                     c = c.substring(1);
@@ -185,7 +216,7 @@
 
         // Funkce pro přepínání na imperiální jednotky
         function switchToImperial() {
-            let tempF = (34.6 * 9/5) + 32;
+            let tempF = (34.6 * 9 / 5) + 32;
             let windMph = 22.6 / 1.609;
 
             document.getElementById("current-temp").innerText = tempF.toFixed(1);
@@ -203,6 +234,11 @@
             document.querySelector('#current-wind').nextSibling.nodeValue = ' ' + windUnit;
         }
 
+        // Funkce pro přijetí cookies
+        function acceptCookies() {
+            document.getElementById("cookie-notice").style.display = 'none';
+        }
+
         // Načtení preferencí uživatele při načtení stránky
         window.onload = function() {
             let unitPreference = getCookie("units");
@@ -210,6 +246,11 @@
                 switchToImperial();
             } else {
                 switchToMetric();
+            }
+
+            // Zobrazit oznámení o cookies, pokud nebylo přijato
+            if (!getCookie("cookieAccepted")) {
+                document.getElementById("cookie-notice").style.display = 'block';
             }
         };
     </script>
