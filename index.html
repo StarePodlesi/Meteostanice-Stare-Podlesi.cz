@@ -81,6 +81,23 @@
         .sitemap a:hover {
             background-color: #004d40;
         }
+        /* Stylování tlačítek pro přepínání jednotek */
+        .unit-switch {
+            margin-top: 20px;
+        }
+        .unit-switch button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 8px;
+            background-color: #00796b;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .unit-switch button:hover {
+            background-color: #004d40;
+        }
         @media (max-width: 600px) {
             .main-content {
                 flex-direction: column;
@@ -103,12 +120,18 @@
             <p>Meteorologická stanice Staré Podlesí se nachází ve stejnojmenné vesnici v Podbrdí, v katastru města Příbram, Středočeský kraj.</p>
             <p>Měření: Meteostanice začala nahrávat svá data 27. prosince roku 2023. Nachází se zde i čidla na měření vlhkosti a teploty půdy, teploty a vlhkosti vzduchu a sněhoměr (ve výstavbě).</p>
             <p>Rekordy meteostanice:<br>
-                Maximální teplota vzduchu: 34,6 °C<br>
-                Minimální teplota vzduchu: -8,3 °C<br>
+                Maximální teplota vzduchu: <span id="current-temp">34.6</span> °C<br>
+                Minimální teplota vzduchu: -8.3 °C<br>
                 Maximální výška sněhu: 37 cm<br>
-                Maximální náraz větru: 22,6 km/h<br>
+                Maximální náraz větru: <span id="current-wind">22.6</span> km/h<br>
                 <a href="records.html">Více zde</a>
             </p>
+
+            <!-- Přepínání jednotek -->
+            <div class="unit-switch">
+                <button onclick="switchToMetric()">Metrické jednotky</button>
+                <button onclick="switchToImperial()">Imperiální jednotky</button>
+            </div>
         </div>
 
         <!-- Mapa webu (sitemap) -->
@@ -122,5 +145,73 @@
             <a href="fotogalerie.html">Fotogalerie</a>
         </div>
     </div>
+
+    <script>
+        // Nastavení cookie
+        function setCookie(cname, cvalue, exdays) {
+            const d = new Date();
+            d.setTime(d.getTime() + (exdays*24*60*60*1000));
+            let expires = "expires="+ d.toUTCString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        }
+
+        // Čtení cookie
+        function getCookie(cname) {
+            let name = cname + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for(let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+
+        // Funkce pro přepínání na metrické jednotky
+        function switchToMetric() {
+            document.getElementById("current-temp").innerText = '34.6';
+            document.getElementById("current-wind").innerText = '22.6';
+
+            updateUnits('°C', 'km/h');
+
+            // Uložit volbu uživatele do cookies
+            setCookie("units", "metric", 30);
+        }
+
+        // Funkce pro přepínání na imperiální jednotky
+        function switchToImperial() {
+            let tempF = (34.6 * 9/5) + 32;
+            let windMph = 22.6 / 1.609;
+
+            document.getElementById("current-temp").innerText = tempF.toFixed(1);
+            document.getElementById("current-wind").innerText = windMph.toFixed(2);
+
+            updateUnits('°F', 'mph');
+
+            // Uložit volbu uživatele do cookies
+            setCookie("units", "imperial", 30);
+        }
+
+        // Funkce na aktualizaci jednotek
+        function updateUnits(tempUnit, windUnit) {
+            document.querySelector('#current-temp').nextSibling.nodeValue = ' ' + tempUnit;
+            document.querySelector('#current-wind').nextSibling.nodeValue = ' ' + windUnit;
+        }
+
+        // Načtení preferencí uživatele při načtení stránky
+        window.onload = function() {
+            let unitPreference = getCookie("units");
+            if (unitPreference == "imperial") {
+                switchToImperial();
+            } else {
+                switchToMetric();
+            }
+        };
+    </script>
 </body>
 </html>
