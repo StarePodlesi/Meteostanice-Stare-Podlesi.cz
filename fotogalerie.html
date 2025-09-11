@@ -13,29 +13,31 @@
             padding: 0;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
-            height: 100vh;
+            align-items: center;
+            min-height: 100vh;
         }
         .main-content {
             display: flex;
+            flex-wrap: wrap;
             justify-content: center;
-            width: 80%;
-            max-width: 1200px;
+            width: 90%;
+            max-width: 1400px;
             margin: 20px;
         }
         .container {
-            max-width: 800px;
-            padding: 30px;
+            flex: 2;
+            padding: 40px;
             background-color: #ffffff;
-            border-radius: 15px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
             text-align: center;
             margin-right: 50px;
+            overflow: hidden;
         }
         h1 {
             color: #00796b;
-            margin-bottom: 20px;
-            font-size: 2.5em;
+            margin-bottom: 30px;
+            font-size: 2.8em;
         }
         .gallery {
             display: grid;
@@ -44,8 +46,8 @@
         }
         .gallery img {
             width: 100%;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s ease;
         }
         .gallery img:hover {
@@ -58,48 +60,45 @@
             padding: 15px 30px;
             border-radius: 10px;
             display: inline-block;
-            margin-top: 20px;
+            margin-top: 30px;
             transition: background-color 0.3s ease;
         }
-        a:hover {
-            background-color: #004d40;
-        }
+        a:hover { background-color: #004d40; }
         .sitemap {
+            flex: 1;
             background-color: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 200px;
-            align-self: flex-start;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+            align-self: stretch;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            overflow: hidden;
         }
         .sitemap h3 {
             color: #00796b;
+            margin-bottom: 20px;
+            text-align: center;
         }
         .sitemap a {
             display: block;
             color: #ffffff;
             background-color: #00796b;
-            padding: 10px;
-            border-radius: 8px;
+            padding: 12px;
+            border-radius: 10px;
             margin: 10px 0;
             text-decoration: none;
             transition: background-color 0.3s ease;
+            text-align: center;
+            font-size: 16px;
         }
-        .sitemap a:hover {
-            background-color: #004d40;
-        }
-        @media (max-width: 600px) {
-            .main-content {
-                flex-direction: column;
-                align-items: center;
-            }
-            .container {
-                margin-right: 0;
-                margin-bottom: 20px;
-            }
-            .sitemap {
-                width: 100%;
-            }
+        .sitemap a:hover { background-color: #004d40; }
+
+        @media (max-width: 900px) {
+            .main-content { flex-direction: column; align-items: center; }
+            .container { margin-right: 0; margin-bottom: 20px; }
+            .sitemap { width: 100%; }
         }
     </style>
 </head>
@@ -107,14 +106,12 @@
     <div class="main-content">
         <div class="container">
             <h1>Fotogalerie Meteostanice Staré Podlesí</h1>
-
             <div class="gallery">
                 <img src="IMG_20240929_175747123_HDR_AE.jpg" alt="Meteostanice">
                 <img src="IMG_20240929_175726482_HDR_AE.jpg" alt="Vybavení stanice">
-                <img src="IMG_20240929_175733822_HDR_AE.jpg"Příroda okolo stanice">
+                <img src="IMG_20240929_175733822_HDR_AE.jpg" alt="Příroda okolo stanice">
                 <img src="IMG_20240929_175740630_HDR_AE.jpg" alt="Sníh a měření">
             </div>
-
             <a href="index.html">Zpět na úvodní stránku</a>
         </div>
 
@@ -130,3 +127,4 @@
     </div>
 </body>
 </html>
+
