@@ -24,14 +24,18 @@
             max-width: 1400px;
             margin: 20px;
         }
-        .container {
-            flex: 2;
+        .container, .sitemap {
             padding: 40px;
             background-color: #ffffff;
             border-radius: 20px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.25);
             text-align: center;
-            margin-right: 50px;
+            flex: 1;
+            margin: 10px;
+            min-height: 400px; /* oba bloky stejná výška */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
         h1 {
             color: #00796b;
@@ -51,22 +55,9 @@
         }
         a.website-link:hover { background-color: #004d40; }
 
-        .sitemap {
-            flex: 1;
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-            align-self: stretch;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            overflow: hidden;
-        }
         .sitemap h3 {
             color: #00796b;
             margin-bottom: 20px;
-            text-align: center;
         }
         .sitemap a {
             display: block;
@@ -77,28 +68,26 @@
             margin: 10px 0;
             text-decoration: none;
             transition: background-color 0.3s ease;
-            text-align: center;
             font-size: 16px;
         }
         .sitemap a:hover { background-color: #004d40; }
 
         @media (max-width: 900px) {
             .main-content { flex-direction: column; align-items: center; }
-            .container { margin-right: 0; margin-bottom: 20px; }
-            .sitemap { width: 100%; }
+            .container, .sitemap { width: 90%; min-height: auto; margin-bottom: 20px; }
         }
     </style>
 </head>
 <body>
     <div class="main-content">
-        <!-- Hlavní blok uprostřed -->
+        <!-- Prostřední blok -->
         <div class="container">
             <h1>Počasí - Meteostanice Staré Podlesí</h1>
-            <a class="website-link" href="https://app.weathercloud.net/d3139966628#profile" target="_blank">Weathcloud</a>
+            <a class="website-link" href="https://app.weathercloud.net/d3139966628#profile" target="_blank">Weathercloud</a>
             <a class="website-link" href="https://www.wunderground.com/dashboard/pws/IPODLE19" target="_blank">Wunderground</a>
         </div>
 
-        <!-- Postranní blok (sitemap) -->
+        <!-- Postranní blok -->
         <div class="sitemap">
             <h3>Mapa stránek</h3>
             <a href="index.html">Domů</a>
