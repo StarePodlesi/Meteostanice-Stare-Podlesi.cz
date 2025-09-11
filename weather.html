@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Počasí - Weather</title>
+    <title>Počasí - Meteostanice Staré Podlesí</title>
     <style>
         body {
             background: linear-gradient(to right, #00bcd4, #ffffff);
@@ -12,192 +12,93 @@
             margin: 0;
             padding: 0;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100vh;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
         }
         .main-content {
-            width: 80%;
-            max-width: 1200px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 90%;
+            max-width: 1400px;
             margin: 20px;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
         }
-        .left-content {
-            width: 70%;
-        }
-        .header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-        .box {
-            background-color: #e0f7fa;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 45%;
-        }
-        .small-box {
-            width: 22%;
+        .container {
+            flex: 2;
+            padding: 40px;
             background-color: #ffffff;
-            border: 1px solid #00796b;
-            border-radius: 15px;
-            padding: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 10px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
             text-align: center;
+            margin-right: 50px;
         }
-        .graph-selector {
-            display: flex;
-            justify-content: space-between;
-            margin: 20px 0;
+        h1 {
+            color: #00796b;
+            margin-bottom: 20px;
+            font-size: 2.5em;
         }
-        .button {
+        a.website-link {
+            display: block;
+            margin: 15px 0;
+            color: #ffffff;
             background-color: #00796b;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+            padding: 12px 25px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 18px;
             transition: background-color 0.3s ease;
         }
-        .button:hover {
-            background-color: #004d40;
-        }
-        .graph-container {
-            background-color: #ffffff;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            text-align: center;
-        }
-        .info-box {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
+        a.website-link:hover { background-color: #004d40; }
+
         .sitemap {
+            flex: 1;
             background-color: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 200px;
-            margin-top: 20px;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+            align-self: stretch;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            overflow: hidden;
         }
         .sitemap h3 {
             color: #00796b;
+            margin-bottom: 20px;
+            text-align: center;
         }
         .sitemap a {
             display: block;
             color: #ffffff;
             background-color: #00796b;
-            padding: 10px;
-            border-radius: 8px;
+            padding: 12px;
+            border-radius: 10px;
             margin: 10px 0;
             text-decoration: none;
             transition: background-color 0.3s ease;
             text-align: center;
+            font-size: 16px;
         }
-        .sitemap a:hover {
-            background-color: #004d40;
-        }
-        @media (max-width: 768px) {
-            .main-content {
-                flex-direction: column;
-                align-items: center;
-            }
-            .header {
-                flex-direction: column;
-                align-items: center;
-            }
-            .box {
-                width: 100%;
-                margin-bottom: 10px;
-            }
-            .small-box {
-                width: 45%;
-            }
-            .graph-selector {
-                flex-direction: column;
-                align-items: center;
-            }
-            .sitemap {
-                width: 100%;
-                margin-top: 20px;
-            }
+        .sitemap a:hover { background-color: #004d40; }
+
+        @media (max-width: 900px) {
+            .main-content { flex-direction: column; align-items: center; }
+            .container { margin-right: 0; margin-bottom: 20px; }
+            .sitemap { width: 100%; }
         }
     </style>
 </head>
 <body>
     <div class="main-content">
-        <div class="left-content">
-            <div class="header">
-                <div class="box" id="location-box">
-                    <p id="location">Staré Podlesí</p>
-                    <p id="elevation">Nadmořská výška: 503,2 m.n.m</p>
-                    <p id="dewpoint">Rosný bod: 6,6 °C</p>
-                </div>
-                <div class="box" id="wind-box">
-                    <p id="wind-direction">Směr větru: ZSZ</p>
-                    <p id="wind-speed">Rychlost větru: 22,6 km/h</p>
-                    <p id="wind-gust">Poryv větru: 30,4 km/h</p>
-                </div>
-            </div>
-            <div class="header">
-                <div class="small-box" id="weather-box">
-                    <p>Počasí</p>
-                    <p id="current-weather">Deštivo</p>
-                </div>
-                <div class="small-box" id="temperature-box">
-                    <p>Teplota</p>
-                    <p id="temperature">9,5 °C</p>
-                </div>
-                <div class="small-box" id="pressure-box">
-                    <p>Tlak</p>
-                    <p id="pressure">1015,9 hPa</p>
-                </div>
-                <div class="small-box" id="humidity-box">
-                    <p>Vlhkost</p>
-                    <p id="humidity">77 %</p>
-                </div>
-            </div>
-            <div class="graph-selector">
-                <button class="button">Teplota</button>
-                <button class="button">Vlhkost</button>
-                <button class="button">Srážky</button>
-                <button class="button">Tlak</button>
-                <button class="button">Rychlost větru</button>
-                <button class="button">Sluneční záření</button>
-                <button class="button">UV Index</button>
-            </div>
-            <div class="graph-container">
-                <h2>Teplotní graf</h2>
-                <img src="Snímek obrazovky 2024-09-30 175553.png" alt="Graph" width="100%">
-            </div>
-            <div class="info-box">
-                <div class="small-box">
-                    <p>Srážky</p>
-                    <p>0 mm</p>
-                </div>
-                <div class="small-box">
-                    <p>Denní srážky</p>
-                    <p>1,2 mm</p>
-                </div>
-                <div class="small-box">
-                    <p>Sluneční záření</p>
-                    <p>0,0 W/m²</p>
-                </div>
-                <div class="small-box">
-                    <p>UV Index</p>
-                    <p>0</p>
-                </div>
-            </div>
+        <!-- Hlavní blok uprostřed -->
+        <div class="container">
+            <h1>Počasí - Meteostanice Staré Podlesí</h1>
+            <a class="website-link" href="https://app.weathercloud.net/d3139966628#profile" target="_blank">Weathcloud</a>
+            <a class="website-link" href="https://www.wunderground.com/dashboard/pws/IPODLE19" target="_blank">Wunderground</a>
         </div>
 
-        <!-- Mapa webu (sitemap) na pravé straně -->
+        <!-- Postranní blok (sitemap) -->
         <div class="sitemap">
             <h3>Mapa stránek</h3>
             <a href="index.html">Domů</a>
@@ -208,38 +109,5 @@
             <a href="fotogalerie.html">Fotogalerie</a>
         </div>
     </div>
-
-    <script>
-        const apiKey = '0f95fd0f58a2451a95fd0f58a2a51a75'; // Zde vložte svůj API klíč z Weather Underground
-        const stationId = 'IPBRAM43'; // Sem vložte ID meteostanice
-        const apiUrl = `https://api.weather.com/v2/pws/observations/current?stationId=${stationId}&format=json&units=m&apiKey=${apiKey}`;
-
-        async function fetchWeatherData() {
-            try {
-                const response = await fetch(apiUrl);
-                const data = await response.json();
-                const observation = data.observations[0];
-
-                // Aktualizace údajů na stránce
-                document.getElementById('location').textContent = observation.neighborhood;
-                document.getElementById('elevation').textContent = `Nadmořská výška: ${observation.elev} m`;
-                document.getElementById('dewpoint').textContent = `Rosný bod: ${observation.dewpt} °C`;
-
-                document.getElementById('wind-direction').textContent = `Směr větru: ${observation.winddir}`;
-                document.getElementById('wind-speed').textContent = `Rychlost větru: ${observation.windspeed} km/h`;
-                document.getElementById('wind-gust').textContent = `Poryv větru: ${observation.windgust} km/h`;
-
-                document.getElementById('current-weather').textContent = observation.weather;
-                document.getElementById('temperature').textContent = `${observation.temp} °C`;
-                document.getElementById('pressure').textContent = `${observation.pressure} hPa`;
-                document.getElementById('humidity').textContent = `${observation.humidity} %`;
-            } catch (error) {
-                console.error('Chyba při načítání dat:', error);
-            }
-        }
-
-        // Načíst data při načtení stránky
-        window.onload = fetchWeatherData;
-    </script>
 </body>
 </html>
