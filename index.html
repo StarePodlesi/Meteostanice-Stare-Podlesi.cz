@@ -52,12 +52,12 @@ body {
 .sitemap::before {
     content: "";
     position: absolute;
-    top: -20px;
-    left: -20px;
-    right: -20px;
-    bottom: -20px;
-    background: radial-gradient(circle, rgba(0, 188, 212, 0.3), transparent 70%);
-    border-radius: 30px;
+    top: -40px;
+    left: -40px;
+    right: -40px;
+    bottom: -40px;
+    background: radial-gradient(circle at center, rgba(0,188,212,0.3) 0%, rgba(0,188,212,0) 80%);
+    border-radius: 25px;
     z-index: -1;
 }
 h1 {
@@ -234,6 +234,12 @@ function declineCookies() {
     document.getElementById("cookie-notice").style.display="none";
 }
 
+window.onload = function(){
+    let units = getCookie("units");
+    if(units=="imperial") switchToImperial();
+    else switchToMetric();
+
+    if
 window.onload = function(){
     let units = getCookie("units");
     if(units=="imperial") switchToImperial();
