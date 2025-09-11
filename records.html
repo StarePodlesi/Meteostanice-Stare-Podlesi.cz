@@ -1,221 +1,195 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rekordy - Meteostanice Staré Podlesí</title>
-    <style>
-        body {
-            background: linear-gradient(to right, #00bcd4, #ffffff);
-            font-family: Arial, sans-serif;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-        }
-        .main-content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            width: 100%;
-            padding: 20px;
-        }
-        .container {
-            max-width: 800px;
-            width: 100%;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 15px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        h1 {
-            color: #00796b;
-            margin-bottom: 20px;
-            font-size: 2em;
-        }
-        ul {
-            list-style: none;
-            padding: 0;
-            font-size: 1.1rem;
-            text-align: left;
-            line-height: 1.6;
-        }
-        li {
-            margin: 15px 0;
-        }
-        a {
-            text-decoration: none;
-            color: #ffffff;
-            background-color: #00796b;
-            padding: 12px 24px;
-            border-radius: 10px;
-            display: inline-block;
-            margin-top: 20px;
-            transition: background-color 0.3s ease;
-        }
-        a:hover {
-            background-color: #004d40;
-        }
-        .sitemap {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 200px;
-            width: 100%;
-            align-self: flex-start;
-        }
-        .sitemap h3 {
-            color: #00796b;
-        }
-        .sitemap a {
-            display: block;
-            color: #ffffff;
-            background-color: #00796b;
-            padding: 10px;
-            border-radius: 8px;
-            margin: 10px 0;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-            text-align: center;
-        }
-        .sitemap a:hover {
-            background-color: #004d40;
-        }
-        /* Přepínání jednotek */
-        .unit-switch {
-            margin-top: 20px;
-        }
-        .unit-switch button {
-            padding: 10px 20px;
-            margin: 5px;
-            border: none;
-            border-radius: 8px;
-            background-color: #00796b;
-            color: #fff;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .unit-switch button:hover {
-            background-color: #004d40;
-        }
-        @media (min-width: 600px) {
-            .container {
-                margin-right: 50px;
-            }
-        }
-        @media (min-width: 1024px) {
-            .main-content {
-                flex-wrap: nowrap;
-            }
-            .container {
-                flex: 1;
-                margin-right: 50px;
-            }
-            .sitemap {
-                flex: 0 0 200px;
-            }
-        }
-        @media (max-width: 599px) {
-            h1 {
-                font-size: 1.8em;
-            }
-            ul {
-                font-size: 1rem;
-            }
-            .unit-switch button {
-                padding: 8px 16px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rekordy - Meteostanice Staré Podlesí</title>
+<style>
+body {
+    background: linear-gradient(to right, #00bcd4, #ffffff);
+    font-family: Arial, sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+.main-content {
+    display: flex;
+    justify-content: center;
+    width: 90%;
+    max-width: 1400px;
+    flex-wrap: wrap;
+    margin: 20px;
+}
+.container {
+    flex: 3;
+    padding: 60px;
+    background-color: #ffffff;
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    text-align: center;
+    margin-right: 50px;
+    min-width: 350px;
+    font-size: 20px;
+    line-height: 1.8;
+    position: relative;
+}
+.container::before {
+    content: "";
+    position: absolute;
+    top: -20px; left: -20px; right: -20px; bottom: -20px;
+    background: radial-gradient(circle, rgba(0,188,212,0.3), transparent 70%);
+    border-radius: 30px;
+    z-index: -1;
+}
+h1 {
+    color: #00796b;
+    margin-bottom: 30px;
+    font-size: 2.8em;
+}
+ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+li {
+    margin: 15px 0;
+}
+a {
+    text-decoration: none;
+    color: #fff;
+    background-color: #00796b;
+    padding: 15px 30px;
+    border-radius: 10px;
+    display: inline-block;
+    margin-top: 20px;
+    transition: 0.3s;
+}
+a:hover { background-color: #004d40; }
+
+.sitemap {
+    flex: 1;
+    background-color: #ffffff;
+    padding: 40px 20px;
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    align-self: flex-start;
+    min-width: 220px;
+    margin-top: 20px;
+}
+.sitemap h3 {
+    color: #00796b;
+    text-align: center;
+}
+.sitemap a {
+    display: block;
+    color: #fff;
+    background-color: #00796b;
+    padding: 12px;
+    border-radius: 10px;
+    margin: 10px 0;
+    text-align: center;
+    font-size: 16px;
+}
+.sitemap a:hover { background-color: #004d40; }
+
+.unit-switch {
+    margin-top: 20px;
+}
+.unit-switch button {
+    padding: 12px 24px;
+    margin: 5px;
+    border: none;
+    border-radius: 10px;
+    background-color: #00796b;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 16px;
+}
+.unit-switch button:hover { background-color: #004d40; }
+
+@media (max-width: 900px) {
+    .main-content { flex-direction: column; align-items: center; }
+    .container { margin-right: 0; margin-bottom: 20px; }
+    .sitemap { width: 100%; }
+}
+</style>
 </head>
 <body>
-    <div class="main-content">
-        <div class="container">
-            <h1>Rekordy meteostanice</h1>
-            <ul id="records-list">
-                <li>Nejvyšší teplota: <span id="max-temp">34.6</span> °C - 6. 8 2024</li>
-                <li>Nejnižší teplota: <span id="min-temp">-8.3</span> °C - 21. 2 2024</li>
-                <li>Nejvyšší vlhkost: <span id="max-humidity">99.9</span> % - 23. 3 2024</li>
-                <li>Nejnižší vlhkost: <span id="min-humidity">4</span> % - 26. 7 2024</li>
-                <li>Nejvyšší rychlost větru: <span id="max-wind">22.6</span> km/h - 15. 6 2024</li>
-                <li>Nejvyšší tlak: <span id="max-pressure">1032.4</span> hPa - 15. 6 2024</li>
-                <li>Nejnižší tlak: <span id="min-pressure">981.04</span> hPa - 10. 10 2024</li>
-                <li>Nejvyšší srážky: <span id="max-rainfall">74</span> mm - 3. 7 2024</li>
-                <li>Nejvyšší výška sněhu: <span id="max-snowfall">37</span> cm - 27. 1 2024</li>
-            </ul>
-            <a href="index.html">Zpět na úvodní stránku</a>
-            <!-- Přepínání jednotek -->
-            <div class="unit-switch">
-                <button onclick="switchToMetric()">Metrické jednotky</button>
-                <button onclick="switchToImperial()">Imperiální jednotky</button>
-            </div>
+<div class="main-content">
+    <div class="container">
+        <h1>Rekordy meteostanice</h1>
+        <ul id="records-list">
+            <li>Nejvyšší teplota: <span data-value="34.6">34.6</span> °C - 6. 8 2024</li>
+            <li>Nejnižší teplota: <span data-value="-8.3">-8.3</span> °C - 21. 2 2024</li>
+            <li>Nejvyšší vlhkost: <span data-value="99.9">99.9</span> % - 23. 3 2024</li>
+            <li>Nejnižší vlhkost: <span data-value="4">4</span> % - 26. 7 2024</li>
+            <li>Nejvyšší rychlost větru: <span data-value="22.6">22.6</span> km/h - 15. 6 2024</li>
+            <li>Nejvyšší tlak: <span data-value="1032.4">1032.4</span> hPa - 15. 6 2024</li>
+            <li>Nejnižší tlak: <span data-value="981.04">981.04</span> hPa - 10. 10 2024</li>
+            <li>Nejvyšší srážky: <span data-value="74">74</span> mm - 3. 7 2024</li>
+            <li>Nejvyšší výška sněhu: <span data-value="37">37</span> cm - 27. 1 2024</li>
+        </ul>
+
+        <div class="unit-switch">
+            <button onclick="switchToMetric()">Metrické jednotky</button>
+            <button onclick="switchToImperial()">Imperiální jednotky</button>
         </div>
 
-        <div class="sitemap">
-            <h3>Mapa stránek</h3>
-            <a href="index.html">Domů</a>
-            <a href="about.html">O meteostanici</a>
-            <a href="records.html">Rekordy</a>
-            <a href="map.html">Mapa</a>
-            <a href="weather.html">Počasí</a>
-            <a href="fotogalerie.html">Fotogalerie</a>
-        </div>
+        <a href="index.html">Zpět na úvodní stránku</a>
     </div>
 
-    <script>
-        // Funkce pro přepínání mezi metrickými a imperiálními jednotkami
-        function switchToMetric() {
-            document.getElementById("max-temp").innerText = '34.6';
-            document.getElementById("min-temp").innerText = '-8.3';
-            document.getElementById("max-humidity").innerText = '99.9';
-            document.getElementById("min-humidity").innerText = '4';
-            document.getElementById("max-wind").innerText = '22.6';
-            document.getElementById("max-pressure").innerText = '1032.4';
-            document.getElementById("min-pressure").innerText = '981.04';
-            document.getElementById("max-rainfall").innerText = '74';
-            document.getElementById("max-snowfall").innerText = '37';
+    <div class="sitemap">
+        <h3>Mapa stránek</h3>
+        <a href="index.html">Domů</a>
+        <a href="about.html">O meteostanici</a>
+        <a href="records.html">Rekordy</a>
+        <a href="map.html">Mapa</a>
+        <a href="weather.html">Počasí</a>
+        <a href="fotogalerie.html">Fotogalerie</a>
+    </div>
+</div>
 
-            updateUnits('°C', 'km/h', 'hPa', 'mm', 'cm');
-        }
+<script>
+function switchToMetric() {
+    document.querySelectorAll('#records-list span').forEach(span=>{
+        span.innerText = span.dataset.value;
+    });
+    updateUnits('°C','km/h','hPa','mm','cm');
+}
 
-        function switchToImperial() {
-            // Převod na imperiální jednotky
-            let maxTempF = (34.6 * 9/5) + 32;
-            let minTempF = (-8.3 * 9/5) + 32;
-            let windSpeedMph = 22.6 / 1.609;
-            let pressureMmHgMax = 1032.4 * 0.75006;
-            let pressureMmHgMin = 981.04 * 0.75006;
-            let rainfallInches = 74 / 25.4;
-            let snowfallInches = 37 / 2.54;
+function switchToImperial() {
+    document.querySelectorAll('#records-list span').forEach(span=>{
+        let val = parseFloat(span.dataset.value);
+        if(span.parentElement.innerText.includes("teplota")) val = (val*9/5+32).toFixed(1);
+        if(span.parentElement.innerText.includes("rychlost větru")) val = (val/1.609).toFixed(1);
+        if(span.parentElement.innerText.includes("tlak")) val = (val*0.75006).toFixed(2);
+        if(span.parentElement.innerText.includes("srážky")) val = (val/25.4).toFixed(2);
+        if(span.parentElement.innerText.includes("výška sněhu")) val = (val/2.54).toFixed(1);
+        span.innerText = val;
+    });
+    updateUnits('°F','mph','mmHg','in','in');
+}
 
-            // Aktualizace hodnot
-            document.getElementById("max-temp").innerText = maxTempF.toFixed(1);
-            document.getElementById("min-temp").innerText = minTempF.toFixed(1);
-            document.getElementById("max-wind").innerText = windSpeedMph.toFixed(2);
-            document.getElementById("max-pressure").innerText = pressureMmHgMax.toFixed(2);
-            document.getElementById("min-pressure").innerText = pressureMmHgMin.toFixed(2);
-            document.getElementById("max-rainfall").innerText = rainfallInches.toFixed(2);
-            document.getElementById("max-snowfall").innerText = snowfallInches.toFixed(1);
-
-            updateUnits('°F', 'mph', 'mmHg', 'in', 'in');
-        }
-
-        // Funkce na aktualizaci jednotek
-        function updateUnits(tempUnit, windUnit, pressureUnit, rainfallUnit, snowUnit) {
-            document.querySelector('#max-temp').nextSibling.nodeValue = ' ' + tempUnit;
-            document.querySelector('#min-temp').nextSibling.nodeValue = ' ' + tempUnit;
-            document.getElementById('max-wind').nextSibling.nodeValue = ' ' + windUnit;
-            document.getElementById('max-pressure').nextSibling.nodeValue = ' ' + pressureUnit;
-            document.getElementById('min-pressure').nextSibling.nodeValue = ' ' + pressureUnit;
-            document.getElementById('max-rainfall').nextSibling.nodeValue = ' ' + rainfallUnit;
-            document.getElementById('max-snowfall').nextSibling.nodeValue = ' ' + snowUnit;
-        }
-    </script>
+function updateUnits(tempUnit, windUnit, pressureUnit, rainfallUnit, snowUnit){
+    const lis = document.querySelectorAll('#records-list li');
+    lis.forEach(li=>{
+        if(li.innerText.includes("Nejvyšší teplota") || li.innerText.includes("Nejnižší teplota"))
+            li.childNodes[1].nextSibling.nodeValue = ' ' + tempUnit + ' -';
+        if(li.innerText.includes("rychlost větru"))
+            li.childNodes[1].nextSibling.nodeValue = ' ' + windUnit + ' -';
+        if(li.innerText.includes("tlak"))
+            li.childNodes[1].nextSibling.nodeValue = ' ' + pressureUnit + ' -';
+        if(li.innerText.includes("srážky"))
+            li.childNodes[1].nextSibling.nodeValue = ' ' + rainfallUnit + ' -';
+        if(li.innerText.includes("výška sněhu"))
+            li.childNodes[1].nextSibling.nodeValue = ' ' + snowUnit + ' -';
+    });
+}
+</script>
 </body>
 </html>
