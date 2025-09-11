@@ -1,254 +1,186 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meteostanice Staré Podlesí - Domů</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #00bcd4, #ffffff);
-            color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            text-align: center;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meteostanice</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #4a90e2, #003366);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      min-height: 100vh;
+    }
 
-        .main-content {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            width: 90%;
-            max-width: 1400px;
-            gap: 40px;
-        }
+    .container {
+      display: grid;
+      grid-template-columns: 3fr 1fr;
+      gap: 20px;
+      width: 90%;
+      max-width: 1200px;
+      padding: 20px;
+    }
 
-        .container {
-            flex: 1;
-            max-width: 800px;
-            padding: 40px;
-            background-color: rgba(255, 255, 255, 0.85);
-            border-radius: 20px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-            backdrop-filter: blur(10px);
-            margin: auto;
-            /* rozplývání okrajů */
-            -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
-            -webkit-mask-repeat: no-repeat;
-            -webkit-mask-position: center;
-            -webkit-mask-size: cover;
-        }
+    .block {
+      background: rgba(0, 0, 50, 0.6);
+      padding: 20px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      /* Rozplývající se okraje */
+      -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%);
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-position: center;
+      -webkit-mask-size: cover;
+      mask-image: radial-gradient(circle, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%);
+      mask-repeat: no-repeat;
+      mask-position: center;
+      mask-size: cover;
+    }
 
-        h1 {
-            color: #00796b;
-            margin-bottom: 30px;
-            font-size: 2.5em;
-        }
+    .main-block {
+      min-height: 80vh;
+    }
 
-        p {
-            font-size: 20px;
-            line-height: 1.7;
-            margin-bottom: 25px;
-        }
+    .side-block {
+      min-height: 80vh; /* protažený odshora dolů */
+      align-items: flex-start;
+    }
 
-        a {
-            text-decoration: none;
-            color: #ffffff;
-            background-color: #00796b;
-            padding: 12px 25px;
-            border-radius: 10px;
-            margin-top: 15px;
-            display: inline-block;
-            transition: background-color 0.3s ease;
-        }
-        a:hover {
-            background-color: #004d40;
-        }
+    h1, h2 {
+      margin-top: 0;
+    }
 
-        /* Mapa webu (navigace) */
-        .sitemap {
-            width: 220px;
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-            align-self: flex-start;
-            position: relative;
-            top: 20px;
-            right: -20px; /* posun trochu doprava */
-        }
-        .sitemap h3 {
-            color: #00796b;
-            margin-bottom: 15px;
-        }
-        .sitemap a {
-            display: block;
-            color: #ffffff;
-            background-color: #00796b;
-            padding: 10px;
-            border-radius: 8px;
-            margin: 8px 0;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
-        .sitemap a:hover {
-            background-color: #004d40;
-        }
+    /* Cookies banner */
+    .cookie-banner {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 50, 0.8);
+      padding: 15px 20px;
+      border-radius: 10px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      z-index: 1000;
+      backdrop-filter: blur(5px);
+    }
 
-        /* Stylování tlačítek pro přepínání jednotek */
-        .unit-switch {
-            margin-top: 20px;
-        }
-        .unit-switch button {
-            padding: 10px 20px;
-            margin: 5px;
-            border: none;
-            border-radius: 10px;
-            background-color: #00796b;
-            color: #fff;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            font-size: 16px;
-        }
-        .unit-switch button:hover {
-            background-color: #004d40;
-        }
+    .cookie-banner button {
+      background: #4a90e2;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
 
-        /* Oznámení o cookies */
-        .cookie-banner {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.85);
-            color: #fff;
-            padding: 15px 25px;
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            max-width: 90%;
-            z-index: 1000;
-        }
-        .cookie-banner button {
-            background-color: #00cc66;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            color: #fff;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .cookie-banner button:hover {
-            background-color: #00994d;
-        }
+    /* Přepínač jednotek */
+    .unit-toggle {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+    }
 
-        /* Responsivita */
-        @media (max-width: 900px) {
-            .main-content {
-                flex-direction: column;
-                align-items: center;
-            }
-            .sitemap {
-                width: 100%;
-                max-width: 400px;
-                position: static;
-                margin-top: 20px;
-            }
-        }
-    </style>
+    .unit-toggle button {
+      background: #4a90e2;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+      .side-block {
+        min-height: auto;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="main-content">
-        <div class="container">
-            <h1>Meteostanice Staré Podlesí</h1>
-            <p>Meteorologická stanice Staré Podlesí se nachází ve stejnojmenné vesnici v Podbrdí, v katastru města Příbram, Středočeský kraj.</p>
-            <p>Měření: Meteostanice začala nahrávat svá data 27. prosince roku 2023. Nachází se zde i čidla na měření vlhkosti a teploty půdy, teploty a vlhkosti vzduchu a sněhoměr (ve výstavbě).</p>
-            <p>Rekordy meteostanice:<br>
-                Maximální teplota vzduchu: <span id="current-temp">34.6</span> °C<br>
-                Minimální teplota vzduchu: -8.3 °C<br>
-                Maximální výška sněhu: 37 cm<br>
-                Maximální náraz větru: <span id="current-wind">22.6</span> km/h<br>
-                <a href="records.html">Více zde</a>
-            </p>
+  <div class="container">
+    <div class="block main-block">
+      <h1>Meteostanice</h1>
+      <p id="temperature">Teplota: 20 °C</p>
+      <p id="humidity">Vlhkost: 60 %</p>
+      <p id="pressure">Tlak: 1015 hPa</p>
 
-            <!-- Přepínání jednotek -->
-            <div class="unit-switch">
-                <button onclick="switchToMetric()">Metrické jednotky</button>
-                <button onclick="switchToImperial()">Imperiální jednotky</button>
-            </div>
-        </div>
-
-        <!-- Mapa webu -->
-        <div class="sitemap">
-            <h3>Mapa stránek</h3>
-            <a href="index.html">Domů</a>
-            <a href="about.html">O meteostanici</a>
-            <a href="records.html">Rekordy</a>
-            <a href="map.html">Mapa</a>
-            <a href="weather.html">Počasí</a>
-            <a href="fotogalerie.html">Fotogalerie</a>
-        </div>
+      <div class="unit-toggle">
+        <button onclick="setUnits('metric')">Metrické</button>
+        <button onclick="setUnits('imperial')">Imperiální</button>
+      </div>
     </div>
 
-    <!-- Cookies -->
-    <div class="cookie-banner" id="cookieBanner">
-        <p>Tato stránka používá cookies pro zajištění nejlepšího zážitku.</p>
-        <button onclick="acceptCookies()">Přijmout</button>
+    <div class="block side-block">
+      <h2>Navigace</h2>
+      <ul>
+        <li><a href="#" style="color:white;">Domů</a></li>
+        <li><a href="#" style="color:white;">Grafy</a></li>
+        <li><a href="#" style="color:white;">Historie</a></li>
+        <li><a href="#" style="color:white;">Nastavení</a></li>
+      </ul>
     </div>
+  </div>
 
-    <script>
-        // Přepínání na metrické jednotky
-        function switchToMetric() {
-            document.getElementById("current-temp").innerText = '34.6';
-            document.getElementById("current-wind").innerText = '22.6';
-            updateUnits('°C', 'km/h');
-            localStorage.setItem("units", "metric");
-        }
+  <!-- Cookie banner -->
+  <div class="cookie-banner" id="cookieBanner">
+    <span>Tento web používá cookies pro lepší zážitek.</span>
+    <button onclick="acceptCookies()">Souhlasím</button>
+    <button onclick="declineCookies()">Odmítnout</button>
+  </div>
 
-        // Přepínání na imperiální jednotky
-        function switchToImperial() {
-            let tempC = 34.6;
-            let windKmh = 22.6;
-            let tempF = (tempC * 9 / 5) + 32;
-            let windMph = windKmh / 1.609;
-            document.getElementById("current-temp").innerText = tempF.toFixed(1);
-            document.getElementById("current-wind").innerText = windMph.toFixed(1);
-            updateUnits('°F', 'mph');
-            localStorage.setItem("units", "imperial");
-        }
+  <script>
+    let currentUnits = 'metric';
 
-        // Aktualizace jednotek
-        function updateUnits(tempUnit, windUnit) {
-            document.querySelector('#current-temp').nextSibling.nodeValue = ' ' + tempUnit;
-            document.querySelector('#current-wind').nextSibling.nodeValue = ' ' + windUnit;
-        }
+    function setUnits(units) {
+      currentUnits = units;
+      updateWeatherDisplay();
+    }
 
-        // Cookies
-        function acceptCookies() {
-            document.getElementById("cookieBanner").style.display = "none";
-            localStorage.setItem("cookiesAccepted", "true");
-        }
+    function updateWeatherDisplay() {
+      let temp = 20; // °C
+      let pressure = 1015; // hPa
+      let humidity = 60;
 
-        // Po načtení
-        window.onload = function() {
-            // cookies
-            if (localStorage.getItem("cookiesAccepted") === "true") {
-                document.getElementById("cookieBanner").style.display = "none";
-            }
+      if (currentUnits === 'imperial') {
+        temp = (temp * 9/5) + 32; // °F
+        pressure = (pressure * 0.02953).toFixed(2); // inHg
+        document.getElementById('temperature').innerText = `Temperature: ${temp.toFixed(1)} °F`;
+        document.getElementById('pressure').innerText = `Pressure: ${pressure} inHg`;
+        document.getElementById('humidity').innerText = `Humidity: ${humidity} %`;
+      } else {
+        document.getElementById('temperature').innerText = `Teplota: ${temp} °C`;
+        document.getElementById('pressure').innerText = `Tlak: ${pressure} hPa`;
+        document.getElementById('humidity').innerText = `Vlhkost: ${humidity} %`;
+      }
+    }
 
-            // jednotky
-            let units = localStorage.getItem("units");
-            if (units === "imperial") {
-                switchToImperial();
-            } else {
-                switchToMetric();
-            }
-        };
-    </script>
+    function acceptCookies() {
+      document.getElementById('cookieBanner').style.display = 'none';
+      localStorage.setItem('cookiesAccepted', 'true');
+    }
+
+    function declineCookies() {
+      document.getElementById('cookieBanner').style.display = 'none';
+      localStorage.setItem('cookiesAccepted', 'false');
+    }
+
+    window.onload = () => {
+      if (localStorage.getItem('cookiesAccepted')) {
+        document.getElementById('cookieBanner').style.display = 'none';
+      }
+      updateWeatherDisplay();
+    };
+  </script>
 </body>
 </html>
