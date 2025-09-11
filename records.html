@@ -71,14 +71,22 @@ a {
 a:hover { background-color: #004d40; }
 
 .sitemap {
-    flex: 1;
+    flex: 3;
     background-color: #ffffff;
-    padding: 40px 20px;
+    padding: 60px;
     border-radius: 25px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    align-self: flex-start;
-    min-width: 220px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    min-width: 350px;
     margin-top: 20px;
+    position: relative;
+}
+.sitemap::before {
+    content: "";
+    position: absolute;
+    top: -20px; left: -20px; right: -20px; bottom: -20px;
+    background: radial-gradient(circle, rgba(0,188,212,0.3), transparent 70%);
+    border-radius: 30px;
+    z-index: -1;
 }
 .sitemap h3 {
     color: #00796b;
@@ -115,7 +123,7 @@ a:hover { background-color: #004d40; }
 @media (max-width: 900px) {
     .main-content { flex-direction: column; align-items: center; }
     .container { margin-right: 0; margin-bottom: 20px; }
-    .sitemap { width: 100%; }
+    .sitemap { width: 100%; margin-top: 0; }
 }
 </style>
 </head>
@@ -124,15 +132,15 @@ a:hover { background-color: #004d40; }
     <div class="container">
         <h1>Rekordy meteostanice</h1>
         <ul id="records-list">
-            <li>Nejvyšší teplota: <span data-value="34.6">34.6</span> °C - 6. 8 2024</li>
-            <li>Nejnižší teplota: <span data-value="-8.3">-8.3</span> °C - 21. 2 2024</li>
-            <li>Nejvyšší vlhkost: <span data-value="99.9">99.9</span> % - 23. 3 2024</li>
-            <li>Nejnižší vlhkost: <span data-value="4">4</span> % - 26. 7 2024</li>
-            <li>Nejvyšší rychlost větru: <span data-value="22.6">22.6</span> km/h - 15. 6 2024</li>
-            <li>Nejvyšší tlak: <span data-value="1032.4">1032.4</span> hPa - 15. 6 2024</li>
-            <li>Nejnižší tlak: <span data-value="981.04">981.04</span> hPa - 10. 10 2024</li>
-            <li>Nejvyšší srážky: <span data-value="74">74</span> mm - 3. 7 2024</li>
-            <li>Nejvyšší výška sněhu: <span data-value="37">37</span> cm - 27. 1 2024</li>
+            <li>Nejvyšší teplota: <span data-value="34.6">34.6</span> °C <span class="date">- 6. 8 2024</span></li>
+            <li>Nejnižší teplota: <span data-value="-8.3">-8.3</span> °C <span class="date">- 21. 2 2024</span></li>
+            <li>Nejvyšší vlhkost: <span data-value="99.9">99.9</span> % <span class="date">- 23. 3 2024</span></li>
+            <li>Nejnižší vlhkost: <span data-value="4">4</span> % <span class="date">- 26. 7 2024</span></li>
+            <li>Nejvyšší rychlost větru: <span data-value="22.6">22.6</span> km/h <span class="date">- 15. 6 2024</span></li>
+            <li>Nejvyšší tlak: <span data-value="1032.4">1032.4</span> hPa <span class="date">- 15. 6 2024</span></li>
+            <li>Nejnižší tlak: <span data-value="981.04">981.04</span> hPa <span class="date">- 10. 10 2024</span></li>
+            <li>Nejvyšší srážky: <span data-value="74">74</span> mm <span class="date">- 3. 7 2024</span></li>
+            <li>Nejvyšší výška sněhu: <span data-value="37">37</span> cm <span class="date">- 27. 1 2024</span></li>
         </ul>
 
         <div class="unit-switch">
@@ -156,14 +164,14 @@ a:hover { background-color: #004d40; }
 
 <script>
 function switchToMetric() {
-    document.querySelectorAll('#records-list span').forEach(span=>{
+    document.querySelectorAll('#records-list span[data-value]').forEach(span=>{
         span.innerText = span.dataset.value;
     });
     updateUnits('°C','km/h','hPa','mm','cm');
 }
 
 function switchToImperial() {
-    document.querySelectorAll('#records-list span').forEach(span=>{
+    document.querySelectorAll('#records-list span[data-value]').forEach(span=>{
         let val = parseFloat(span.dataset.value);
         if(span.parentElement.innerText.includes("teplota")) val = (val*9/5+32).toFixed(1);
         if(span.parentElement.innerText.includes("rychlost větru")) val = (val/1.609).toFixed(1);
@@ -178,18 +186,5 @@ function switchToImperial() {
 function updateUnits(tempUnit, windUnit, pressureUnit, rainfallUnit, snowUnit){
     const lis = document.querySelectorAll('#records-list li');
     lis.forEach(li=>{
-        if(li.innerText.includes("Nejvyšší teplota") || li.innerText.includes("Nejnižší teplota"))
-            li.childNodes[1].nextSibling.nodeValue = ' ' + tempUnit + ' -';
-        if(li.innerText.includes("rychlost větru"))
-            li.childNodes[1].nextSibling.nodeValue = ' ' + windUnit + ' -';
-        if(li.innerText.includes("tlak"))
-            li.childNodes[1].nextSibling.nodeValue = ' ' + pressureUnit + ' -';
-        if(li.innerText.includes("srážky"))
-            li.childNodes[1].nextSibling.nodeValue = ' ' + rainfallUnit + ' -';
-        if(li.innerText.includes("výška sněhu"))
-            li.childNodes[1].nextSibling.nodeValue = ' ' + snowUnit + ' -';
-    });
-}
-</script>
-</body>
-</html>
+        const span = li.querySelector('span[data-value]');
+        if(li.innerText.includes("teplota")) span.nextElementSibling.textContent = ' ' + tempUnit + ' ' + li.querySelector
