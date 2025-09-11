@@ -6,89 +6,93 @@
     <title>Meteostanice Staré Podlesí - Domů</title>
     <style>
         body {
-            background: linear-gradient(to right, #00bcd4, #ffffff);
-            font-family: Arial, sans-serif;
-            color: #333;
             margin: 0;
-            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #00bcd4, #ffffff);
+            color: #333;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
             min-height: 100vh;
+            text-align: center;
         }
 
         .main-content {
             display: flex;
-            flex-wrap: wrap; /* umožní zalomení pro tablety/mobily */
             justify-content: center;
-            width: 95%;
+            align-items: flex-start;
+            width: 90%;
             max-width: 1400px;
-            margin: 30px auto;
-            gap: 30px; /* mezery mezi boxy */
+            gap: 40px;
         }
 
         .container {
-            flex: 2 1 600px; /* flexibilní velikost */
-            padding: 50px 60px;
-            background-color: #ffffff;
+            flex: 1;
+            max-width: 800px;
+            padding: 40px;
+            background-color: rgba(255, 255, 255, 0.85);
             border-radius: 20px;
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
-            text-align: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(10px);
+            margin: auto;
+            /* rozplývání okrajů */
+            -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
+            -webkit-mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+            -webkit-mask-size: cover;
         }
 
         h1 {
             color: #00796b;
             margin-bottom: 30px;
-            font-size: clamp(2em, 5vw, 3em); /* pružná velikost */
+            font-size: 2.5em;
         }
 
         p {
-            font-size: clamp(16px, 2vw, 20px);
-            line-height: 1.9;
+            font-size: 20px;
+            line-height: 1.7;
             margin-bottom: 25px;
-            text-align: justify;
         }
 
         a {
             text-decoration: none;
             color: #ffffff;
             background-color: #00796b;
-            padding: 15px 35px;
-            border-radius: 12px;
-            margin-top: 20px;
+            padding: 12px 25px;
+            border-radius: 10px;
+            margin-top: 15px;
             display: inline-block;
-            font-weight: bold;
             transition: background-color 0.3s ease;
         }
         a:hover {
             background-color: #004d40;
         }
 
-        /* Mapa webu (sitemap) */
+        /* Mapa webu (navigace) */
         .sitemap {
-            flex: 1 1 250px; /* flexibilní velikost */
-            background-color: #ffffff;
-            padding: 25px;
+            width: 220px;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
             border-radius: 15px;
-            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
             align-self: flex-start;
+            position: relative;
+            top: 20px;
+            right: -20px; /* posun trochu doprava */
         }
         .sitemap h3 {
             color: #00796b;
             margin-bottom: 15px;
-            font-size: 1.4em;
         }
         .sitemap a {
             display: block;
             color: #ffffff;
             background-color: #00796b;
-            padding: 12px;
-            border-radius: 10px;
-            margin: 10px 0;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 8px 0;
             text-decoration: none;
             transition: background-color 0.3s ease;
-            text-align: center;
-            font-size: clamp(14px, 2vw, 16px);
         }
         .sitemap a:hover {
             background-color: #004d40;
@@ -96,83 +100,64 @@
 
         /* Stylování tlačítek pro přepínání jednotek */
         .unit-switch {
-            margin-top: 25px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
+            margin-top: 20px;
         }
         .unit-switch button {
-            padding: 12px 25px;
+            padding: 10px 20px;
+            margin: 5px;
             border: none;
             border-radius: 10px;
             background-color: #00796b;
             color: #fff;
             cursor: pointer;
             transition: background-color 0.3s ease;
-            font-size: clamp(14px, 2vw, 16px);
+            font-size: 16px;
         }
         .unit-switch button:hover {
             background-color: #004d40;
         }
 
         /* Oznámení o cookies */
-        .cookie-notice {
+        .cookie-banner {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background-color: #00796b;
-            color: #ffffff;
-            padding: 15px;
-            text-align: center;
-            display: none;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.85);
+            color: #fff;
+            padding: 15px 25px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            max-width: 90%;
             z-index: 1000;
-            font-size: 16px;
         }
-        .cookie-notice button {
-            margin-left: 15px;
-            background-color: #004d40;
+        .cookie-banner button {
+            background-color: #00cc66;
             border: none;
             padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
+            border-radius: 8px;
             color: #fff;
+            cursor: pointer;
             font-weight: bold;
         }
-        .cookie-notice button:hover {
-            background-color: #003030;
+        .cookie-banner button:hover {
+            background-color: #00994d;
         }
 
-        /* RESPONSIVE úpravy */
-        @media (max-width: 1024px) {
-            .container {
-                padding: 40px;
-            }
-            .sitemap {
-                align-self: center;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 30px;
+        /* Responsivita */
+        @media (max-width: 900px) {
+            .main-content {
+                flex-direction: column;
+                align-items: center;
             }
             .sitemap {
                 width: 100%;
-                text-align: center;
-            }
-        }
-
-        @media (max-width: 480px) {
-            body {
-                padding: 10px;
-            }
-            .container {
-                padding: 20px;
-            }
-            .sitemap h3 {
-                font-size: 1.2em;
+                max-width: 400px;
+                position: static;
+                margin-top: 20px;
             }
         }
     </style>
@@ -181,16 +166,9 @@
     <div class="main-content">
         <div class="container">
             <h1>Meteostanice Staré Podlesí</h1>
-            <p>
-                Meteorologická stanice Staré Podlesí se nachází ve stejnojmenné vesnici v Podbrdí, 
-                v katastru města Příbram, Středočeský kraj.
-            </p>
-            <p>
-                Měření: Meteostanice začala nahrávat svá data 27. prosince roku 2023. 
-                Nachází se zde i čidla na měření vlhkosti a teploty půdy, teploty a vlhkosti vzduchu a sněhoměr (ve výstavbě).
-            </p>
-            <p>
-                Rekordy meteostanice:<br>
+            <p>Meteorologická stanice Staré Podlesí se nachází ve stejnojmenné vesnici v Podbrdí, v katastru města Příbram, Středočeský kraj.</p>
+            <p>Měření: Meteostanice začala nahrávat svá data 27. prosince roku 2023. Nachází se zde i čidla na měření vlhkosti a teploty půdy, teploty a vlhkosti vzduchu a sněhoměr (ve výstavbě).</p>
+            <p>Rekordy meteostanice:<br>
                 Maximální teplota vzduchu: <span id="current-temp">34.6</span> °C<br>
                 Minimální teplota vzduchu: -8.3 °C<br>
                 Maximální výška sněhu: 37 cm<br>
@@ -205,7 +183,7 @@
             </div>
         </div>
 
-        <!-- Mapa webu (sitemap) -->
+        <!-- Mapa webu -->
         <div class="sitemap">
             <h3>Mapa stránek</h3>
             <a href="index.html">Domů</a>
@@ -217,72 +195,58 @@
         </div>
     </div>
 
-    <!-- Oznámení o cookies -->
-    <div class="cookie-notice" id="cookie-notice">
-        Tato stránka používá cookies pro zajištění nejlepšího zážitku. 
+    <!-- Cookies -->
+    <div class="cookie-banner" id="cookieBanner">
+        <p>Tato stránka používá cookies pro zajištění nejlepšího zážitku.</p>
         <button onclick="acceptCookies()">Přijmout</button>
     </div>
 
     <script>
-        // Nastavení cookie
-        function setCookie(cname, cvalue, exdays) {
-            const d = new Date();
-            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-            let expires = "expires=" + d.toUTCString();
-            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-        }
-
-        // Čtení cookie
-        function getCookie(cname) {
-            let name = cname + "=";
-            let decodedCookie = decodeURIComponent(document.cookie);
-            let ca = decodedCookie.split(';');
-            for (let i = 0; i < ca.length; i++) {
-                let c = ca[i].trim();
-                if (c.indexOf(name) == 0) {
-                    return c.substring(name.length, c.length);
-                }
-            }
-            return "";
-        }
-
-        // Přepínání jednotek
+        // Přepínání na metrické jednotky
         function switchToMetric() {
             document.getElementById("current-temp").innerText = '34.6';
             document.getElementById("current-wind").innerText = '22.6';
             updateUnits('°C', 'km/h');
-            setCookie("units", "metric", 30);
+            localStorage.setItem("units", "metric");
         }
+
+        // Přepínání na imperiální jednotky
         function switchToImperial() {
-            let tempF = (34.6 * 9 / 5) + 32;
-            let windMph = 22.6 / 1.609;
+            let tempC = 34.6;
+            let windKmh = 22.6;
+            let tempF = (tempC * 9 / 5) + 32;
+            let windMph = windKmh / 1.609;
             document.getElementById("current-temp").innerText = tempF.toFixed(1);
-            document.getElementById("current-wind").innerText = windMph.toFixed(2);
+            document.getElementById("current-wind").innerText = windMph.toFixed(1);
             updateUnits('°F', 'mph');
-            setCookie("units", "imperial", 30);
+            localStorage.setItem("units", "imperial");
         }
+
+        // Aktualizace jednotek
         function updateUnits(tempUnit, windUnit) {
             document.querySelector('#current-temp').nextSibling.nodeValue = ' ' + tempUnit;
             document.querySelector('#current-wind').nextSibling.nodeValue = ' ' + windUnit;
         }
 
-        // Přijetí cookies
+        // Cookies
         function acceptCookies() {
-            document.getElementById("cookie-notice").style.display = 'none';
-            setCookie("cookieAccepted", "true", 365);
+            document.getElementById("cookieBanner").style.display = "none";
+            localStorage.setItem("cookiesAccepted", "true");
         }
 
-        // Načtení při startu
+        // Po načtení
         window.onload = function() {
-            let unitPreference = getCookie("units");
-            if (unitPreference == "imperial") {
+            // cookies
+            if (localStorage.getItem("cookiesAccepted") === "true") {
+                document.getElementById("cookieBanner").style.display = "none";
+            }
+
+            // jednotky
+            let units = localStorage.getItem("units");
+            if (units === "imperial") {
                 switchToImperial();
             } else {
                 switchToMetric();
-            }
-
-            if (!getCookie("cookieAccepted")) {
-                document.getElementById("cookie-notice").style.display = 'block';
             }
         };
     </script>
