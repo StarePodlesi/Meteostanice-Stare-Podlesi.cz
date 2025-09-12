@@ -1,102 +1,182 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Počasí - Meteostanice Staré Podlesí</title>
-    <style>
-        body {
-            background: linear-gradient(to right, #00bcd4, #ffffff);
-            font-family: Arial, sans-serif;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-        }
-        .main-content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            width: 90%;
-            max-width: 1400px;
-            margin: 20px;
-        }
-        .container, .sitemap {
-            padding: 40px;
-            background-color: #ffffff;
-            border-radius: 20px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-            text-align: center;
-            flex: 1;
-            margin: 10px;
-            min-height: 400px; /* oba bloky stejná výška */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        h1 {
-            color: #00796b;
-            margin-bottom: 20px;
-            font-size: 2.5em;
-        }
-        a.website-link {
-            display: block;
-            margin: 15px 0;
-            color: #ffffff;
-            background-color: #00796b;
-            padding: 12px 25px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-size: 18px;
-            transition: background-color 0.3s ease;
-        }
-        a.website-link:hover { background-color: #004d40; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Počasí – Meteostanice Staré Podlesí</title>
+<style>
+    body {
+        background: linear-gradient(to right, #00bcd4, #ffffff);
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        min-height: 100vh;
+    }
+    .main-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 90%;
+        max-width: 1400px;
+        margin: 20px;
+    }
+    .container {
+        flex: 3;                       /* rozšířený hlavní blok */
+        padding: 40px;
+        background-color: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+        margin: 10px;
+    }
+    .sitemap {
+        flex: 1;                        /* zmenšený pravý panel */
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+        margin: 10px;
+        text-align: center;
+        height: fit-content;
+    }
+    h1 {
+        color: #00796b;
+        margin-bottom: 20px;
+        font-size: 2.5em;
+        text-align: center;
+    }
+    .data-list {
+        list-style: none;
+        padding: 0;
+        font-size: 1.3em;
+        line-height: 1.8em;
+    }
+    .toggle-btn {
+        display: block;
+        margin: 20px auto;
+        background-color: #00796b;
+        color: #fff;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 1.1em;
+        transition: background-color 0.3s;
+    }
+    .toggle-btn:hover { background-color: #004d40; }
 
-        .sitemap h3 {
-            color: #00796b;
-            margin-bottom: 20px;
-        }
-        .sitemap a {
-            display: block;
-            color: #ffffff;
-            background-color: #00796b;
-            padding: 12px;
-            border-radius: 10px;
-            margin: 10px 0;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-            font-size: 16px;
-        }
-        .sitemap a:hover { background-color: #004d40; }
+    .sitemap h3 {
+        color: #00796b;
+        margin-bottom: 20px;
+    }
+    .sitemap a {
+        display: block;
+        color: #ffffff;
+        background-color: #00796b;
+        padding: 12px;
+        border-radius: 10px;
+        margin: 10px 0;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+        font-size: 16px;
+    }
+    .sitemap a:hover { background-color: #004d40; }
 
-        @media (max-width: 900px) {
-            .main-content { flex-direction: column; align-items: center; }
-            .container, .sitemap { width: 90%; min-height: auto; margin-bottom: 20px; }
-        }
-    </style>
+    @media (max-width: 900px) {
+        .main-content { flex-direction: column; align-items: center; }
+        .container, .sitemap { width: 90%; margin-bottom: 20px; }
+    }
+</style>
 </head>
 <body>
-    <div class="main-content">
-        <!-- Prostřední blok -->
-        <div class="container">
-            <h1>Počasí - Meteostanice Staré Podlesí</h1>
-            <a class="website-link" href="https://app.weathercloud.net/d3139966628#profile" target="_blank">Weathercloud</a>
-            <a class="website-link" href="https://www.wunderground.com/dashboard/pws/IPODLE19" target="_blank">Wunderground</a>
-        </div>
+<div class="main-content">
 
-        <!-- Postranní blok -->
-        <div class="sitemap">
-            <h3>Mapa stránek</h3>
-            <a href="index.html">Domů</a>
-            <a href="about.html">O meteostanici</a>
-            <a href="records.html">Rekordy</a>
-            <a href="map.html">Mapa</a>
-            <a href="weather.html">Počasí</a>
-            <a href="fotogalerie.html">Fotogalerie</a>
-        </div>
+    <!-- Hlavní blok s daty -->
+    <div class="container">
+        <h1>Aktuální počasí – Staré Podlesí</h1>
+        <ul class="data-list">
+            <li>Teplota: <span id="temp">--</span></li>
+            <li>Vlhkost vzduchu: <span id="humidity">--</span></li>
+            <li>Rychlost větru: <span id="windSpeed">--</span></li>
+            <li>Směr větru: <span id="windDir">--</span></li>
+            <li>Atmosférický tlak: <span id="pressure">--</span></li>
+            <li>Intenzita srážek: <span id="precipRate">--</span></li>
+            <li>Srážky za den: <span id="precipTotal">--</span></li>
+            <li>Tepelný index: <span id="heatIndex">--</span></li>
+            <li>Rosný bod: <span id="dewpt">--</span></li>
+            <li>Chlad způsobený větrem: <span id="windChill">--</span></li>
+            <li>Nadmořská výška: 505 m n. m.</li>
+        </ul>
+
+        <button id="unitToggle" class="toggle-btn">Přepnout na imperiální jednotky</button>
     </div>
+
+    <!-- Pravý panel -->
+    <div class="sitemap">
+        <h3>Mapa stránek</h3>
+        <a href="index.html">Domů</a>
+        <a href="about.html">O meteostanici</a>
+        <a href="records.html">Rekordy</a>
+        <a href="map.html">Mapa</a>
+        <a href="weather.html">Počasí</a>
+        <a href="fotogalerie.html">Fotogalerie</a>
+    </div>
+</div>
+
+<script>
+const apiKey = '0f95fd0f58a2451a95fd0f58a2a51a75';   // váš API klíč
+const stationId = 'IPODLE19';                        // ID stanice
+
+let useMetric = true;
+
+function apiUrl() {
+    const units = useMetric ? 'm' : 'e'; // m = metrické, e = imperiální
+    return `https://api.weather.com/v2/pws/observations/current?stationId=${stationId}&format=json&units=${units}&apiKey=${apiKey}`;
+}
+
+async function loadWeather(){
+    try {
+        const res = await fetch(apiUrl());
+        const data = await res.json();
+        const o = data.observations[0];
+        const m = useMetric ? o.metric : o.imperial;  // podle přepnutí
+
+        document.getElementById('temp').textContent =
+            m.temp + (useMetric ? ' °C' : ' °F');
+        document.getElementById('humidity').textContent =
+            o.humidity + ' %';
+        document.getElementById('windSpeed').textContent =
+            m.windSpeed + (useMetric ? ' km/h' : ' mph');
+        document.getElementById('windDir').textContent =
+            o.winddir + '°';
+        document.getElementById('pressure').textContent =
+            m.pressure + (useMetric ? ' hPa' : ' inHg');
+        document.getElementById('precipRate').textContent =
+            m.precipRate + (useMetric ? ' mm/h' : ' in/h');
+        document.getElementById('precipTotal').textContent =
+            m.precipTotal + (useMetric ? ' mm' : ' in');
+        document.getElementById('heatIndex').textContent =
+            m.heatIndex + (useMetric ? ' °C' : ' °F');
+        document.getElementById('dewpt').textContent =
+            m.dewpt + (useMetric ? ' °C' : ' °F');
+        document.getElementById('windChill').textContent =
+            m.windChill + (useMetric ? ' °C' : ' °F');
+
+    } catch(e){
+        console.error('Chyba při načítání dat:', e);
+    }
+}
+
+document.getElementById('unitToggle').addEventListener('click', () => {
+    useMetric = !useMetric;
+    document.getElementById('unitToggle').textContent =
+        useMetric ? 'Přepnout na imperiální jednotky' : 'Přepnout na metrické jednotky';
+    loadWeather();
+});
+
+loadWeather();
+</script>
 </body>
 </html>
