@@ -22,7 +22,7 @@
         width: 90%;
         max-width: 1400px;
         margin: 20px;
-        align-items: stretch; /* aby pravý panel měl stejnou výšku */
+        align-items: stretch;
     }
     .container {
         flex: 3;                       
@@ -33,7 +33,7 @@
         margin: 10px;
         display: flex;
         flex-direction: column;
-        justify-content: center; /* centrum textu vertikálně */
+        justify-content: center;
         align-items: center;
     }
     .sitemap {
@@ -50,8 +50,14 @@
     }
     h1 {
         color: #00796b;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
         font-size: 2.5em;
+        text-align: center;
+    }
+    .info-time {
+        font-size: 1.2em;
+        color: #333;
+        margin-bottom: 20px;
         text-align: center;
     }
     .data-list {
@@ -105,6 +111,11 @@
     <!-- Hlavní blok s daty -->
     <div class="container">
         <h1>Aktuální počasí – Staré Podlesí</h1>
+
+        <!-- Aktuální datum a čas -->
+        <div id="currentTime" class="info-time">Načítám datum a čas…</div>
+
+        <!-- Data z meteostanice -->
         <ul class="data-list">
             <li>Teplota: <span id="temp">--</span></li>
             <li>Vlhkost vzduchu: <span id="humidity">--</span></li>
@@ -118,6 +129,9 @@
             <li>Chlad způsobený větrem: <span id="windChill">--</span></li>
             <li>Nadmořská výška: 505 m n. m.</li>
         </ul>
+
+        <!-- Čas poslední aktualizace -->
+        <div id="lastUpdate" class="info-time">Naposledy aktualizováno: --</div>
 
         <button id="unitToggle" class="toggle-btn">Přepnout na imperiální jednotky</button>
     </div>
@@ -140,6 +154,18 @@ const stationId = 'IPODLE19';
 
 let useMetric = true;
 
+// --- zobrazování aktuálního času ---
+function updateCurrentTime() {
+    const now = new Date();
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+                      hour: '2-digit', minute: '2-digit', second: '2-digit' };
+    document.getElementById('currentTime').textContent =
+        'Dnes je ' + now.toLocaleDateString('cs-CZ', options);
+}
+setInterval(updateCurrentTime, 1000);
+updateCurrentTime();
+
+// --- načítání dat z meteostanice ---
 function apiUrl() {
     const units = useMetric ? 'm' : 'e';
     return `https://api.weather.com/v2/pws/observations/current?stationId=${stationId}&format=json&units=${units}&apiKey=${apiKey}`;
@@ -162,11 +188,16 @@ async function loadWeather(){
         document.getElementById('heatIndex').textContent = m.heatIndex + (useMetric ? ' °C' : ' °F');
         document.getElementById('dewpt').textContent = m.dewpt + (useMetric ? ' °C' : ' °F');
         document.getElementById('windChill').textContent = m.windChill + (useMetric ? ' °C' : ' °F');
+
+        // čas poslední aktualizace z API (lokální čas)
+        document.getElementById('lastUpdate').textContent =
+            'Naposledy aktualizováno: ' + o.obsTimeLocal;
     } catch(e){
         console.error('Chyba při načítání dat:', e);
     }
 }
 
+// tlačítko pro přepnutí jednotek
 document.getElementById('unitToggle').addEventListener('click', () => {
     useMetric = !useMetric;
     document.getElementById('unitToggle').textContent =
@@ -174,7 +205,9 @@ document.getElementById('unitToggle').addEventListener('click', () => {
     loadWeather();
 });
 
+// první načtení + automatická aktualizace každých 5 minut
 loadWeather();
+setInterval(loadWeather, 5 * 60 * 1000);
 </script>
 </body>
 </html>
