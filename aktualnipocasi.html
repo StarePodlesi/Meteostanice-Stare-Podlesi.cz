@@ -97,7 +97,7 @@
     <div class="container">
         <h2>Aktuální počasí</h2>
         <div id="weather"></div>
-        <button id="unitToggle">Přepnout na imperial</button>
+        <button id="unitToggle">Přepnout na imperialní jednotky</button>
         <div id="lastUpdate"></div>
     </div>
 
@@ -137,7 +137,7 @@ updateDateTime();
 document.getElementById("unitToggle").addEventListener("click",()=>{
     useMetric = !useMetric;
     document.getElementById("unitToggle").textContent = 
-        useMetric ? "Přepnout na imperial" : "Switch to metric";
+        useMetric ? "Přepnout na imperial" : "Přepnout na metrické jednotky";
     fetchWeather();
 });
 
