@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Počasí – Meteostanice Staré Podlesí</title>
+
 <style>
 body {
     background: linear-gradient(to right, #00bcd4, #ffffff);
@@ -32,19 +33,18 @@ body {
     margin: 10px;
     display: flex;
     flex-direction: column;
-    align-items: center;       /* vystředění obsahu */
-    text-align: center;        /* text uprostřed bloku */
+    align-items: center;
+    text-align: center;
 }
 .data-list {
     list-style: none;
     padding: 0;
     font-size: 1.3em;
     line-height: 2em;
-    text-align: left;          /* položky uvnitř seznamu zůstanou vlevo */
     max-width: 600px;
+    margin: 0 auto;
 }
 .data-list li span { margin-left: 10px; }
-
 .toggle-btn {
     display: block;
     margin: 20px auto;
@@ -69,7 +69,7 @@ body {
     text-align: center;
     height: fit-content;
 }
-h1 { color: #00796b; margin-bottom: 20px; font-size: 2.5em; text-align: center; }
+h1 { color: #00796b; margin-bottom: 20px; font-size: 2.5em; }
 
 .sitemap h3 { color: #00796b; margin-bottom: 20px; }
 .sitemap a {
@@ -91,176 +91,7 @@ h1 { color: #00796b; margin-bottom: 20px; font-size: 2.5em; text-align: center; 
 }
 </style>
 </head>
-<body>
-<div class="main-content">
 
-<div class="container">
-    <h1>Aktuální počasí – Staré Podlesí</h1>
-    <ul class="data-list">
-        <li>📅 Běžný čas: <span id="dateTime">--</span></li>
-        <li>🌡 Teplota: <span id="temp">--</span></li>
-        <li>💧 Vlhkost vzduchu: <span id="humidity">--</span></li>
-        <li>🍃 Rychlost větru: <span id="windSpeed">--</span></li>
-        <li>🧭 Směr větru: <span id="windDir">--</span></li>
-        <li>🌡 Tlak (měřený): <span id="pressureStation">--</span></li>
-        <li>🌡 Tlak (přepočet na úroveň moře): <span id="pressureSea">--</span></li>
-        <li>🌧 Intenzita srážek: <span id="precipRate">--</span></li>
-        <li>🌦 Srážky za den: <span id="precipTotal">--</span></li>
-        <li>🔥 Tepelný index: <span id="heatIndex">--</span></li>
-        <li>💨 Chlad způsobený větrem: <span id="windChill">--</span></li>
-        <li>💧 Rosný bod: <span id="dewpt">--</span></li>
-        <li>⛰ Nadmořská výška: 505 m n. m.</li>
-        <li>⏱ Poslední aktualizace dat: <span id="lastUpdate">--</span></li>
-    </ul>
-    <button id="unitToggle" class="toggle-btn">Přepnout na imperiální jednotky</button>
-</div>
-
-<div class="sitemap">
-    <h3>Mapa stránek</h3>
-    <a href="index.html">Domů</a>
-    <a href="about.html">O meteostanici</a>
-    <a href="records.html">Rekordy</a>
-    <a href="map.html">Mapa</a>
-    <a href="weather.html">Počasí</a>
-    <a href="fotogalerie.html">Fotogalerie</a>
-</div>
-</div>
-
-<script>
-const apiKey = '0f95fd0f58a2451a95fd0f58a2a51a75';
-const stationId = 'IPODLE19';
-const stationElevation = 505;   // m n. m.
-let useMetric = true;
-
-// Přepočet tlaku na úroveň moře
-function seaLevelPressure(p, tempC, elevation, imperial=false){
-    let slp = p * Math.pow(1 - (0.0065*elevation)/(tempC + 0.0065*elevation + 273.15), -5.257);
-    if(imperial) slp = slp * 0.02953; // hPa -> inHg
-    return slp.toFixed(2);
-}
-
-// Načtení dat z Weather API
-async function loadWeather(){
-    try {
-        const now = new Date();
-        const minutes = Math.floor(now.getMinutes()/5)*5;
-        const roundedDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), minutes);
-
-        const res = await fetch(`https://api.weather.com/v2/pws/observations/current?stationId=${stationId}&format=json&units=${useMetric?'m':'e'}&apiKey=${apiKey}`);
-        const data = await res.json();
-        const o = data.observations[0];
-        const m = useMetric ? o.metric : o.imperial;
-
-        document.getElementById('temp').textContent = m.temp + (useMetric ? ' °C' : ' °F');
-        document.getElementById('humidity').textContent = o.humidity + ' %';
-        document.getElementById('windSpeed').textContent = m.windSpeed + (useMetric ? ' km/h' : ' mph');
-        document.getElementById('windDir').textContent = o.winddir + '°';
-
-        // Měřený tlak
-        document.getElementById('pressureStation').textContent =
-            m.pressure + (useMetric ? ' hPa' : ' inHg');
-
-        // Přepočet na úroveň moře
-        document.getElementById('pressureSea').textContent =
-            seaLevelPressure(m.pressure, m.temp, stationElevation, !useMetric) + (useMetric ? ' hPa' : ' inHg');
-
-        document.getElementById('precipRate').textContent = m.precipRate + (useMetric ? ' mm/h' : ' in/h');
-        document.getElementById('precipTotal').textContent = m.precipTotal + (useMetric ? ' mm' : ' in');
-        document.getElementById('heatIndex').textContent = m.heatIndex + (useMetric ? ' °C' : ' °F');
-        document.getElementById('dewpt').textContent = m.dewpt + (useMetric ? ' °C' : ' °F');
-        document.getElementById('windChill').textContent = m.windChill + (useMetric ? ' °C' : ' °F');
-
-        // Čas poslední aktualizace dat
-        document.getElementById('lastUpdate').textContent = roundedDate.toLocaleTimeString();
-    } catch(e){
-        console.error('Chyba při načítání dat:', e);
-    }
-}
-
-// Běžící hodiny (aktuální čas) – každou sekundu
-setInterval(()=>{
-    document.getElementById('dateTime').textContent = new Date().toLocaleString();
-},1000);
-
-// Přepínání jednotek
-document.getElementById('unitToggle').addEventListener('click', ()=>{
-    useMetric = !useMetric;
-    document.getElementById('unitToggle').textContent = useMetric ?
-        'Přepnout na imperiální jednotky' : 'Přepnout na metrické jednotky';
-    loadWeather();
-});
-
-// Aktualizace dat každých 5 minut v plných pětiminutovkách
-function startInterval(){
-    loadWeather();
-    const now = new Date();
-    const delay = (5 - now.getMinutes()%5)*60*1000 - now.getSeconds()*1000 - now.getMilliseconds();
-    setTimeout(()=>{ 
-        loadWeather();
-        setInterval(loadWeather, 5*60*1000);
-    }, delay);
-}
-
-startInterval();
-</script>
-</body>
-</html>.data-list {
-    list-style: none;
-    padding: 0;
-    font-size: 1.3em;
-    line-height: 2em;
-    text-align: left;
-    max-width: 600px;
-}
-.data-list li span {
-    margin-left: 10px;
-}
-.toggle-btn {
-    display: block;
-    margin: 20px auto;
-    background-color: #00796b;
-    color: #fff;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 1.1em;
-    transition: background-color 0.3s;
-}
-.toggle-btn:hover { background-color: #004d40; }
-
-.sitemap {
-    flex: 1;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 20px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-    margin: 10px;
-    text-align: center;
-    height: fit-content;
-}
-h1 { color: #00796b; margin-bottom: 20px; font-size: 2.5em; text-align: center; }
-
-.sitemap h3 { color: #00796b; margin-bottom: 20px; }
-.sitemap a {
-    display: block;
-    color: #ffffff;
-    background-color: #00796b;
-    padding: 12px;
-    border-radius: 10px;
-    margin: 10px 0;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-    font-size: 16px;
-}
-.sitemap a:hover { background-color: #004d40; }
-
-@media (max-width: 900px) {
-    .main-content { flex-direction: column; align-items: center; }
-    .container, .sitemap { width: 90%; margin-bottom: 20px; }
-}
-</style>
-</head>
 <body>
 <div class="main-content">
 <div class="container">
@@ -271,7 +102,8 @@ h1 { color: #00796b; margin-bottom: 20px; font-size: 2.5em; text-align: center; 
         <li>💧 Vlhkost vzduchu: <span id="humidity">--</span></li>
         <li>🍃 Rychlost větru: <span id="windSpeed">--</span></li>
         <li>🧭 Směr větru: <span id="windDir">--</span></li>
-        <li>🌡 Atmosférický tlak (na úrovni moře): <span id="pressure">--</span></li>
+        <li>🌡 Atmosférický tlak (měřený): <span id="pressureMeasured">--</span></li>
+        <li>🌡 Atmosférický tlak (na úrovni moře): <span id="pressureSea">--</span></li>
         <li>🌧 Intenzita srážek: <span id="precipRate">--</span></li>
         <li>🌦 Srážky za den: <span id="precipTotal">--</span></li>
         <li>🔥 Tepelný index: <span id="heatIndex">--</span></li>
@@ -300,19 +132,18 @@ const stationId = 'IPODLE19';
 const stationElevation = 505;
 let useMetric = true;
 
-// Funkce pro výpočet tlaku na úroveň moře
 function seaLevelPressure(p, tempC, elevation, imperial=false){
     let slp = p * Math.pow(1 - (0.0065*elevation)/(tempC + 0.0065*elevation + 273.15), -5.257);
-    if(imperial) slp = slp * 0.02953; // hPa -> inHg
+    if(imperial) slp = slp * 0.02953;
     return slp.toFixed(2);
 }
 
-// Načtení dat z API
 async function loadWeather(){
     try {
         const now = new Date();
         const minutes = Math.floor(now.getMinutes()/5)*5;
         const roundedDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), minutes);
+
         const res = await fetch(`https://api.weather.com/v2/pws/observations/current?stationId=${stationId}&format=json&units=${useMetric?'m':'e'}&apiKey=${apiKey}`);
         const data = await res.json();
         const o = data.observations[0];
@@ -323,7 +154,8 @@ async function loadWeather(){
         document.getElementById('humidity').textContent = o.humidity + ' %';
         document.getElementById('windSpeed').textContent = m.windSpeed + (useMetric ? ' km/h' : ' mph');
         document.getElementById('windDir').textContent = o.winddir + '°';
-        document.getElementById('pressure').textContent = seaLevelPressure(m.pressure, m.temp, stationElevation, !useMetric) + (useMetric ? ' hPa' : ' inHg');
+        document.getElementById('pressureMeasured').textContent = m.pressure + (useMetric ? ' hPa' : ' inHg');
+        document.getElementById('pressureSea').textContent = seaLevelPressure(m.pressure, m.temp, stationElevation, !useMetric) + (useMetric ? ' hPa' : ' inHg');
         document.getElementById('precipRate').textContent = m.precipRate + (useMetric ? ' mm/h' : ' in/h');
         document.getElementById('precipTotal').textContent = m.precipTotal + (useMetric ? ' mm' : ' in');
         document.getElementById('heatIndex').textContent = m.heatIndex + (useMetric ? ' °C' : ' °F');
@@ -335,14 +167,13 @@ async function loadWeather(){
     }
 }
 
-// Přepínání jednotek
 document.getElementById('unitToggle').addEventListener('click', ()=>{
     useMetric = !useMetric;
-    document.getElementById('unitToggle').textContent = useMetric ? 'Přepnout na imperiální jednotky' : 'Přepnout na metrické jednotky';
+    document.getElementById('unitToggle').textContent = useMetric ?
+        'Přepnout na imperiální jednotky' : 'Přepnout na metrické jednotky';
     loadWeather();
 });
 
-// Aktualizace každých 5 minut synchronizovaně
 function startInterval(){
     loadWeather();
     const now = new Date();
@@ -352,7 +183,6 @@ function startInterval(){
         setInterval(loadWeather, 5*60*1000);
     }, delay);
 }
-
 startInterval();
 </script>
 </body>
