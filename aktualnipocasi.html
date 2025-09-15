@@ -107,7 +107,7 @@
         <a href="about.html">O meteostanici</a>
         <a href="records.html">Rekordy</a>
         <a href="map.html">Mapa</a>
-        <a href="weather.html">Počasí</a>
+        <a href="aktualnipocasi.html">Počasí</a>
         <a href="fotogalerie.html">Fotogalerie</a>
     </div>
 </div>
@@ -157,8 +157,8 @@ async function fetchWeather(){
         const p0_display = useMetric ? p0.toFixed(1)+" hPa" : (p0/33.8639).toFixed(2)+" inHg";
 
         const html = `
-            <div class="weather-item"><span class="emoji">🌡️</span>Teplota: ${useMetric?m.temp+" °C":imperial.temp+" °F"}</div>
-            <div class="weather-item"><span class="emoji">💧</span>Vlhkost: ${obs.humidity} %</div>
+            <div class="weather-item"><span class="emoji">🌡️</span>Teplota vzduchu: ${useMetric?m.temp+" °C":imperial.temp+" °F"}</div>
+            <div class="weather-item"><span class="emoji">💧</span>Vlhkost vzduchu: ${obs.humidity} %</div>
             <div class="weather-item"><span class="emoji">💨</span>Rychlost větru: ${useMetric?m.windSpeed+" km/h":imperial.windSpeed+" mph"}</div>
             <div class="weather-item"><span class="emoji">🧭</span>Směr větru: ${obs.winddir}°</div>
             <div class="weather-item"><span class="emoji">🌧️</span>Srážky dnes: ${useMetric?m.precipTotal+" mm":imperial.precipTotal+" in"}</div>
