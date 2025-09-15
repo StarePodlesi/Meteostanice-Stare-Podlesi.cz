@@ -69,7 +69,6 @@
     }
     .sitemap a:hover { background: #004d40; }
 
-    /* Přepínač jednotek */
     #unitToggle {
         display:block;
         margin:15px auto;
@@ -82,7 +81,6 @@
     }
     #unitToggle:hover { background:#004d40; }
 
-    /* Responzivní úpravy */
     @media (max-width:900px){
         .main-content { flex-direction: column; align-items: center; }
     }
@@ -96,7 +94,6 @@
 </header>
 
 <div class="main-content">
-    <!-- Hlavní obsah -->
     <div class="container">
         <h2>Aktuální počasí</h2>
         <div id="weather"></div>
@@ -104,7 +101,6 @@
         <div id="lastUpdate"></div>
     </div>
 
-    <!-- Pravý panel -->
     <div class="sitemap">
         <h3>Mapa stránek</h3>
         <a href="index.html">Domů</a>
@@ -117,19 +113,16 @@
 </div>
 
 <script>
-// --- Nastavení ---
 const STATION_ID = "IPODLE19";
 const API_KEY = "0f95fd0f58a2451a95fd0f58a2a51a75";
 let useMetric = true;
 
-// Zaokrouhlení na nejbližší nižší 5-minutový bod
 function getLast5MinutePoint(d=new Date()){
     const ms = d.getTime();
     const five = 5*60*1000;
     return new Date(Math.floor(ms/five)*five);
 }
 
-// Výpis aktuálního času
 function updateDateTime(){
     const now = new Date();
     const days = ['Neděle','Pondělí','Úterý','Středa','Čtvrtek','Pátek','Sobota'];
@@ -141,7 +134,6 @@ function updateDateTime(){
 setInterval(updateDateTime,1000);
 updateDateTime();
 
-// Přepínač jednotek
 document.getElementById("unitToggle").addEventListener("click",()=>{
     useMetric = !useMetric;
     document.getElementById("unitToggle").textContent = 
@@ -158,7 +150,6 @@ async function fetchWeather(){
         const m = obs.metric;
         const imperial = obs.imperial;
 
-        // přepočet tlaku na hladinu moře (jednoduchý vzorec)
         const Z = 505;
         const p = useMetric ? m.pressure : imperial.pressure;
         const p_hpa = useMetric ? p : p*33.8639;
@@ -168,10 +159,12 @@ async function fetchWeather(){
         const html = `
             <div class="weather-item"><span class="emoji">🌡️</span>Teplota: ${useMetric?m.temp+" °C":imperial.temp+" °F"}</div>
             <div class="weather-item"><span class="emoji">💧</span>Vlhkost: ${obs.humidity} %</div>
-            <div class="weather-item"><span class="emoji">💨</span>Vítr: ${useMetric?m.windSpeed+" km/h":imperial.windSpeed+" mph"} směr ${obs.winddir}°</div>
+            <div class="weather-item"><span class="emoji">💨</span>Rychlost větru: ${useMetric?m.windSpeed+" km/h":imperial.windSpeed+" mph"}</div>
+            <div class="weather-item"><span class="emoji">🧭</span>Směr větru: ${obs.winddir}°</div>
             <div class="weather-item"><span class="emoji">🌧️</span>Srážky dnes: ${useMetric?m.precipTotal+" mm":imperial.precipTotal+" in"}</div>
             <div class="weather-item"><span class="emoji">☔</span>Intenzita srážek: ${useMetric?m.precipRate+" mm/h":imperial.precipRate+" in/h"}</div>
-            <div class="weather-item"><span class="emoji">🧮</span>Tlak (hladina moře): ${p0_display}</div>
+            <div class="weather-item"><span class="emoji">🧮</span>Tlak (měřený): ${useMetric?m.pressure+" hPa":imperial.pressure+" inHg"}</div>
+            <div class="weather-item"><span class="emoji">📏</span>Tlak (hladina moře): ${p0_display}</div>
             <div class="weather-item"><span class="emoji">🔥</span>Tepelný index: ${useMetric?m.heatIndex+" °C":imperial.heatIndex+" °F"}</div>
             <div class="weather-item"><span class="emoji">❄️</span>Chlad větru: ${useMetric?m.windChill+" °C":imperial.windChill+" °F"}</div>
             <div class="weather-item"><span class="emoji">🌫️</span>Rosný bod: ${useMetric?m.dewpt+" °C":imperial.dewpt+" °F"}</div>
@@ -188,7 +181,6 @@ async function fetchWeather(){
     }
 }
 
-// --- Periodické načítání v přesných 5min intervalech ---
 function scheduleNext(){
     const now = new Date();
     const five = 5*60*1000;
@@ -200,7 +192,6 @@ function scheduleNext(){
     }, delay);
 }
 
-// První načtení ihned a pak přesně každých 5 minut
 fetchWeather();
 scheduleNext();
 </script>
