@@ -25,8 +25,6 @@
         font-weight: bold;
         color: #004d40;
     }
-
-    /* --- Hlavní rozvržení --- */
     .main-content {
         display: flex;
         justify-content: center;
@@ -35,7 +33,7 @@
         margin: 0 auto;
         padding: 20px;
         gap: 20px;
-        flex-wrap: wrap; /* důležité pro zalomení na malé šířce */
+        flex-wrap: wrap;
     }
     .container, .sitemap {
         background: #fff;
@@ -50,17 +48,13 @@
         font-size: 1.2em;
         margin: 8px 0;
     }
-    .emoji {
-        margin-right: 8px;
-    }
+    .emoji { margin-right: 8px; }
     #lastUpdate {
         margin-top:20px;
         font-style: italic;
         text-align: center;
         color: #555;
     }
-
-    /* --- Mapa stránek --- */
     .sitemap h3 { color:#00796b; margin-bottom:20px; text-align:center; }
     .sitemap a {
         display: block;
@@ -75,7 +69,7 @@
     }
     .sitemap a:hover { background: #004d40; }
 
-    /* --- Přepínač jednotek --- */
+    /* Přepínač jednotek */
     #unitToggle {
         display:block;
         margin:15px auto;
@@ -85,11 +79,10 @@
         border:none;
         border-radius:8px;
         cursor:pointer;
-        font-size:16px;
     }
     #unitToggle:hover { background:#004d40; }
 
-    /* --- Responzivní úpravy --- */
+    /* Responzivní úpravy */
     @media (max-width:900px){
         .main-content { flex-direction: column; align-items: center; }
     }
@@ -136,7 +129,7 @@ function getLast5MinutePoint(d=new Date()){
     return new Date(Math.floor(ms/five)*five);
 }
 
-// Výpis aktuálního data a času (každou sekundu)
+// Výpis aktuálního času
 function updateDateTime(){
     const now = new Date();
     const days = ['Neděle','Pondělí','Úterý','Středa','Čtvrtek','Pátek','Sobota'];
@@ -153,10 +146,9 @@ document.getElementById("unitToggle").addEventListener("click",()=>{
     useMetric = !useMetric;
     document.getElementById("unitToggle").textContent = 
         useMetric ? "Přepnout na imperial" : "Switch to metric";
-    fetchWeather(); // znovu načíst v jiných jednotkách
+    fetchWeather();
 });
 
-// --- Načtení dat z Weather Company ---
 async function fetchWeather(){
     const url = `https://api.weather.com/v2/pws/observations/current?stationId=${STATION_ID}&format=json&units=${useMetric?"m":"e"}&apiKey=${API_KEY}`;
     try {
@@ -164,33 +156,29 @@ async function fetchWeather(){
         const data = await res.json();
         const obs = data.observations[0];
         const m = obs.metric;
-        const imp = obs.imperial;
+        const imperial = obs.imperial;
 
-        // Přepočet tlaku na hladinu moře (Z = 505 m)
+        // přepočet tlaku na hladinu moře (jednoduchý vzorec)
         const Z = 505;
-        const p = useMetric ? m.pressure : imp.pressure;       // hPa / inHg
-        const p_hpa = useMetric ? p : p*33.8639;               // pro výpočet v hPa
+        const p = useMetric ? m.pressure : imperial.pressure;
+        const p_hpa = useMetric ? p : p*33.8639;
         const p0 = p_hpa * Math.pow(1 - (0.0065*Z)/(288.15), -5.257);
         const p0_display = useMetric ? p0.toFixed(1)+" hPa" : (p0/33.8639).toFixed(2)+" inHg";
 
-        // Jednotka teploty ručně (API ji u některých hodnot nedává)
-        const tempUnit = useMetric ? "°C" : "°F";
-
         const html = `
-            <div class="weather-item"><span class="emoji">🌡️</span>Teplota: ${useMetric?m.temp:imp.temp} ${tempUnit}</div>
+            <div class="weather-item"><span class="emoji">🌡️</span>Teplota: ${useMetric?m.temp+" °C":imperial.temp+" °F"}</div>
             <div class="weather-item"><span class="emoji">💧</span>Vlhkost: ${obs.humidity} %</div>
-            <div class="weather-item"><span class="emoji">💨</span>Vítr: ${useMetric?m.windSpeed+" km/h":imp.windSpeed+" mph"} směr ${obs.winddir}°</div>
-            <div class="weather-item"><span class="emoji">🌧️</span>Srážky dnes: ${useMetric?m.precipTotal+" mm":imp.precipTotal+" in"}</div>
-            <div class="weather-item"><span class="emoji">☔</span>Intenzita srážek: ${useMetric?m.precipRate+" mm/h":imp.precipRate+" in/h"}</div>
+            <div class="weather-item"><span class="emoji">💨</span>Vítr: ${useMetric?m.windSpeed+" km/h":imperial.windSpeed+" mph"} směr ${obs.winddir}°</div>
+            <div class="weather-item"><span class="emoji">🌧️</span>Srážky dnes: ${useMetric?m.precipTotal+" mm":imperial.precipTotal+" in"}</div>
+            <div class="weather-item"><span class="emoji">☔</span>Intenzita srážek: ${useMetric?m.precipRate+" mm/h":imperial.precipRate+" in/h"}</div>
             <div class="weather-item"><span class="emoji">🧮</span>Tlak (hladina moře): ${p0_display}</div>
-            <div class="weather-item"><span class="emoji">🔥</span>Tepelný index: ${useMetric?m.heatIndex:imp.heatIndex} ${tempUnit}</div>
-            <div class="weather-item"><span class="emoji">❄️</span>Chlad větru: ${useMetric?m.windChill:imp.windChill} ${tempUnit}</div>
-            <div class="weather-item"><span class="emoji">🌫️</span>Rosný bod: ${useMetric?m.dewpt:imp.dewpt} ${tempUnit}</div>
+            <div class="weather-item"><span class="emoji">🔥</span>Tepelný index: ${useMetric?m.heatIndex+" °C":imperial.heatIndex+" °F"}</div>
+            <div class="weather-item"><span class="emoji">❄️</span>Chlad větru: ${useMetric?m.windChill+" °C":imperial.windChill+" °F"}</div>
+            <div class="weather-item"><span class="emoji">🌫️</span>Rosný bod: ${useMetric?m.dewpt+" °C":imperial.dewpt+" °F"}</div>
             <div class="weather-item"><span class="emoji">⛰️</span>Nadmořská výška: 505 m n. m.</div>
         `;
         document.getElementById("weather").innerHTML = html;
 
-        // čas poslední aktualizace – poslední 5min bod
         const last5 = getLast5MinutePoint(new Date());
         document.getElementById("lastUpdate").textContent =
             "Poslední aktualizace: " + last5.toLocaleTimeString('cs-CZ');
@@ -200,7 +188,7 @@ async function fetchWeather(){
     }
 }
 
-// --- Periodické načítání přesně v 5-minutových bodech ---
+// --- Periodické načítání v přesných 5min intervalech ---
 function scheduleNext(){
     const now = new Date();
     const five = 5*60*1000;
