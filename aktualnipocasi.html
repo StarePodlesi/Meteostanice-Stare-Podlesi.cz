@@ -5,209 +5,185 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Počasí – Meteostanice Staré Podlesí</title>
 <style>
-    body {
-        background: linear-gradient(to right, #00bcd4, #ffffff);
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        min-height: 100vh;
-    }
-    .main-content {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        width: 90%;
-        max-width: 1400px;
-        margin: 20px;
-        align-items: stretch;
-    }
-    .container {
-        flex: 3;                       
-        padding: 40px;
-        background-color: #ffffff;
-        border-radius: 20px;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-        margin: 10px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-    .sitemap {
-        flex: 1;                        
-        padding: 20px;
-        background-color: #ffffff;
-        border-radius: 20px;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-        margin: 10px;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-    h1 {
-        color: #00796b;
-        margin-bottom: 20px;
-        font-size: 2.5em;
-        text-align: center;
-    }
-    .info-time {
-        font-size: 1.2em;
-        color: #333;
-        margin-bottom: 20px;
-        text-align: center;
-    }
-    .data-list {
-        list-style: none;
-        padding: 0;
-        font-size: 1.3em;
-        line-height: 2em;
-        text-align: center;
-    }
-    .toggle-btn {
-        display: block;
-        margin: 30px auto 0 auto;
-        background-color: #00796b;
-        color: #fff;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 10px;
-        cursor: pointer;
-        font-size: 1.1em;
-        transition: background-color 0.3s;
-    }
-    .toggle-btn:hover { background-color: #004d40; }
+body {
+    background: linear-gradient(to right, #00bcd4, #ffffff);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+.main-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 90%;
+    max-width: 1400px;
+    margin: 20px;
+}
+.container {
+    flex: 3;
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.data-list {
+    list-style: none;
+    padding: 0;
+    font-size: 1.3em;
+    line-height: 2em;
+    text-align: left;
+    max-width: 600px;
+}
+.data-list li span {
+    margin-left: 10px;
+}
+.toggle-btn {
+    display: block;
+    margin: 20px auto;
+    background-color: #00796b;
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.3s;
+}
+.toggle-btn:hover { background-color: #004d40; }
 
-    .sitemap h3 {
-        color: #00796b;
-        margin-bottom: 20px;
-    }
-    .sitemap a {
-        display: block;
-        color: #ffffff;
-        background-color: #00796b;
-        padding: 12px;
-        border-radius: 10px;
-        margin: 10px 0;
-        text-decoration: none;
-        transition: background-color 0.3s ease;
-        font-size: 16px;
-    }
-    .sitemap a:hover { background-color: #004d40; }
+.sitemap {
+    flex: 1;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    margin: 10px;
+    text-align: center;
+    height: fit-content;
+}
+h1 { color: #00796b; margin-bottom: 20px; font-size: 2.5em; text-align: center; }
 
-    @media (max-width: 900px) {
-        .main-content { flex-direction: column; align-items: center; }
-        .container, .sitemap { width: 90%; margin-bottom: 20px; }
-        .data-list { font-size: 1.1em; line-height: 1.6em; }
-    }
+.sitemap h3 { color: #00796b; margin-bottom: 20px; }
+.sitemap a {
+    display: block;
+    color: #ffffff;
+    background-color: #00796b;
+    padding: 12px;
+    border-radius: 10px;
+    margin: 10px 0;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+}
+.sitemap a:hover { background-color: #004d40; }
+
+@media (max-width: 900px) {
+    .main-content { flex-direction: column; align-items: center; }
+    .container, .sitemap { width: 90%; margin-bottom: 20px; }
+}
 </style>
 </head>
 <body>
 <div class="main-content">
+<div class="container">
+    <h1>Aktuální počasí – Staré Podlesí</h1>
+    <ul class="data-list">
+        <li>📅 Datum a čas: <span id="dateTime">--</span></li>
+        <li>🌡 Teplota: <span id="temp">--</span></li>
+        <li>💧 Vlhkost vzduchu: <span id="humidity">--</span></li>
+        <li>🍃 Rychlost větru: <span id="windSpeed">--</span></li>
+        <li>🧭 Směr větru: <span id="windDir">--</span></li>
+        <li>🌡 Atmosférický tlak (na úrovni moře): <span id="pressure">--</span></li>
+        <li>🌧 Intenzita srážek: <span id="precipRate">--</span></li>
+        <li>🌦 Srážky za den: <span id="precipTotal">--</span></li>
+        <li>🔥 Tepelný index: <span id="heatIndex">--</span></li>
+        <li>💨 Chlad způsobený větrem: <span id="windChill">--</span></li>
+        <li>💧 Rosný bod: <span id="dewpt">--</span></li>
+        <li>⛰ Nadmořská výška: 505 m n. m.</li>
+        <li>⏱ Poslední aktualizace: <span id="lastUpdate">--</span></li>
+    </ul>
+    <button id="unitToggle" class="toggle-btn">Přepnout na imperiální jednotky</button>
+</div>
 
-    <!-- Hlavní blok s daty -->
-    <div class="container">
-        <h1>Aktuální počasí – Staré Podlesí</h1>
-
-        <!-- Aktuální datum a čas -->
-        <div id="currentTime" class="info-time">Načítám datum a čas…</div>
-
-        <!-- Data z meteostanice -->
-        <ul class="data-list">
-            <li>Teplota: <span id="temp">--</span></li>
-            <li>Vlhkost vzduchu: <span id="humidity">--</span></li>
-            <li>Rychlost větru: <span id="windSpeed">--</span></li>
-            <li>Směr větru: <span id="windDir">--</span></li>
-            <li>Atmosférický tlak: <span id="pressure">--</span></li>
-            <li>Intenzita srážek: <span id="precipRate">--</span></li>
-            <li>Srážky za den: <span id="precipTotal">--</span></li>
-            <li>Tepelný index: <span id="heatIndex">--</span></li>
-            <li>Rosný bod: <span id="dewpt">--</span></li>
-            <li>Chlad způsobený větrem: <span id="windChill">--</span></li>
-            <li>Nadmořská výška: 505 m n. m.</li>
-        </ul>
-
-        <!-- Čas poslední aktualizace -->
-        <div id="lastUpdate" class="info-time">Naposledy aktualizováno: --</div>
-
-        <button id="unitToggle" class="toggle-btn">Přepnout na imperiální jednotky</button>
-    </div>
-
-    <!-- Pravý panel -->
-    <div class="sitemap">
-        <h3>Mapa stránek</h3>
-        <a href="index.html">Domů</a>
-        <a href="about.html">O meteostanici</a>
-        <a href="records.html">Rekordy</a>
-        <a href="map.html">Mapa</a>
-        <a href="aktualnipocasi.html">Počasí</a>
-        <a href="fotogalerie.html">Fotogalerie</a>
-    </div>
+<div class="sitemap">
+    <h3>Mapa stránek</h3>
+    <a href="index.html">Domů</a>
+    <a href="about.html">O meteostanici</a>
+    <a href="records.html">Rekordy</a>
+    <a href="map.html">Mapa</a>
+    <a href="weather.html">Počasí</a>
+    <a href="fotogalerie.html">Fotogalerie</a>
+</div>
 </div>
 
 <script>
-const apiKey = '0f95fd0f58a2451a95fd0f58a2a51a75';   
-const stationId = 'IPODLE19';                        
-
+const apiKey = '0f95fd0f58a2451a95fd0f58a2a51a75';
+const stationId = 'IPODLE19';
+const stationElevation = 505;
 let useMetric = true;
 
-// --- zobrazování aktuálního času ---
-function updateCurrentTime() {
-    const now = new Date();
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
-                      hour: '2-digit', minute: '2-digit', second: '2-digit' };
-    document.getElementById('currentTime').textContent =
-        'Dnes je ' + now.toLocaleDateString('cs-CZ', options);
-}
-setInterval(updateCurrentTime, 1000);
-updateCurrentTime();
-
-// --- načítání dat z meteostanice ---
-function apiUrl() {
-    const units = useMetric ? 'm' : 'e';
-    return `https://api.weather.com/v2/pws/observations/current?stationId=${stationId}&format=json&units=${units}&apiKey=${apiKey}`;
+// Funkce pro výpočet tlaku na úroveň moře
+function seaLevelPressure(p, tempC, elevation, imperial=false){
+    let slp = p * Math.pow(1 - (0.0065*elevation)/(tempC + 0.0065*elevation + 273.15), -5.257);
+    if(imperial) slp = slp * 0.02953; // hPa -> inHg
+    return slp.toFixed(2);
 }
 
+// Načtení dat z API
 async function loadWeather(){
     try {
-        const res = await fetch(apiUrl());
+        const now = new Date();
+        const minutes = Math.floor(now.getMinutes()/5)*5;
+        const roundedDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), minutes);
+        const res = await fetch(`https://api.weather.com/v2/pws/observations/current?stationId=${stationId}&format=json&units=${useMetric?'m':'e'}&apiKey=${apiKey}`);
         const data = await res.json();
         const o = data.observations[0];
         const m = useMetric ? o.metric : o.imperial;
 
+        document.getElementById('dateTime').textContent = roundedDate.toLocaleString();
         document.getElementById('temp').textContent = m.temp + (useMetric ? ' °C' : ' °F');
         document.getElementById('humidity').textContent = o.humidity + ' %';
         document.getElementById('windSpeed').textContent = m.windSpeed + (useMetric ? ' km/h' : ' mph');
         document.getElementById('windDir').textContent = o.winddir + '°';
-        document.getElementById('pressure').textContent = m.pressure + (useMetric ? ' hPa' : ' inHg');
+        document.getElementById('pressure').textContent = seaLevelPressure(m.pressure, m.temp, stationElevation, !useMetric) + (useMetric ? ' hPa' : ' inHg');
         document.getElementById('precipRate').textContent = m.precipRate + (useMetric ? ' mm/h' : ' in/h');
         document.getElementById('precipTotal').textContent = m.precipTotal + (useMetric ? ' mm' : ' in');
         document.getElementById('heatIndex').textContent = m.heatIndex + (useMetric ? ' °C' : ' °F');
         document.getElementById('dewpt').textContent = m.dewpt + (useMetric ? ' °C' : ' °F');
         document.getElementById('windChill').textContent = m.windChill + (useMetric ? ' °C' : ' °F');
-
-        // čas poslední aktualizace z API (lokální čas)
-        document.getElementById('lastUpdate').textContent =
-            'Naposledy aktualizováno: ' + o.obsTimeLocal;
+        document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString();
     } catch(e){
         console.error('Chyba při načítání dat:', e);
     }
 }
 
-// tlačítko pro přepnutí jednotek
-document.getElementById('unitToggle').addEventListener('click', () => {
+// Přepínání jednotek
+document.getElementById('unitToggle').addEventListener('click', ()=>{
     useMetric = !useMetric;
-    document.getElementById('unitToggle').textContent =
-        useMetric ? 'Přepnout na imperiální jednotky' : 'Přepnout na metrické jednotky';
+    document.getElementById('unitToggle').textContent = useMetric ? 'Přepnout na imperiální jednotky' : 'Přepnout na metrické jednotky';
     loadWeather();
 });
 
-// první načtení + automatická aktualizace každých 5 minut
-loadWeather();
-setInterval(loadWeather, 5 * 60 * 1000);
+// Aktualizace každých 5 minut synchronizovaně
+function startInterval(){
+    loadWeather();
+    const now = new Date();
+    const delay = (5 - now.getMinutes()%5)*60*1000 - now.getSeconds()*1000 - now.getMilliseconds();
+    setTimeout(()=>{ 
+        loadWeather();
+        setInterval(loadWeather, 5*60*1000);
+    }, delay);
+}
+
+startInterval();
 </script>
 </body>
 </html>
