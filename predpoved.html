@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Týdenní předpověď – Meteostanice Staré Podlesí</title>
+<title>Předpověď počasí – Meteostanice Staré Podlesí</title>
 <style>
 /* ---- ZÁKLAD ---- */
 body{
@@ -21,7 +21,27 @@ header h1{
     color:#00796b;
     font-size:2.2em;
 }
-/* ---- MŘÍŽKA ---- */
+
+/* ---- AKTUÁLNÍ POČASÍ ---- */
+#current{
+    max-width:600px;
+    margin:10px auto 30px;
+    background:#fff;
+    border-radius:15px;
+    padding:20px;
+    text-align:center;
+    box-shadow:0 6px 12px rgba(0,0,0,0.2);
+}
+#current h2{
+    margin-top:0;
+    color:#00796b;
+}
+#current img{
+    width:80px;
+    height:80px;
+}
+
+/* ---- PŘEDPOVĚĎ ---- */
 #forecast{
     max-width:1000px;
     margin:20px auto;
@@ -38,9 +58,7 @@ header h1{
     box-shadow:0 6px 12px rgba(0,0,0,0.2);
     transition:transform .2s;
 }
-.day:hover{
-    transform:scale(1.05);
-}
+.day:hover{transform:scale(1.05);}
 .day h3{
     margin-top:0;
     color:#00796b;
@@ -50,7 +68,8 @@ header h1{
     width:64px;
     height:64px;
 }
-/* Lepší čitelnost na menších displejích */
+
+/* ---- RESPONSIVE ---- */
 @media (max-width:600px){
     header h1{font-size:1.6em;}
     .day h3{font-size:1.1em;}
@@ -60,34 +79,58 @@ header h1{
 <body>
 
 <header>
-    <h1>Týdenní předpověď – Staré Podlesí</h1>
+    <h1>Meteostanice Staré Podlesí – Počasí</h1>
 </header>
 
+<!-- Aktuální počasí -->
+<div id="current">Načítám aktuální počasí…</div>
+
+<!-- Týdenní předpověď -->
 <div id="forecast">Načítám předpověď…</div>
 
 <script>
-const API_KEY = "973fb2f7fb1a423193b170124251609"; // tvůj klíč
+const API_KEY = "973fb2f7fb1a423193b170124251609";
 const LAT = 49.69054;
 const LON = 13.9811761;
 
+// ---------- Funkce pro formát data ----------
+function formatDay(dateStr){
+    const d = new Date(dateStr);
+    const den = d.toLocaleDateString("cs-CZ",{weekday:"long"});
+    const datum = d.toLocaleDateString("cs-CZ",{day:"numeric", month:"numeric"});
+    return `${den} – ${datum}`;
+}
+
+// ---------- Načtení dat ----------
 fetch(`https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${LAT},${LON}&days=7&aqi=no&alerts=no&lang=cs`)
   .then(resp => {
       if(!resp.ok) throw new Error("HTTP error " + resp.status);
       return resp.json();
   })
   .then(data => {
+    // --- Aktuální počasí ---
+    const c = data.current;
+    const loc = data.location;
+    document.getElementById("current").innerHTML = `
+        <h2>Aktuální počasí (${loc.name})</h2>
+        <img src="https:${c.condition.icon}" alt="${c.condition.text}">
+        <p><strong>${c.condition.text}</strong></p>
+        <p>🌡️ <strong>${c.temp_c} °C</strong></p>
+        <p>💧 Vlhkost: <strong>${c.humidity}%</strong></p>
+        <p>💨 Vítr: <strong>${c.wind_kph} km/h</strong> (${c.wind_dir})</p>
+        <p>🌡️ Tlak: <strong>${c.pressure_mb} hPa</strong></p>
+    `;
+
+    // --- Týdenní předpověď ---
     const fc = data.forecast.forecastday;
     const container = document.getElementById("forecast");
-
     container.innerHTML = fc.map(day => {
-      const date = new Date(day.date).toLocaleDateString("cs-CZ", { weekday: "long" });
       const max = Math.round(day.day.maxtemp_c);
       const min = Math.round(day.day.mintemp_c);
       const cond = day.day.condition;
-
       return `
         <div class="day">
-          <h3>${date}</h3>
+          <h3>${formatDay(day.date)}</h3>
           <img src="https:${cond.icon}" alt="${cond.text}">
           <p><strong>${cond.text}</strong></p>
           <p>Max: <strong>${max} °C</strong></p>
@@ -97,10 +140,11 @@ fetch(`https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${LAT},${LON
     }).join("");
   })
   .catch(err => {
-    document.getElementById("forecast").textContent =
-      "Chyba při načítání předpovědi.";
+    document.getElementById("forecast").textContent = "Chyba při načítání předpovědi.";
+    document.getElementById("current").textContent = "Chyba při načítání aktuálního počasí.";
     console.error(err);
   });
 </script>
+
 </body>
 </html>
