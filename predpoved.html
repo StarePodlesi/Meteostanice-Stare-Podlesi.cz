@@ -27,7 +27,6 @@ header h1{
     font-size:1.5vw;
 }
 
-/* ----- Hlavní obsah ----- */
 .main-content{
     display:flex;
     justify-content:center;
@@ -54,7 +53,6 @@ header h1{
     margin-bottom:2vh;
 }
 
-/* ----- Panel nabidky ----- */
 .sitemap{
     background:#fff;
     border-radius:20px;
@@ -85,7 +83,6 @@ header h1{
 }
 .sitemap a:hover{background:#004d40;}
 
-/* ----- Přepínání jednotek ----- */
 #unitToggle{
     display:block;
     margin:2vh auto;
@@ -99,7 +96,6 @@ header h1{
 }
 #unitToggle:hover{background:#004d40;}
 
-/* ----- Aktuální počasí a předpověď ----- */
 #current, #forecast{
     margin:2vh auto;
     text-align:center;
@@ -115,7 +111,7 @@ header h1{
 #forecast{
     max-width:1000px;
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
     gap:20px;
     padding:0 10px;
 }
@@ -130,7 +126,6 @@ header h1{
 .day img{width:64px;height:64px;}
 .day h3{margin-top:0;color:#00796b;font-size:1.2em;}
 
-/* ----- Responsivní ----- */
 @media (max-width:900px){
     .main-content{flex-direction:column;align-items:center;}
     .container, .sitemap{width:90%;max-height:none;}
@@ -149,7 +144,6 @@ header h1{
         <h2>Aktuální počasí</h2>
         <div id="current">Načítám aktuální počasí…</div>
         <button id="unitToggle">Přepnout na imperialní jednotky</button>
-        <div id="moonPhase"></div>
     </div>
 
     <div class="sitemap">
@@ -181,7 +175,6 @@ function updateDateTime(){
 setInterval(updateDateTime,1000);
 updateDateTime();
 
-// Přepínání jednotek
 document.getElementById("unitToggle").addEventListener("click",()=>{
     useMetric = !useMetric;
     document.getElementById("unitToggle").textContent = useMetric ? 
@@ -189,7 +182,7 @@ document.getElementById("unitToggle").addEventListener("click",()=>{
     fetchWeather();
 });
 
-// Převod fáze měsíce na češtinu
+// Fáze měsíce
 function moonPhaseCzech(phase){
     const map = {
         "New Moon":"Nov",
@@ -204,13 +197,12 @@ function moonPhaseCzech(phase){
     return map[phase] || phase;
 }
 
-// Načtení počasí
 async function fetchWeather(){
     try{
         const res = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${LAT},${LON}&days=7&aqi=no&alerts=no&lang=cs`);
         const data = await res.json();
 
-        // --- Aktuální počasí ---
+        // Aktuální počasí
         const c = data.current;
         const loc = data.location;
         document.getElementById("current").innerHTML = `
@@ -220,17 +212,11 @@ async function fetchWeather(){
             <p>💧 Vlhkost: <strong>${c.humidity}%</strong></p>
             <p>💨 Vítr: <strong>${useMetric?c.wind_kph+" km/h":c.wind_mph+" mph"} ${c.wind_dir}</strong></p>
             <p>🌡️ Tlak: <strong>${useMetric?c.pressure_mb+" hPa":c.pressure_in+" inHg"}</strong></p>
-            <p>❄️ Sníh: <strong>${c.snow_mm || 0} mm</strong></p>
+            <p>🌧️ Srážky: <strong>${useMetric?c.precip_mm+" mm":c.precip_in+" in"}</strong></p>
+            <p>⛈️ Intenzita srážek: <strong>${useMetric?c.precip_mm+" mm/h":c.precip_in+" in/h"}</strong></p>
         `;
 
-        // Fáze měsíce a úplněk/nov
-        const astro = data.forecast.forecastday[0].astro;
-        document.getElementById("moonPhase").innerHTML = `
-            🌙 Fáze měsíce: <strong>${moonPhaseCzech(astro.moon_phase)}</strong><br>
-            🌕 Úplněk: <strong>${astro.moonrise}</strong> | 🌑 Nov: <strong>${astro.moonset}</strong>
-        `;
-
-        // --- Týdenní předpověď ---
+        // Týdenní předpověď
         const fc = data.forecast.forecastday;
         const container = document.getElementById("forecast");
         function formatDay(dateStr){
@@ -241,6 +227,7 @@ async function fetchWeather(){
         }
         container.innerHTML = fc.map(day => {
             const cond = day.day.condition;
+            const astro = day.astro;
             return `
             <div class="day">
                 <h3>${formatDay(day.date)}</h3>
@@ -248,8 +235,13 @@ async function fetchWeather(){
                 <p><strong>${cond.text}</strong></p>
                 <p>Max: <strong>${useMetric?day.day.maxtemp_c+" °C":day.day.maxtemp_f+" °F"}</strong></p>
                 <p>Min: <strong>${useMetric?day.day.mintemp_c+" °C":day.day.mintemp_f+" °F"}</strong></p>
-                <p>💧 Pravděpodobnost deště: <strong>${day.day.daily_chance_of_rain} %</strong></p>
-                <p>❄️ Sníh: <strong>${day.day.totalprecip_mm} mm</strong></p>
+                <p>🌧️ Srážky: <strong>${useMetric?day.day.totalprecip_mm+" mm":day.day.totalprecip_in+" in"}</strong></p>
+                <p>⛈️ Intenzita srážek: <strong>${useMetric?day.day.avgvis_km+" mm/h":day.day.avgvis_miles+" in/h"}</strong></p>
+                <p>🌅 Východ slunce: <strong>${astro.sunrise}</strong></p>
+                <p>🌇 Západ slunce: <strong>${astro.sunset}</strong></p>
+                <p>🌙 Východ měsíce: <strong>${astro.moonrise}</strong></p>
+                <p>🌙 Západ měsíce: <strong>${astro.moonset}</strong></p>
+                <p>🌕 Fáze měsíce: <strong>${moonPhaseCzech(astro.moon_phase)}</strong></p>
             </div>`;
         }).join("");
 
@@ -260,7 +252,7 @@ async function fetchWeather(){
     }
 }
 
-// Automatické aktualizace každých 5 minut
+// Automatická aktualizace každých 5 minut
 function scheduleNext(){
     setTimeout(async ()=>{
         await fetchWeather();
@@ -271,5 +263,6 @@ function scheduleNext(){
 fetchWeather();
 scheduleNext();
 </script>
+
 </body>
 </html>
