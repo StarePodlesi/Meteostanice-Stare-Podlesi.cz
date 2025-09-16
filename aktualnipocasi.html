@@ -19,7 +19,7 @@
     header h1 {
         margin: 5px 0 10px 0;
         color: #00796b;
-        font-size: 2.4em; /* větší nadpis */
+        font-size: 2.4em;
     }
     #datetime {
         font-weight: bold;
@@ -41,16 +41,23 @@
         border-radius: 20px;
         box-shadow: 0 8px 20px rgba(0,0,0,0.25);
         padding: 40px;
-        flex: 2; /* hlavní blok širší */
+        flex: 2;
         min-width: 400px;
-        font-size: 1.4em; /* větší text */
+        font-size: 1.4em;
+        text-align: center;
     }
-    .container h2 { color:#00796b; margin-bottom:20px; text-align:center; font-size:2em; }
+    .container h2 {
+        color:#00796b; 
+        margin-bottom:20px; 
+        text-align:center; 
+        font-size:2em; 
+    }
     .weather-item {
         font-size: 1.4em;
         margin: 10px 0;
     }
     .emoji { margin-right: 8px; }
+    .weather-item span.value { font-weight: bold; }
     #lastUpdate {
         margin-top:20px;
         font-style: italic;
@@ -63,11 +70,16 @@
         border-radius: 20px;
         box-shadow: 0 8px 20px rgba(0,0,0,0.25);
         padding: 30px;
-        flex: 1; /* postranní panel užší */
+        flex: 1;
         min-width: 200px;
         font-size: 1.2em;
     }
-    .sitemap h3 { color:#00796b; margin-bottom:20px; text-align:center; font-size:1.8em; }
+    .sitemap h3 {
+        color:#00796b;
+        margin-bottom:20px;
+        text-align:center;
+        font-size:1.8em;
+    }
     .sitemap a {
         display: block;
         color: #fff;
@@ -81,7 +93,6 @@
         font-size:1.2em;
     }
     .sitemap a:hover { background: #004d40; }
-
     #unitToggle {
         display:block;
         margin:20px auto;
@@ -181,18 +192,18 @@ async function fetchWeather(){
         const p0_display = useMetric ? p0.toFixed(1)+" hPa" : (p0/33.8639).toFixed(2)+" inHg";
 
         const html = `
-            <div class="weather-item"><span class="emoji">🌡️</span>Teplota vzduchu: ${useMetric?m.temp+" °C":imperial.temp+" °F"}</div>
-            <div class="weather-item"><span class="emoji">💧</span>Vlhkost vzduchu: ${obs.humidity} %</div>
-            <div class="weather-item"><span class="emoji">💨</span>Rychlost větru: ${useMetric?m.windSpeed+" km/h":imperial.windSpeed+" mph"}</div>
-            <div class="weather-item"><span class="emoji">🧭</span>Směr větru: ${obs.winddir}°</div>
-            <div class="weather-item"><span class="emoji">🌧️</span>Srážky dnes: ${useMetric?m.precipTotal+" mm":imperial.precipTotal+" in"}</div>
-            <div class="weather-item"><span class="emoji">☔</span>Intenzita srážek: ${useMetric?m.precipRate+" mm/h":imperial.precipRate+" in/h"}</div>
-            <div class="weather-item"><span class="emoji">🧮</span>Tlak (měřený): ${useMetric?m.pressure+" hPa":imperial.pressure+" inHg"}</div>
-            <div class="weather-item"><span class="emoji">📏</span>Tlak (hladina moře): ${p0_display}</div>
-            <div class="weather-item"><span class="emoji">🔥</span>Tepelný index: ${useMetric?m.heatIndex+" °C":imperial.heatIndex+" °F"}</div>
-            <div class="weather-item"><span class="emoji">❄️</span>Chlad větru: ${useMetric?m.windChill+" °C":imperial.windChill+" °F"}</div>
-            <div class="weather-item"><span class="emoji">🌫️</span>Rosný bod: ${useMetric?m.dewpt+" °C":imperial.dewpt+" °F"}</div>
-            <div class="weather-item"><span class="emoji">⛰️</span>Nadmořská výška: 505 m n. m.</div>
+            <div class="weather-item"><span class="emoji">🌡️</span>Teplota vzduchu: <span class="value">${useMetric?m.temp+" °C":imperial.temp+" °F"}</span></div>
+            <div class="weather-item"><span class="emoji">💧</span>Vlhkost vzduchu: <span class="value">${obs.humidity} %</span></div>
+            <div class="weather-item"><span class="emoji">💨</span>Rychlost větru: <span class="value">${useMetric?m.windSpeed+" km/h":imperial.windSpeed+" mph"}</span></div>
+            <div class="weather-item"><span class="emoji">🧭</span>Směr větru: <span class="value">${obs.winddir}°</span></div>
+            <div class="weather-item"><span class="emoji">🌧️</span>Srážky dnes: <span class="value">${useMetric?m.precipTotal+" mm":imperial.precipTotal+" in"}</span></div>
+            <div class="weather-item"><span class="emoji">☔</span>Intenzita srážek: <span class="value">${useMetric?m.precipRate+" mm/h":imperial.precipRate+" in/h"}</span></div>
+            <div class="weather-item"><span class="emoji">🧮</span>Tlak (měřený): <span class="value">${useMetric?m.pressure+" hPa":imperial.pressure+" inHg"}</span></div>
+            <div class="weather-item"><span class="emoji">📏</span>Tlak (hladina moře): <span class="value">${p0_display}</span></div>
+            <div class="weather-item"><span class="emoji">🔥</span>Tepelný index: <span class="value">${useMetric?m.heatIndex+" °C":imperial.heatIndex+" °F"}</span></div>
+            <div class="weather-item"><span class="emoji">❄️</span>Chlad větru: <span class="value">${useMetric?m.windChill+" °C":imperial.windChill+" °F"}</span></div>
+            <div class="weather-item"><span class="emoji">🌫️</span>Rosný bod: <span class="value">${useMetric?m.dewpt+" °C":imperial.dewpt+" °F"}</span></div>
+            <div class="weather-item"><span class="emoji">⛰️</span>Nadmořská výška: <span class="value">${useMetric?Z+" m":(Z*3.28084).toFixed(0)+" ft"}</span></div>
         `;
         document.getElementById("weather").innerHTML = html;
 
