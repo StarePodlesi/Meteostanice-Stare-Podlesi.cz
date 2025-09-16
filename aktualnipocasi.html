@@ -11,20 +11,21 @@
         color: #333;
         margin: 0;
         padding: 0;
+        overflow-x: hidden;
     }
     header {
         text-align: center;
-        padding: 20px 10px;
+        padding: 2vh 1vw;
     }
     header h1 {
-        margin: 5px 0 10px 0;
+        margin: 0.5vh 0 1vh 0;
         color: #00796b;
-        font-size: 2.4em;
+        font-size: 4vw;
     }
     #datetime {
         font-weight: bold;
         color: #004d40;
-        font-size: 1.2em;
+        font-size: 1.5vw;
     }
     .main-content {
         display: flex;
@@ -32,34 +33,38 @@
         align-items: flex-start;
         max-width: 1600px;
         margin: 0 auto;
-        padding: 40px;
-        gap: 20px;
+        padding: 4vh 2vw;
+        gap: 2vw;
         flex-wrap: wrap;
+        height: calc(100vh - 15vh);
+        overflow-y: auto;
     }
     .container {
         background: #fff;
         border-radius: 20px;
         box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-        padding: 40px;
+        padding: 2vh 2vw;
         flex: 2;
-        min-width: 400px;
+        min-width: 300px;
+        max-height: 100%;
+        overflow-y: auto;
         font-size: 1.4em;
         text-align: center;
     }
     .container h2 {
         color:#00796b; 
-        margin-bottom:20px; 
+        margin-bottom:2vh; 
         text-align:center; 
-        font-size:2em; 
+        font-size:3vw; 
     }
     .weather-item {
-        font-size: 1.4em;
-        margin: 10px 0;
+        font-size: 1.2em;
+        margin: 1vh 0;
     }
-    .emoji { margin-right: 8px; }
+    .emoji { margin-right: 0.5vw; }
     .weather-item span.value { font-weight: bold; }
     #lastUpdate {
-        margin-top:20px;
+        margin-top:2vh;
         font-style: italic;
         text-align: center;
         color: #555;
@@ -69,24 +74,26 @@
         background: #fff;
         border-radius: 20px;
         box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-        padding: 30px;
+        padding: 2vh 1vw;
         flex: 1;
         min-width: 200px;
+        max-height: 100%;
+        overflow-y: auto;
         font-size: 1.2em;
     }
     .sitemap h3 {
         color:#00796b;
-        margin-bottom:20px;
+        margin-bottom:2vh;
         text-align:center;
-        font-size:1.8em;
+        font-size:2.5vw;
     }
     .sitemap a {
         display: block;
         color: #fff;
         background: #00796b;
-        padding: 12px;
+        padding: 1vh 1vw;
         border-radius: 10px;
-        margin: 10px 0;
+        margin: 1vh 0;
         text-decoration: none;
         transition: background-color 0.3s ease;
         text-align: center;
@@ -95,8 +102,8 @@
     .sitemap a:hover { background: #004d40; }
     #unitToggle {
         display:block;
-        margin:20px auto;
-        padding:10px 20px;
+        margin:2vh auto;
+        padding:1vh 2vw;
         background:#00796b;
         color:white;
         border:none;
@@ -110,13 +117,15 @@
         .main-content { 
             flex-direction: column; 
             align-items: center; 
-            padding: 20px;
+            padding: 2vh 1vw;
+            height: auto;
         }
         .container, .sitemap {
             flex: unset;
             width: 90%;
             font-size: 1.3em;
-            padding: 20px;
+            padding: 2vh 1vw;
+            max-height: none;
         }
     }
 </style>
