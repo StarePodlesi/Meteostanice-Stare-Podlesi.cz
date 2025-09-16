@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Předpověď počasí – Meteostanice Staré Podlesí</title>
 <style>
-/* ---- ZÁKLAD ---- */
 body{
     background:linear-gradient(to right,#00bcd4,#ffffff);
     font-family:Arial,sans-serif;
@@ -108,17 +107,25 @@ fetch(`https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${LAT},${LON
       return resp.json();
   })
   .then(data => {
-    // --- Aktuální počasí ---
     const c = data.current;
     const loc = data.location;
+
+    // --- Aktuální počasí ---
     document.getElementById("current").innerHTML = `
         <h2>Aktuální počasí (${loc.name})</h2>
         <img src="https:${c.condition.icon}" alt="${c.condition.text}">
         <p><strong>${c.condition.text}</strong></p>
-        <p>🌡️ <strong>${c.temp_c} °C</strong></p>
-        <p>💧 Vlhkost: <strong>${c.humidity}%</strong></p>
+        <p>🌡️ Teplota: <strong>${c.temp_c} °C</strong></p>
         <p>💨 Vítr: <strong>${c.wind_kph} km/h</strong> (${c.wind_dir})</p>
-        <p>🌡️ Tlak: <strong>${c.pressure_mb} hPa</strong></p>
+        <p>💧 Vlhkost: <strong>${c.humidity}%</strong></p>
+        <p>🌡️ Pocitová teplota: <strong>${c.feelslike_c} °C</strong></p>
+        <p>🌡️ Chlad větru: <strong>${c.windchill_c} °C</strong></p>
+        <p>🔥 Tepelný index: <strong>${c.heatindex_c} °C</strong></p>
+        <p>🌫️ Rosný bod: <strong>${c.dewpoint_c} °C</strong></p>
+        <p>🌧️ Srážky: <strong>${c.precip_mm} mm</strong></p>
+        <p>🧭 Tlak: <strong>${c.pressure_mb} hPa</strong></p>
+        <p>🌞 UV index: <strong>${c.uv}</strong></p>
+        <p>🌫️ Viditelnost: <strong>${c.vis_km} km</strong></p>
     `;
 
     // --- Týdenní předpověď ---
@@ -128,14 +135,22 @@ fetch(`https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${LAT},${LON
       const max = Math.round(day.day.maxtemp_c);
       const min = Math.round(day.day.mintemp_c);
       const cond = day.day.condition;
+      const astro = day.astro;
+      const snow = day.day.totalsnow_cm;
       return `
         <div class="day">
           <h3>${formatDay(day.date)}</h3>
           <img src="https:${cond.icon}" alt="${cond.text}">
           <p><strong>${cond.text}</strong></p>
-          <p>Max: <strong>${max} °C</strong></p>
-          <p>Min: <strong>${min} °C</strong></p>
-          <p>💧 Pravděpodobnost deště: <strong>${day.day.daily_chance_of_rain} %</strong></p>
+          <p>Max: <strong>${max} °C</strong> | Min: <strong>${min} °C</strong></p>
+          <p>💧 Vlhkost: <strong>${day.day.avghumidity}%</strong></p>
+          <p>💨 Max. vítr: <strong>${day.day.maxwind_kph} km/h</strong></p>
+          <p>🌧️ Srážky: <strong>${day.day.totalprecip_mm} mm</strong></p>
+          <p>❄️ Sníh: <strong>${snow} cm</strong></p>
+          <p>🌞 Východ: <strong>${astro.sunrise}</strong> | Západ: <strong>${astro.sunset}</strong></p>
+          <p>🌕 Měsíc: <strong>${astro.moon_phase}</strong> | Osvětlení: <strong>${astro.moon_illumination}%</strong></p>
+          <p>💡 UV index: <strong>${day.day.uv}</strong></p>
+          <p>🌧️ Pravděpodobnost deště: <strong>${day.day.daily_chance_of_rain}%</strong></p>
         </div>`;
     }).join("");
   })
@@ -148,3 +163,4 @@ fetch(`https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${LAT},${LON
 
 </body>
 </html>
+
