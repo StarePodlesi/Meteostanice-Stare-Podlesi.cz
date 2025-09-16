@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Předpověď počasí – Meteostanice Staré Podlesí</title>
+<style>
+body{
+    background:linear-gradient(to right,#00bcd4,#ffffff);
+    font-family:Arial,sans-serif;
+    color:#333;
+    margin:0;
+}
+header{text-align:center;padding:20px 10px;}
+header h1{margin:5px 0 10px;color:#00796b;font-size:2.2em;}
+#forecast{
+    max-width:1000px;
+    margin:20px auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    gap:20px;
+}
+.day{
+    background:#fff;
+    border-radius:15px;
+    padding:15px;
+    text-align:center;
+    box-shadow:0 6px 12px rgba(0,0,0,0.2);
+}
+.day h3{margin-top:0;color:#00796b;}
+.day img{width:64px;height:64px;}
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Týdenní předpověď – Staré Podlesí</h1>
+</header>
+
+<div id="forecast">Načítám předpověď…</div>
+
+<script>
+const API_KEY="9d5cad03c5304ab79cad03c530bab726";
+const LAT=49.690528;  // <- zadej svou šířku
+const LON=13.9811803;  // <- a délku
+
+async function fetchForecast(){
+    try{
+        const url=`https://api.weather.com/v3/wx/forecast/daily/7day?geocode=${LAT},${LON}&format=json&language=cs-CZ&units=m&apiKey=${API_KEY}`;
+        const res=await fetch(url);
+        const data=await res.json();
+
+        const days=data.dayOfWeek;
+        const max=data.temperatureMax;
+        const min=data.temperatureMin;
+        const icon=data.daypart[0].iconCode; // denní část
+        const phrase=data.daypart[0].wxPhraseLong;
+
+        let html="";
+        for(let i=0;i<7;i++){
+            html+=`
+              <div class="day">
+                <h3>${days[i]}</h3>
+                <img src="https://weather.com/weather/icons/${icon[i]}.png" alt="">
+                <p><strong>${phrase[i]}</strong></p>
+                <p>Max: <strong>${max[i]} °C</strong></p>
+                <p>Min: <strong>${min[i]} °C</strong></p>
+              </div>`;
+        }
+        document.getElementById("forecast").innerHTML=html;
+    }catch(e){
+        document.getElementById("forecast").textContent="Chyba při načítání předpovědi.";
+        console.error(e);
+    }
+}
+fetchForecast();
+</script>
+</body>
+</html>
