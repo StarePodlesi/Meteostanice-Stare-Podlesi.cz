@@ -26,7 +26,6 @@ header h1{
     color:#004d40;
     font-size:1.5vw;
 }
-
 .main-content{
     display:flex;
     justify-content:center;
@@ -52,7 +51,6 @@ header h1{
     color:#00796b;
     margin-bottom:2vh;
 }
-
 .sitemap{
     background:#fff;
     border-radius:20px;
@@ -82,7 +80,6 @@ header h1{
     transition: background-color 0.3s ease;
 }
 .sitemap a:hover{background:#004d40;}
-
 #unitToggle{
     display:block;
     margin:2vh auto;
@@ -95,7 +92,6 @@ header h1{
     font-size:1.2em;
 }
 #unitToggle:hover{background:#004d40;}
-
 #current, #forecast{
     margin:2vh auto;
     text-align:center;
@@ -125,7 +121,6 @@ header h1{
 .day:hover{transform:scale(1.05);}
 .day img{width:64px;height:64px;}
 .day h3{margin-top:0;color:#00796b;font-size:1.2em;}
-
 @media (max-width:900px){
     .main-content{flex-direction:column;align-items:center;}
     .container, .sitemap{width:90%;max-height:none;}
@@ -175,6 +170,7 @@ function updateDateTime(){
 setInterval(updateDateTime,1000);
 updateDateTime();
 
+// Přepínání jednotek
 document.getElementById("unitToggle").addEventListener("click",()=>{
     useMetric = !useMetric;
     document.getElementById("unitToggle").textContent = useMetric ? 
@@ -182,7 +178,7 @@ document.getElementById("unitToggle").addEventListener("click",()=>{
     fetchWeather();
 });
 
-// Fáze měsíce
+// Fáze měsíce v češtině
 function moonPhaseCzech(phase){
     const map = {
         "New Moon":"Nov",
@@ -202,21 +198,29 @@ async function fetchWeather(){
         const res = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${LAT},${LON}&days=7&aqi=no&alerts=no&lang=cs`);
         const data = await res.json();
 
-        // Aktuální počasí
+        // --- Aktuální počasí ---
         const c = data.current;
         const loc = data.location;
         document.getElementById("current").innerHTML = `
             <img src="https:${c.condition.icon}" alt="${c.condition.text}">
             <p><strong>${c.condition.text}</strong></p>
             <p>🌡️ Teplota: <strong>${useMetric?c.temp_c+" °C":c.temp_f+" °F"}</strong></p>
+            <p>🤗 Pocitová: <strong>${useMetric?c.feelslike_c+" °C":c.feelslike_f+" °F"}</strong></p>
             <p>💧 Vlhkost: <strong>${c.humidity}%</strong></p>
+            <p>☁️ Mraky: <strong>${c.cloud}%</strong></p>
             <p>💨 Vítr: <strong>${useMetric?c.wind_kph+" km/h":c.wind_mph+" mph"} ${c.wind_dir}</strong></p>
-            <p>🌡️ Tlak: <strong>${useMetric?c.pressure_mb+" hPa":c.pressure_in+" inHg"}</strong></p>
+            <p>🌪️ Náraz větru: <strong>${useMetric?c.gust_kph+" km/h":c.gust_mph+" mph"}</strong></p>
+            <p>🌡️ Chlad větru: <strong>${useMetric?c.windchill_c+" °C":c.windchill_f+" °F"}</strong></p>
+            <p>🔥 Tepelný index: <strong>${useMetric?c.heatindex_c+" °C":c.heatindex_f+" °F"}</strong></p>
+            <p>🌫️ Rosný bod: <strong>${useMetric?c.dewpoint_c+" °C":c.dewpoint_f+" °F"}</strong></p>
             <p>🌧️ Srážky: <strong>${useMetric?c.precip_mm+" mm":c.precip_in+" in"}</strong></p>
             <p>⛈️ Intenzita srážek: <strong>${useMetric?c.precip_mm+" mm/h":c.precip_in+" in/h"}</strong></p>
+            <p>🌡️ Tlak: <strong>${useMetric?c.pressure_mb+" hPa":c.pressure_in+" inHg"}</strong></p>
+            <p>☀️ UV index: <strong>${c.uv}</strong></p>
+            <p>👁️ Viditelnost: <strong>${useMetric?c.vis_km+" km":c.vis_miles+" mi"}</strong></p>
         `;
 
-        // Týdenní předpověď
+        // --- Týdenní předpověď ---
         const fc = data.forecast.forecastday;
         const container = document.getElementById("forecast");
         function formatDay(dateStr){
@@ -235,8 +239,12 @@ async function fetchWeather(){
                 <p><strong>${cond.text}</strong></p>
                 <p>Max: <strong>${useMetric?day.day.maxtemp_c+" °C":day.day.maxtemp_f+" °F"}</strong></p>
                 <p>Min: <strong>${useMetric?day.day.mintemp_c+" °C":day.day.mintemp_f+" °F"}</strong></p>
+                <p>Průměr: <strong>${useMetric?day.day.avgtemp_c+" °C":day.day.avgtemp_f+" °F"}</strong></p>
+                <p>💨 Max vítr: <strong>${useMetric?day.day.maxwind_kph+" km/h":day.day.maxwind_mph+" mph"}</strong></p>
                 <p>🌧️ Srážky: <strong>${useMetric?day.day.totalprecip_mm+" mm":day.day.totalprecip_in+" in"}</strong></p>
                 <p>⛈️ Intenzita srážek: <strong>${useMetric?day.day.avgvis_km+" mm/h":day.day.avgvis_miles+" in/h"}</strong></p>
+                <p>💧 Průměrná vlhkost: <strong>${day.day.avghumidity}%</strong></p>
+                <p>☀️ UV index: <strong>${day.day.uv}</strong></p>
                 <p>🌅 Východ slunce: <strong>${astro.sunrise}</strong></p>
                 <p>🌇 Západ slunce: <strong>${astro.sunset}</strong></p>
                 <p>🌙 Východ měsíce: <strong>${astro.moonrise}</strong></p>
