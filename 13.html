@@ -9,15 +9,15 @@
     margin: 0;
     display: flex;
     justify-content: center; /* horizontálně uprostřed */
-    align-items: center;     /* vertikálně uprostřed (volitelné) */
-    min-height: 100vh;       /* aby stránka zabírala celou výšku */
+    align-items: center;     /* vertikálně uprostřed */
+    min-height: 100vh;       /* stránka zabírá celou výšku */
     background-color: #f0f0f0; /* volitelné pozadí */
   }
   #header-container {
     position: relative;
-    width: 90%;             /* přizpůsobí se šířce okna */
-    max-width: 800px;       /* maximální šířka obrázku */
-    height: 200px;          /* výška obrázku */
+    width: 95%;            /* větší šířka */
+    max-width: 1200px;     /* zvětšený maximální rozměr */
+    height: 500px;         /* vyšší obrázek */
     overflow: hidden;
     border-radius: 10px;    /* jemně zaoblené rohy */
     box-shadow: 0 4px 10px rgba(0,0,0,0.3); /* jemný stín */
@@ -27,7 +27,7 @@
     top: 0;
     left: 50%;
     transform: translateX(-50%); /* obrázek horizontálně uprostřed */
-    width: auto;           /* zachovává proporce */
+    width: auto;
     height: 100%;          /* vyplní výšku kontejneru */
     object-fit: cover;
     transition: opacity 1s ease-in-out; /* plynulý přechod */
