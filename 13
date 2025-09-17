@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plynulý měnící se obrázek</title>
+<style>
+  body {
+    margin: 0;
+  }
+  #header-container {
+    position: relative;
+    width: 100%;
+    height: 200px; /* výška obrázku – můžeš upravit */
+    overflow: hidden;
+  }
+  #header-container img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 1s ease-in-out; /* plynulý přechod */
+    opacity: 0;
+  }
+  #header-container img.active {
+    opacity: 1;
+  }
+</style>
+</head>
+<body>
+
+<div id="header-container">
+  <img src="images/IMG_20240929_175747123_HDR_AE.jpg" class="active" alt="Obrázek 1">
+  <img src="images/IMG_20240929_175726482_HDR_AE.jpg" alt="Obrázek 2">
+  <img src="images/IMG_20240929_175733822_HDR_AE.jpg" alt="Obrázek 3">
+  <img src="images/IMG_20240929_175740630_HDR_AE.jpg" alt="Obrázek 4">
+</div>
+
+<script>
+const images = document.querySelectorAll('#header-container img');
+let index = 0;
+
+setInterval(() => {
+  images[index].classList.remove('active'); // starý obrázek zmizí
+  index = (index + 1) % images.length;
+  images[index].classList.add('active'); // nový obrázek se objeví
+}, 5000); // mění každý 5 sekund
+</script>
+
+</body>
+</html>
