@@ -281,6 +281,16 @@ const moonPhases = {
     "Waning Crescent":"Ubývající srpek"
 };
 
+// Převod AM/PM na 24h
+function to24h(timeStr){
+    if(!timeStr) return "";
+    let [time, modifier] = timeStr.split(" ");
+    let [h,m] = time.split(":").map(Number);
+    if(modifier === "PM" && h !== 12) h += 12;
+    if(modifier === "AM" && h === 12) h = 0;
+    return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}`;
+}
+
 // Fetch weather
 async function fetchWeather(){
     try{
@@ -328,10 +338,6 @@ async function fetchWeather(){
             const d = new Date(day.date);
             const days = ['Neděle','Pondělí','Úterý','Středa','Čtvrtek','Pátek','Sobota'];
             const datum = d.toLocaleDateString("cs-CZ",{day:"numeric",month:"numeric"});
-            function to24h(timeStr){
-                let [h,m] = timeStr.split(":").map(Number);
-                return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}`;
-            }
             return `<div class="day">
                 <h3>${days[d.getDay()]} – ${datum}</h3>
                 <img src="https:${cond.condition.icon}" alt="${cond.condition.text}">
