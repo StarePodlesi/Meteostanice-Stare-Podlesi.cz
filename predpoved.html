@@ -53,53 +53,6 @@ header h1{
     color:#00796b;
     margin-bottom:2vh;
 }
-#current{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px 20px;
-    justify-items:start;
-    align-items:center;
-    max-width:600px;
-    background:#fff;
-    border-radius:15px;
-    padding:20px;
-    box-shadow:0 6px 12px rgba(0,0,0,0.2);
-    margin:0 auto;
-}
-#current img{width:80px;height:80px;grid-column:1/-1;text-align:center;}
-#forecast{
-    max-width:1000px;
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-    gap:20px;
-    padding:0 10px;
-}
-.day{
-    background:#fff;
-    border-radius:15px;
-    padding:15px;
-    box-shadow:0 6px 12px rgba(0,0,0,0.2);
-    transition:transform .2s;
-}
-.day:hover{transform:scale(1.05);}
-.day img{width:64px;height:64px;}
-.day h3{margin-top:0;color:#00796b;font-size:1.2em;}
-#analogClock{
-    margin:1rem auto;
-    display:block;
-    background:#f0f0f0;
-    border-radius:50%;
-    box-shadow:0 0 10px rgba(0,0,0,0.3);
-}
-#starMap{
-    text-align:center;
-    margin-top:1rem;
-}
-#lastUpdate{
-    margin-top:1rem;
-    font-size:0.9em;
-    color:#555;
-}
 .sitemap{
     background:#fff;
     border-radius:20px;
@@ -141,10 +94,62 @@ header h1{
     font-size:1.2em;
 }
 #unitToggle:hover{background:#004d40;}
+#current, #forecast{
+    margin:2vh auto;
+    text-align:center;
+}
+#current{
+    max-width:600px;
+    background:#fff;
+    border-radius:15px;
+    padding:20px;
+    box-shadow:0 6px 12px rgba(0,0,0,0.2);
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-around;
+    gap:1rem;
+}
+#current div{
+    flex:1 1 45%;
+    text-align:left;
+}
+#current img{width:80px;height:80px;}
+#forecast{
+    max-width:1000px;
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+    padding:0 10px;
+}
+.day{
+    background:#fff;
+    border-radius:15px;
+    padding:15px;
+    box-shadow:0 6px 12px rgba(0,0,0,0.2);
+    transition:transform .2s;
+    flex:1 1 150px;
+    text-align:center;
+}
+.day:hover{transform:scale(1.05);}
+.day img{width:64px;height:64px;}
+.day h3{margin-top:0;color:#00796b;font-size:1.2em;}
+#analogClock{
+    margin:1rem auto;
+    display:block;
+    background:#f0f0f0;
+    border-radius:50%;
+    box-shadow:0 0 10px rgba(0,0,0,0.3);
+}
+#lastUpdate{
+    margin-top:1rem;
+    font-size:0.9em;
+    color:#555;
+}
 @media (max-width:900px){
     .main-content{flex-direction:column;align-items:center;}
     .container, .sitemap{width:90%;max-height:none;}
-    #current{grid-template-columns:1fr;}
+    #current div{flex:1 1 100%;}
 }
 </style>
 </head>
@@ -161,10 +166,6 @@ header h1{
         <canvas id="analogClock" width="200" height="200"></canvas>
         <div id="current">Načítám aktuální počasí…</div>
         <button id="unitToggle">Přepnout na imperialní jednotky</button>
-        <div id="starMap">
-            <img src="" id="moonMap" alt="Hvězdná mapa Měsíce" width="200">
-            <p id="moonPercent"></p>
-        </div>
         <div id="lastUpdate"></div>
     </div>
 
@@ -192,8 +193,11 @@ let useMetric = true;
 function updateDateTime(){
     const now = new Date();
     const days = ['Neděle','Pondělí','Úterý','Středa','Čtvrtek','Pátek','Sobota'];
+    const hours = now.getHours().toString().padStart(2,'0');
+    const minutes = now.getMinutes().toString().padStart(2,'0');
+    const seconds = now.getSeconds().toString().padStart(2,'0');
     document.getElementById("datetime").textContent =
-        `${days[now.getDay()]}, ${now.toLocaleDateString('cs-CZ')} ${now.toLocaleTimeString('cs-CZ')}`;
+        `${days[now.getDay()]}, ${now.toLocaleDateString('cs-CZ')} ${hours}:${minutes}:${seconds}`;
 }
 setInterval(updateDateTime,1000);
 updateDateTime();
@@ -285,56 +289,37 @@ function moonPhaseCzech(phase){
     return map[phase] || phase;
 }
 
-// Převod AM/PM na 24h
-function formatTime24(timeStr){
-    if(!timeStr) return "";
-    const [time, ampm] = timeStr.split(" ");
-    let [h,m] = time.split(":").map(Number);
-    if(ampm==="PM" && h<12) h+=12;
-    if(ampm==="AM" && h===12) h=0;
-    return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}`;
-}
-
-// Hvězdná mapa Měsíce (statická)
-function updateMoonMap(moonPhase){
-    const img = document.getElementById("moonMap");
-    const percent = document.getElementById("moonPercent");
-    img.src = `moon_${moonPhase.toLowerCase().replace(/\s/g,'_')}.png`;
-    percent.textContent = `Viditelnost: ${Math.floor(Math.random()*100)}%`; 
-}
-
+// Získání aktuálního počasí
 async function fetchWeather(){
     try{
         const res = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${LAT},${LON}&days=7&aqi=no&alerts=no&lang=cs`);
         const data = await res.json();
 
-        // Aktuální počasí
         const c = data.current;
-        const astroToday = data.forecast.forecastday[0].astro;
         document.getElementById("current").innerHTML = `
-            <img src="https:${c.condition.icon}" alt="${c.condition.text}">
-            <p><strong>${c.condition.text}</strong></p>
-            <p>🌡️ Teplota: <strong>${useMetric?c.temp_c+" °C":c.temp_f+" °F"}</strong></p>
-            <p>🤗 Pocitová: <strong>${useMetric?c.feelslike_c+" °C":c.feelslike_f+" °F"}</strong></p>
-            <p>💧 Vlhkost: <strong>${c.humidity}%</strong></p>
-            <p>☁️ Mraky: <strong>${c.cloud}%</strong></p>
-            <p>💨 Vítr: <strong>${useMetric?c.wind_kph+" km/h":c.wind_mph+" mph"} ${c.wind_dir}</strong></p>
-            <p>🌪️ Náraz větru: <strong>${useMetric?c.gust_kph+" km/h":c.gust_mph+" mph"}</strong></p>
-            <p>🌡️ Chlad větru: <strong>${useMetric?c.windchill_c+" °C":c.windchill_f+" °F"}</strong></p>
-            <p>🔥 Tepelný index: <strong>${useMetric?c.heatindex_c+" °C":c.heatindex_f+" °F"}</strong></p>
-            <p>🌫️ Rosný bod: <strong>${useMetric?c.dewpoint_c+" °C":c.dewpoint_f+" °F"}</strong></p>
-            <p>🌧️ Srážky: <strong>${useMetric?c.precip_mm+" mm":c.precip_in+" in"}</strong></p>
-            <p>⛈️ Intenzita srážek: <strong>${useMetric?c.precip_mm+" mm/h":c.precip_in+" in/h"}</strong></p>
-            <p>🌡️ Tlak: <strong>${useMetric?c.pressure_mb+" hPa":c.pressure_in+" inHg"}</strong></p>
-            <p>🌅 Východ slunce: <strong>${formatTime24(astroToday.sunrise)}</strong></p>
-            <p>🌇 Západ slunce: <strong>${formatTime24(astroToday.sunset)}</strong></p>
-            <p>🌕 Fáze měsíce: <strong>${moonPhaseCzech(astroToday.moon_phase)}</strong></p>
+            <div>
+                <img src="https:${c.condition.icon}" alt="${c.condition.text}">
+                <p><strong>${c.condition.text}</strong></p>
+            </div>
+            <div>
+                <p>🌡️ Teplota: <strong>${useMetric?c.temp_c+" °C":c.temp_f+" °F"}</strong></p>
+                <p>🤗 Pocitová: <strong>${useMetric?c.feelslike_c+" °C":c.feelslike_f+" °F"}</strong></p>
+                <p>💧 Vlhkost: <strong>${c.humidity}%</strong></p>
+                <p>☁️ Mraky: <strong>${c.cloud}%</strong></p>
+                <p>💨 Vítr: <strong>${useMetric?c.wind_kph+" km/h":c.wind_mph+" mph"} ${c.wind_dir}</strong></p>
+                <p>🌪️ Náraz větru: <strong>${useMetric?c.gust_kph+" km/h":c.gust_mph+" mph"}</strong></p>
+                <p>🌡️ Chlad větru: <strong>${useMetric?c.windchill_c+" °C":c.windchill_f+" °F"}</strong></p>
+                <p>🔥 Tepelný index: <strong>${useMetric?c.heatindex_c+" °C":c.heatindex_f+" °F"}</strong></p>
+                <p>🌫️ Rosný bod: <strong>${useMetric?c.dewpoint_c+" °C":c.dewpoint_f+" °F"}</strong></p>
+                <p>🌧️ Srážky: <strong>${useMetric?c.precip_mm+" mm":c.precip_in+" in"}</strong></p>
+                <p>⛈️ Intenzita srážek: <strong>${useMetric?c.precip_mm+" mm/h":c.precip_in+" in/h"}</strong></p>
+                <p>🌡️ Tlak: <strong>${useMetric?c.pressure_mb+" hPa":c.pressure_in+" inHg"}</strong></p>
+                <p>☀️ UV index: <strong>${c.uv}</strong></p>
+                <p>👁️ Viditelnost: <strong>${useMetric?c.vis_km+" km":c.vis_miles+" mi"}</strong></p>
+            </div>
         `;
 
-        // Aktualizace hvězdné mapy
-        updateMoonMap(astroToday.moon_phase);
-
-        // Týdenní předpověď
+        // Předpověď
         const fc = data.forecast.forecastday;
         const container = document.getElementById("forecast");
         function formatDay(dateStr){
@@ -357,8 +342,8 @@ async function fetchWeather(){
                 <p>🌧️ Srážky: <strong>${useMetric?day.day.totalprecip_mm+" mm":day.day.totalprecip_in+" in"}</strong></p>
                 <p>💧 Průměrná vlhkost: <strong>${day.day.avghumidity}%</strong></p>
                 <p>☀️ UV index: <strong>${day.day.uv}</strong></p>
-                <p>🌅 Východ slunce: <strong>${formatTime24(astro.sunrise)}</strong></p>
-                <p>🌇 Západ slunce: <strong>${formatTime24(astro.sunset)}</strong></p>
+                <p>🌅 Východ slunce: <strong>${astro.sunrise}</strong></p>
+                <p>🌇 Západ slunce: <strong>${astro.sunset}</strong></p>
                 <p>🌕 Fáze měsíce: <strong>${moonPhaseCzech(astro.moon_phase)}</strong></p>
             </div>`;
         }).join("");
@@ -374,16 +359,18 @@ async function fetchWeather(){
     }
 }
 
-// Automatická aktualizace každou hodinu
-function scheduleNext(){
-    setTimeout(async ()=>{
+// Aktualizace přesně v celou hodinu
+function scheduleNextFullHour() {
+    const now = new Date();
+    const msToNextHour = (60 - now.getMinutes()) * 60 * 1000 - now.getSeconds() * 1000 - now.getMilliseconds();
+    setTimeout(async () => {
         await fetchWeather();
-        scheduleNext();
-    }, 60*60*1000);
+        scheduleNextFullHour();
+    }, msToNextHour);
 }
 
 fetchWeather();
-scheduleNext();
+scheduleNextFullHour();
 </script>
 
 </body>
