@@ -3,172 +3,80 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fotogalerie - Meteostanice Staré Podlesí</title>
+<title>Meteostanice Staré Podlesí – Aktuální počasí</title>
 <link rel="icon" href="favicon.ico.png" type="image/x-icon">
 <style>
+    /* ---- Celé pozadí ---- */
     body {
-        background: linear-gradient(to right, #00bcd4, #ffffff);
-        font-family: Arial, sans-serif;
-        color: #333;
         margin: 0;
         padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
+        /* plynulý přechod: modrá → bílá → modrá */
+        background: linear-gradient(to bottom,
+                    #00bcd4 0%,
+                    #ffffff 50%,
+                    #00bcd4 100%);
+        background-attachment: fixed;
+        font-family: Arial, sans-serif;
+        color: #333;
     }
 
-    .main-content {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        width: 90%;
-        max-width: 1400px;
-        margin: 20px;
-    }
-
-    .container {
-        flex: 2;
-        padding: 40px;
-        background-color: #ffffff;
-        border-radius: 20px;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-        text-align: center;
-        margin-right: 50px;
-        overflow: hidden;
+    /* ---- Kontejner textového bloku ---- */
+    .content {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 12px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
     }
 
     h1 {
-        color: #00796b;
-        margin-bottom: 30px;
-        font-size: 2.8em;
+        text-align: center;
+        color: #004d61;
     }
 
+    /* ---- Galerie obrázků ---- */
     .gallery {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
         gap: 20px;
+        margin-top: 20px;
     }
 
     .gallery img {
-        width: 100%;
+        max-width: 100%;
         height: auto;
-        object-fit: cover;
-        display: block;
-        border-radius: 15px;
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-        transition: transform 0.3s ease;
-    }
-
-    .gallery img:hover {
-        transform: scale(1.05);
-    }
-
-    a {
-        text-decoration: none;
-        color: #ffffff;
-        background-color: #00796b;
-        padding: 15px 30px;
         border-radius: 10px;
-        display: inline-block;
-        margin-top: 30px;
-        transition: background-color 0.3s ease;
+        box-shadow: 0 0 10px rgba(0,0,0,0.15);
     }
 
-    a:hover { background-color: #004d40; }
-
-    .sitemap {
-        flex: 1;
-        background-color: #ffffff;
-        padding: 30px;
-        border-radius: 20px;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        overflow: visible; /* povolí růst výšky */
-    }
-
-    .sitemap h3 {
-        color: #00796b;
-        margin-bottom: 20px;
-        text-align: center;
-    }
-
-    .sitemap a {
-        display: block;
-        color: #ffffff;
-        background-color: #00796b;
-        padding: 12px;
-        border-radius: 10px;
-        margin: 10px 0;
-        text-decoration: none;
-        transition: background-color 0.3s ease;
-        text-align: center;
-        font-size: 16px;
-    }
-
-    .sitemap a:hover { background-color: #004d40; }
-
-    /* ---------- MOBILNÍ VERZE ---------- */
-    @media (max-width: 900px) {
-        body {
-            align-items: flex-start; /* nahoře, aby se stránka roztáhla */
-        }
-
-        .main-content {
+    /* ---- Na mobilu fotky pod sebou ---- */
+    @media (max-width: 768px) {
+        .gallery {
             flex-direction: column;
             align-items: center;
-            width: 100%;
-            margin: 0;
-        }
-
-        .container {
-            margin: 0;
-            padding: 20px;
-            width: 100%;
-            max-width: none;
-            background-color: transparent; /* žádná bílá plocha */
-            box-shadow: none;               /* žádný stín */
-            border-radius: 0;               /* bez zaoblení */
-        }
-
-        .gallery {
-            grid-template-columns: 1fr;     /* fotky pod sebou */
             gap: 15px;
-        }
-
-        .sitemap {
-            width: 100%;
-            margin-top: 20px;
-            overflow: visible;
         }
     }
 </style>
 </head>
 <body>
-    <div class="main-content">
-        <div class="container">
-            <h1>Fotogalerie Meteostanice Staré Podlesí</h1>
-            <div class="gallery">
-                <img src="IMG_20240929_175747123_HDR_AE.jpg" alt="Meteostanice">
-                <img src="IMG_20240929_175726482_HDR_AE.jpg" alt="Vybavení stanice">
-                <img src="IMG_20240929_175733822_HDR_AE.jpg" alt="Příroda okolo stanice">
-                <img src="IMG_20240929_175740630_HDR_AE.jpg" alt="Sníh a měření">
-            </div>
-            <a href="index.html">Zpět na úvodní stránku</a>
-        </div>
 
-        <div class="sitemap">
-            <h3>Mapa stránek</h3>
-            <a href="index.html">Domů</a>
-            <a href="about.html">O meteostanici</a>
-            <a href="records.html">Rekordy</a>
-            <a href="map.html">Mapa</a>
-            <a href="aktualnipocasi.html">Počasí</a>
-            <a href="predpoved.html">Předpověď počasí</a>
-            <a href="fotogalerie.html">Fotogalerie</a>
+    <div class="content">
+        <h1>Meteostanice Staré Podlesí – Aktuální počasí</h1>
+        <p>
+            Zde bude textový blok s informacemi o aktuálním počasí,
+            hodnotami teplot, tlaku a dalšími údaji.
+        </p>
+
+        <div class="gallery">
+            <img src="obrazek1.jpg" alt="Obrázek 1">
+            <img src="obrazek2.jpg" alt="Obrázek 2">
+            <img src="obrazek3.jpg" alt="Obrázek 3">
         </div>
     </div>
+
 </body>
 </html>
+
