@@ -1,126 +1,150 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fotogalerie - Meteostanice Staré Podlesí</title>
-    <!-- Tady přidáš favicon -->
-    <link rel="icon" href="favicon.ico.png" type="image/x-icon">
-    <style>
-        body {
-            background: linear-gradient(to right, #00bcd4, #ffffff);
-            font-family: Arial, sans-serif;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .main-content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            width: 90%;
-            max-width: 1400px;
-            margin: 20px;
-        }
-        .container {
-            flex: 2;
-            padding: 40px;
-            background-color: #ffffff;
-            border-radius: 20px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-            text-align: center;
-            margin-right: 50px;
-            overflow: hidden;
-        }
-        h1 {
-            color: #00796b;
-            margin-bottom: 30px;
-            font-size: 2.8em;
-        }
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-        .gallery img {
-            width: 100%;
-            border-radius: 15px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
-            height: auto;
-            object-fit: cover;
-            display: block;
-        }
-        .gallery img:hover {
-            transform: scale(1.05);
-        }
-        a {
-            text-decoration: none;
-            color: #ffffff;
-            background-color: #00796b;
-            padding: 15px 30px;
-            border-radius: 10px;
-            display: inline-block;
-            margin-top: 30px;
-            transition: background-color 0.3s ease;
-        }
-        a:hover { background-color: #004d40; }
-        .sitemap {
-            flex: 1;
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-            /* align-self: stretch;  odstraněno – na mobilu by dělalo fixní výšku */
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            overflow: visible; /* umožní celé zobrazení obsahu */
-        }
-        .sitemap h3 {
-            color: #00796b;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .sitemap a {
-            display: block;
-            color: #ffffff;
-            background-color: #00796b;
-            padding: 12px;
-            border-radius: 10px;
-            margin: 10px 0;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-            text-align: center;
-            font-size: 16px;
-        }
-        .sitemap a:hover { background-color: #004d40; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fotogalerie - Meteostanice Staré Podlesí</title>
+<link rel="icon" href="favicon.ico.png" type="image/x-icon">
+<style>
+    body {
+        background: linear-gradient(to right, #00bcd4, #ffffff);
+        font-family: Arial, sans-serif;
+        color: #333;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
 
-        @media (max-width: 900px) {
-            .main-content { 
-                flex-direction: column; 
-                align-items: center; 
-            }
-            .container { 
-                margin-right: 0; 
-                margin-bottom: 20px; 
-                width: 100%; 
-                max-width: none;
-            }
-            .sitemap { 
-                width: 100%; 
-                margin-top: 20px;
-                overflow: visible; /* záruka že nic neschová */
-            }
-            .gallery {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            }
+    .main-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 90%;
+        max-width: 1400px;
+        margin: 20px;
+    }
+
+    .container {
+        flex: 2;
+        padding: 40px;
+        background-color: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+        text-align: center;
+        margin-right: 50px;
+        overflow: hidden;
+    }
+
+    h1 {
+        color: #00796b;
+        margin-bottom: 30px;
+        font-size: 2.8em;
+    }
+
+    .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+    }
+
+    .gallery img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        display: block;
+        border-radius: 15px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+    }
+
+    .gallery img:hover {
+        transform: scale(1.05);
+    }
+
+    a {
+        text-decoration: none;
+        color: #ffffff;
+        background-color: #00796b;
+        padding: 15px 30px;
+        border-radius: 10px;
+        display: inline-block;
+        margin-top: 30px;
+        transition: background-color 0.3s ease;
+    }
+
+    a:hover { background-color: #004d40; }
+
+    .sitemap {
+        flex: 1;
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        overflow: visible; /* povolí růst výšky */
+    }
+
+    .sitemap h3 {
+        color: #00796b;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .sitemap a {
+        display: block;
+        color: #ffffff;
+        background-color: #00796b;
+        padding: 12px;
+        border-radius: 10px;
+        margin: 10px 0;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+        text-align: center;
+        font-size: 16px;
+    }
+
+    .sitemap a:hover { background-color: #004d40; }
+
+    /* ---------- MOBILNÍ VERZE ---------- */
+    @media (max-width: 900px) {
+        body {
+            align-items: flex-start; /* nahoře, aby se stránka roztáhla */
         }
-    </style>
+
+        .main-content {
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            margin: 0;
+        }
+
+        .container {
+            margin: 0;
+            padding: 20px;
+            width: 100%;
+            max-width: none;
+            background-color: transparent; /* žádná bílá plocha */
+            box-shadow: none;               /* žádný stín */
+            border-radius: 0;               /* bez zaoblení */
+        }
+
+        .gallery {
+            grid-template-columns: 1fr;     /* fotky pod sebou */
+            gap: 15px;
+        }
+
+        .sitemap {
+            width: 100%;
+            margin-top: 20px;
+            overflow: visible;
+        }
+    }
+</style>
 </head>
 <body>
     <div class="main-content">
