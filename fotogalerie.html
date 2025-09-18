@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fotogalerie - Meteostanice Staré Podlesí</title>
 <link rel="icon" href="favicon.ico.png" type="image/x-icon">
+
+<!-- Přednačtení obrázků -->
+<link rel="preload" as="image" href="IMG_20240929_175747123_HDR_AE.jpg">
+<link rel="preload" as="image" href="IMG_20240929_175726482_HDR_AE.jpg">
+<link rel="preload" as="image" href="IMG_20240929_175733822_HDR_AE.jpg">
+<link rel="preload" as="image" href="IMG_20240929_175740630_HDR_AE.jpg">
+
 <style>
 html, body {
     height: 100%;
@@ -41,14 +48,14 @@ body {
     background-color: rgba(255,255,255,0.95);
     border-radius: 25px;
     box-shadow: 0 12px 30px rgba(0,0,0,0.3);
-    min-height: 700px; /* větší blok */
+    min-height: 700px;
     max-width: 1000px;
     text-align: center;
 }
 
 h1 {
     color: #00796b;
-    font-size: 3.2em; /* větší nadpis */
+    font-size: 3.2em;
     margin-bottom: 30px;
 }
 
@@ -70,12 +77,13 @@ h1 {
     width: auto;
     height: 100%;
     object-fit: cover;
-    transition: opacity 1s ease-in-out;
     opacity: 0;
+    transition: opacity 1s ease-in-out;
     border-radius: 20px;
 }
 
-#slideshow img.active {
+#slideshow img.active,
+#slideshow img.loaded {
     opacity: 1;
 }
 
@@ -106,7 +114,7 @@ a.button:hover {
     padding: 50px;
     border-radius: 25px;
     box-shadow: 0 12px 30px rgba(0,0,0,0.3);
-    min-height: 700px; /* vyrovnané s hlavním blokem */
+    min-height: 700px;
     max-width: 400px;
     text-align: center;
 }
@@ -186,7 +194,16 @@ a.button:hover {
     </div>
 
 <script>
+// Fade-in a přednačítání
 const images = document.querySelectorAll('#slideshow img');
+
+// Přidáme načtení obrázků
+images.forEach(img => {
+    const tmp = new Image();
+    tmp.src = img.src;
+    tmp.onload = () => img.classList.add('loaded');
+});
+
 let index = 0;
 setInterval(() => {
     images[index].classList.remove('active');
