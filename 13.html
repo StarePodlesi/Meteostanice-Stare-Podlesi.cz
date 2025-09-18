@@ -24,9 +24,14 @@
         margin: 20px auto;
     }
 
+    /* ---- Hlavní kontejner s vertikálním středěním ---- */
     .container {
         flex: 2;
-        padding: 20px 40px 10px; /* horní 20px, boční 40px, spodní 10px */
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* vertikální vycentrování */
+        align-items: center;     /* horizontální střed */
+        padding: 20px 40px 10px;
         background-color: rgba(255,255,255,0.9);
         border-radius: 20px;
         box-shadow: 0 8px 20px rgba(0,0,0,0.25);
@@ -58,11 +63,12 @@
         top: 0;
         left: 50%;
         transform: translateX(-50%);
-        width: 100%;
+        width: auto;   /* zachování poměru */
         height: 100%;
         object-fit: cover;
         transition: opacity 1s ease-in-out;
         opacity: 0;
+        border-radius: 15px; /* zaoblené rohy */
     }
 
     #slideshow img.active {
@@ -76,21 +82,23 @@
         padding: 15px 30px;
         border-radius: 10px;
         display: inline-block;
-        margin: 10px 0 20px; /* upravené mezery */
+        margin: 10px 0 20px;
         transition: background-color 0.3s ease;
     }
 
     a:hover { background-color: #004d40; }
 
+    /* ---- Sitemap blok s vertikálním středěním ---- */
     .sitemap {
         flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* vertikální střed */
+        align-items: center;     /* horizontální střed */
         background-color: rgba(255,255,255,0.9);
         padding: 30px;
         border-radius: 20px;
         box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
     }
 
     .sitemap h3 {
@@ -125,7 +133,7 @@
 
         .container {
             margin: 0;
-            padding: 15px 20px 10px; /* minimalizovaný padding */
+            padding: 15px 20px 10px;
             width: 100%;
             max-width: none;
             background-color: rgba(255,255,255,0.8);
