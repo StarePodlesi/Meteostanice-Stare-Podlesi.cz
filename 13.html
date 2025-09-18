@@ -3,60 +3,189 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Plynulý měnící se obrázek</title>
+<title>Fotogalerie - Meteostanice Staré Podlesí</title>
+<link rel="icon" href="favicon.ico.png" type="image/x-icon">
 <style>
-  body {
-    margin: 0;
-    display: flex;
-    justify-content: center; /* horizontálně uprostřed */
-    align-items: center;     /* vertikálně uprostřed */
-    min-height: 100vh;       /* stránka zabírá celou výšku */
-    background-color: #f0f0f0; /* volitelné pozadí */
-  }
-  #header-container {
-    position: relative;
-    width: 95%;            /* větší šířka */
-    max-width: 1200px;     /* zvětšený maximální rozměr */
-    height: 500px;         /* vyšší obrázek */
-    overflow: hidden;
-    border-radius: 10px;    /* jemně zaoblené rohy */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3); /* jemný stín */
-  }
-  #header-container img {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%); /* obrázek horizontálně uprostřed */
-    width: auto;
-    height: 100%;          /* vyplní výšku kontejneru */
-    object-fit: cover;
-    transition: opacity 1s ease-in-out; /* plynulý přechod */
-    opacity: 0;
-  }
-  #header-container img.active {
-    opacity: 1;
-  }
+    /* ---- Celé pozadí s plynulým gradientem ---- */
+    body {
+        background: linear-gradient(to bottom, #00bcd4 0%, #ffffff 50%, #00bcd4 100%);
+        font-family: Arial, sans-serif;
+        color: #333;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        min-height: 100vh;
+    }
+
+    .main-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 90%;
+        max-width: 1400px;
+        margin: 20px;
+    }
+
+    .container {
+        flex: 2;
+        padding: 40px;
+        background-color: rgba(255,255,255,0.9);
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+        text-align: center;
+        margin-right: 50px;
+        overflow: hidden;
+    }
+
+    h1 {
+        color: #00796b;
+        margin-bottom: 30px;
+        font-size: 2.8em;
+    }
+
+    /* ---- Oblast pro měnící se obrázek ---- */
+    #slideshow {
+        position: relative;
+        width: 100%;
+        max-width: 1000px;     /* maximální šířka obrázku */
+        height: 500px;         /* výška obrázku */
+        margin: 0 auto 30px;   /* zarovnání na střed + mezera pod obrázkem */
+        overflow: hidden;
+        border-radius: 15px;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    }
+
+    #slideshow img {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: auto;
+        height: 100%;
+        object-fit: cover;
+        transition: opacity 1s ease-in-out;
+        opacity: 0;
+    }
+
+    #slideshow img.active {
+        opacity: 1;
+    }
+
+    a {
+        text-decoration: none;
+        color: #ffffff;
+        background-color: #00796b;
+        padding: 15px 30px;
+        border-radius: 10px;
+        display: inline-block;
+        margin-top: 10px;
+        transition: background-color 0.3s ease;
+    }
+
+    a:hover { background-color: #004d40; }
+
+    .sitemap {
+        flex: 1;
+        background-color: rgba(255,255,255,0.9);
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    .sitemap h3 {
+        color: #00796b;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .sitemap a {
+        display: block;
+        color: #ffffff;
+        background-color: #00796b;
+        padding: 12px;
+        border-radius: 10px;
+        margin: 10px 0;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+        text-align: center;
+        font-size: 16px;
+    }
+
+    .sitemap a:hover { background-color: #004d40; }
+
+    /* ---------- MOBILNÍ VERZE ---------- */
+    @media (max-width: 900px) {
+        .main-content {
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            margin: 0;
+        }
+
+        .container {
+            margin: 0;
+            padding: 20px;
+            width: 100%;
+            max-width: none;
+            background-color: rgba(255,255,255,0.8);
+            box-shadow: none;
+            border-radius: 0;
+        }
+
+        #slideshow {
+            height: 300px;      /* menší výška na mobilu */
+            max-width: 100%;
+        }
+
+        .sitemap {
+            width: 100%;
+            margin-top: 20px;
+        }
+    }
 </style>
 </head>
 <body>
+    <div class="main-content">
+        <div class="container">
+            <h1>Fotogalerie Meteostanice Staré Podlesí</h1>
 
-<div id="header-container">
-  <img src="IMG_20240929_175747123_HDR_AE.jpg" class="active" alt="Obrázek 1">
-  <img src="IMG_20240929_175726482_HDR_AE.jpg" alt="Obrázek 2">
-  <img src="IMG_20240929_175733822_HDR_AE.jpg" alt="Obrázek 3">
-  <img src="IMG_20240929_175740630_HDR_AE.jpg" alt="Obrázek 4">
-</div>
+            <!-- Jeden obrázek, který se mění -->
+            <div id="slideshow">
+                <img src="IMG_20240929_175747123_HDR_AE.jpg" class="active" alt="Slideshow 1">
+                <img src="IMG_20240929_175726482_HDR_AE.jpg" alt="Slideshow 2">
+                <img src="IMG_20240929_175733822_HDR_AE.jpg" alt="Slideshow 3">
+                <img src="IMG_20240929_175740630_HDR_AE.jpg" alt="Slideshow 4">
+            </div>
+
+            <a href="index.html">Zpět na úvodní stránku</a>
+        </div>
+
+        <div class="sitemap">
+            <h3>Mapa stránek</h3>
+            <a href="index.html">Domů</a>
+            <a href="about.html">O meteostanici</a>
+            <a href="records.html">Rekordy</a>
+            <a href="map.html">Mapa</a>
+            <a href="aktualnipocasi.html">Počasí</a>
+            <a href="predpoved.html">Předpověď počasí</a>
+            <a href="fotogalerie.html">Fotogalerie</a>
+        </div>
+    </div>
 
 <script>
-const images = document.querySelectorAll('#header-container img');
+const images = document.querySelectorAll('#slideshow img');
 let index = 0;
 
 setInterval(() => {
-  images[index].classList.remove('active'); // starý obrázek zmizí
-  index = (index + 1) % images.length;
-  images[index].classList.add('active'); // nový obrázek se objeví
-}, 5000); // mění každý 5 sekund
+    images[index].classList.remove('active');
+    index = (index + 1) % images.length;
+    images[index].classList.add('active');
+}, 5000); // každých 5 s
 </script>
-
 </body>
 </html>
