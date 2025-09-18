@@ -82,8 +82,7 @@ h1 {
     border-radius: 20px;
 }
 
-#slideshow img.active,
-#slideshow img.loaded {
+#slideshow img.active {
     opacity: 1;
 }
 
@@ -166,50 +165,60 @@ a.button:hover {
 </style>
 </head>
 <body>
-    <div class="main-content">
-        <div class="container">
-            <h1>Fotogalerie Meteostanice Staré Podlesí</h1>
+<div class="main-content">
+    <div class="container">
+        <h1>Fotogalerie Meteostanice Staré Podlesí</h1>
 
-            <!-- Slideshow -->
-            <div id="slideshow">
-                <img src="IMG_20240929_175747123_HDR_AE.jpg" class="active" alt="Slideshow 1">
-                <img src="IMG_20240929_175726482_HDR_AE.jpg" alt="Slideshow 2">
-                <img src="IMG_20240929_175733822_HDR_AE.jpg" alt="Slideshow 3">
-                <img src="IMG_20240929_175740630_HDR_AE.jpg" alt="Slideshow 4">
-            </div>
-
-            <a href="index.html" class="button">Zpět na úvodní stránku</a>
+        <!-- Slideshow -->
+        <div id="slideshow">
+            <img src="IMG_20240929_175747123_HDR_AE.jpg" alt="Slideshow 1">
+            <img src="IMG_20240929_175726482_HDR_AE.jpg" alt="Slideshow 2">
+            <img src="IMG_20240929_175733822_HDR_AE.jpg" alt="Slideshow 3">
+            <img src="IMG_20240929_175740630_HDR_AE.jpg" alt="Slideshow 4">
         </div>
 
-        <div class="sitemap">
-            <h3>Mapa stránek</h3>
-            <a href="index.html">Domů</a>
-            <a href="about.html">O meteostanici</a>
-            <a href="records.html">Rekordy</a>
-            <a href="map.html">Mapa</a>
-            <a href="aktualnipocasi.html">Počasí</a>
-            <a href="predpoved.html">Předpověď počasí</a>
-            <a href="fotogalerie.html">Fotogalerie</a>
-        </div>
+        <a href="index.html" class="button">Zpět na úvodní stránku</a>
     </div>
 
-<script>
-// Fade-in a přednačítání
-const images = document.querySelectorAll('#slideshow img');
+    <div class="sitemap">
+        <h3>Mapa stránek</h3>
+        <a href="index.html">Domů</a>
+        <a href="about.html">O meteostanici</a>
+        <a href="records.html">Rekordy</a>
+        <a href="map.html">Mapa</a>
+        <a href="aktualnipocasi.html">Počasí</a>
+        <a href="predpoved.html">Předpověď počasí</a>
+        <a href="fotogalerie.html">Fotogalerie</a>
+    </div>
+</div>
 
-// Přidáme načtení obrázků
+<script>
+// Slideshow s přednačtením
+const images = document.querySelectorAll('#slideshow img');
+let index = 0;
+let loadedCount = 0;
+
+// Přednačtení obrázků
 images.forEach(img => {
     const tmp = new Image();
     tmp.src = img.src;
-    tmp.onload = () => img.classList.add('loaded');
+    tmp.onload = () => {
+        loadedCount++;
+        if (loadedCount === images.length) {
+            // První obrázek aktivní
+            images[0].classList.add('active');
+            startSlideshow();
+        }
+    }
 });
 
-let index = 0;
-setInterval(() => {
-    images[index].classList.remove('active');
-    index = (index + 1) % images.length;
-    images[index].classList.add('active');
-}, 5000);
+function startSlideshow() {
+    setInterval(() => {
+        images[index].classList.remove('active');
+        index = (index + 1) % images.length;
+        images[index].classList.add('active');
+    }, 5000);
+}
 </script>
 </body>
 </html>
