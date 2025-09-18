@@ -13,7 +13,6 @@
         color: #333;
         margin: 0;
         padding: 0;
-        /* ❌ odstraněno flex-zarovnání a min-height, aby nevznikal bílý pruh */
     }
 
     .main-content {
@@ -22,12 +21,13 @@
         justify-content: center;
         width: 90%;
         max-width: 1400px;
-        margin: 20px auto; /* vycentrování celé hlavní oblasti */
+        margin: 20px auto;
     }
 
     .container {
         flex: 2;
-        padding: 40px;
+        /* ⬇ sníženo – dole už žádný bílý pruh */
+        padding: 40px 40px 0;
         background-color: rgba(255,255,255,0.9);
         border-radius: 20px;
         box-shadow: 0 8px 20px rgba(0,0,0,0.25);
@@ -77,7 +77,8 @@
         padding: 15px 30px;
         border-radius: 10px;
         display: inline-block;
-        margin-top: 10px;
+        /* ⬇ vlastní mezera kolem tlačítka */
+        margin: 30px 0 40px;
         transition: background-color 0.3s ease;
     }
 
@@ -126,7 +127,7 @@
 
         .container {
             margin: 0;
-            padding: 20px;
+            padding: 20px 20px 0; /* i zde zrušen spodní padding */
             width: 100%;
             max-width: none;
             background-color: rgba(255,255,255,0.8);
