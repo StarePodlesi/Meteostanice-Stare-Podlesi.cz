@@ -6,153 +6,171 @@
 <title>Fotogalerie - Meteostanice Staré Podlesí</title>
 <link rel="icon" href="favicon.ico.png" type="image/x-icon">
 <style>
-    /* ---- Celé pozadí s plynulým gradientem ---- */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom, #00bcd4 0%, #ffffff 50%, #00bcd4 100%);
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.main-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    width: 90%;
+    max-width: 1700px;
+}
+
+/* ---- Hlavní blok s obrázkem ---- */
+.container {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    background-color: rgba(255,255,255,0.95);
+    border-radius: 25px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+    min-height: 700px; /* větší blok */
+    max-width: 1000px;
+    text-align: center;
+}
+
+h1 {
+    color: #00796b;
+    font-size: 3.2em; /* větší nadpis */
+    margin-bottom: 30px;
+}
+
+/* ---- Slideshow ---- */
+#slideshow {
+    position: relative;
+    width: 100%;
+    height: 550px;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 25px;
+}
+
+#slideshow img {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 1s ease-in-out;
+    opacity: 0;
+    border-radius: 20px;
+}
+
+#slideshow img.active {
+    opacity: 1;
+}
+
+a.button {
+    text-decoration: none;
+    color: #ffffff;
+    background-color: #00796b;
+    padding: 20px 50px;
+    font-size: 20px;
+    border-radius: 15px;
+    display: inline-block;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+a.button:hover {
+    background-color: #004d40;
+}
+
+/* ---- Sitemap blok ---- */
+.sitemap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255,255,255,0.95);
+    padding: 50px;
+    border-radius: 25px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+    min-height: 700px; /* vyrovnané s hlavním blokem */
+    max-width: 400px;
+    text-align: center;
+}
+
+.sitemap h3 {
+    color: #00796b;
+    font-size: 2.2em;
+    margin-bottom: 30px;
+}
+
+.sitemap a {
+    display: block;
+    color: #ffffff;
+    background-color: #00796b;
+    padding: 16px;
+    font-size: 18px;
+    border-radius: 12px;
+    margin: 12px 0;
+    text-decoration: none;
+    width: 100%;
+    max-width: 220px;
+    transition: background-color 0.3s ease;
+}
+
+.sitemap a:hover {
+    background-color: #004d40;
+}
+
+/* ---------- MOBILNÍ VERZE ---------- */
+@media (max-width: 900px) {
     body {
-        background: linear-gradient(to bottom, #00bcd4 0%, #ffffff 50%, #00bcd4 100%);
-        font-family: Arial, sans-serif;
-        color: #333;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: flex-start; /* aby začátek stránky byl nahoře */
-        min-height: 100vh;
+        align-items: flex-start;
     }
-
     .main-content {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        width: 90%;
-        max-width: 1400px;
-        margin: 20px;
-    }
-
-    .container {
-        flex: 2;
-        padding: 40px;
-        background-color: rgba(255,255,255,0.9); /* jemná bílá s průhledností */
-        border-radius: 20px;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-        text-align: center;
-        margin-right: 50px;
-        overflow: hidden;
-    }
-
-    h1 {
-        color: #00796b;
-        margin-bottom: 30px;
-        font-size: 2.8em;
-    }
-
-    .gallery {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px;
-    }
-
-    .gallery img {
-        width: 100%;
-        height: auto;
-        object-fit: cover;
-        display: block;
-        border-radius: 15px;
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-        transition: transform 0.3s ease;
-    }
-
-    .gallery img:hover {
-        transform: scale(1.05);
-    }
-
-    a {
-        text-decoration: none;
-        color: #ffffff;
-        background-color: #00796b;
-        padding: 15px 30px;
-        border-radius: 10px;
-        display: inline-block;
-        margin-top: 30px;
-        transition: background-color 0.3s ease;
-    }
-
-    a:hover { background-color: #004d40; }
-
-    .sitemap {
-        flex: 1;
-        background-color: rgba(255,255,255,0.9); /* zachovaná bílá s průhledností */
-        padding: 30px;
-        border-radius: 20px;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-        display: flex;
         flex-direction: column;
-        justify-content: flex-start;
-        overflow: visible;
+        width: 100%;
+        gap: 25px;
+        margin: 20px 0;
     }
-
-    .sitemap h3 {
-        color: #00796b;
-        margin-bottom: 20px;
-        text-align: center;
+    .container, .sitemap {
+        width: 90%;
+        min-height: auto;
+        padding: 25px;
     }
-
-    .sitemap a {
-        display: block;
-        color: #ffffff;
-        background-color: #00796b;
-        padding: 12px;
-        border-radius: 10px;
-        margin: 10px 0;
-        text-decoration: none;
-        transition: background-color 0.3s ease;
-        text-align: center;
-        font-size: 16px;
+    #slideshow {
+        height: 300px;
     }
-
-    .sitemap a:hover { background-color: #004d40; }
-
-    /* ---------- MOBILNÍ VERZE ---------- */
-    @media (max-width: 900px) {
-        .main-content {
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            margin: 0;
-        }
-
-        .container {
-            margin: 0;
-            padding: 20px;
-            width: 100%;
-            max-width: none;
-            background-color: rgba(255,255,255,0.8); /* stále průhledná bílá, ale menší */
-            box-shadow: none;
-            border-radius: 0;
-        }
-
-        .gallery {
-            grid-template-columns: 1fr;     /* fotky pod sebou */
-            gap: 15px;
-        }
-
-        .sitemap {
-            width: 100%;
-            margin-top: 20px;
-        }
-    }
+}
 </style>
 </head>
 <body>
     <div class="main-content">
         <div class="container">
             <h1>Fotogalerie Meteostanice Staré Podlesí</h1>
-            <div class="gallery">
-                <img src="IMG_20240929_175747123_HDR_AE.jpg" alt="Meteostanice">
-                <img src="IMG_20240929_175726482_HDR_AE.jpg" alt="Vybavení stanice">
-                <img src="IMG_20240929_175733822_HDR_AE.jpg" alt="Příroda okolo stanice">
-                <img src="IMG_20240929_175740630_HDR_AE.jpg" alt="Sníh a měření">
+
+            <!-- Slideshow -->
+            <div id="slideshow">
+                <img src="IMG_20240929_175747123_HDR_AE.jpg" class="active" alt="Slideshow 1">
+                <img src="IMG_20240929_175726482_HDR_AE.jpg" alt="Slideshow 2">
+                <img src="IMG_20240929_175733822_HDR_AE.jpg" alt="Slideshow 3">
+                <img src="IMG_20240929_175740630_HDR_AE.jpg" alt="Slideshow 4">
             </div>
-            <a href="index.html">Zpět na úvodní stránku</a>
+
+            <a href="index.html" class="button">Zpět na úvodní stránku</a>
         </div>
 
         <div class="sitemap">
@@ -166,5 +184,15 @@
             <a href="fotogalerie.html">Fotogalerie</a>
         </div>
     </div>
+
+<script>
+const images = document.querySelectorAll('#slideshow img');
+let index = 0;
+setInterval(() => {
+    images[index].classList.remove('active');
+    index = (index + 1) % images.length;
+    images[index].classList.add('active');
+}, 5000);
+</script>
 </body>
 </html>
