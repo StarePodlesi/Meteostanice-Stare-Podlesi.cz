@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Meteostanice Staré Podlesí – Předpověď počasí</title>
+<title>Meteostanice Staré Podlesí – Aktuální počasí</title>
 <link rel="icon" href="favicon.ico.png" type="image/x-icon">
 <style>
 body{
@@ -154,7 +154,7 @@ header h1{
 <body>
 
 <header>
-    <h1>Meteostanice Staré Podlesí - Předpověď počasí</h1>
+    <h1>Meteostanice Staré Podlesí</h1>
     <div id="datetime"></div>
 </header>
 
@@ -187,7 +187,7 @@ const LAT = 49.69054;
 const LON = 13.9811761;
 let useMetric = true;
 
-// Aktualní čas
+// Aktuální čas v hlavičce
 function updateDateTime(){
     const now = new Date();
     const days = ['Neděle','Pondělí','Úterý','Středa','Čtvrtek','Pátek','Sobota'];
@@ -281,17 +281,7 @@ const moonPhases = {
     "Waning Crescent":"Ubývající srpek"
 };
 
-// Převod AM/PM na 24h
-function to24h(timeStr){
-    if(!timeStr) return "";
-    let [time, modifier] = timeStr.split(" ");
-    let [h,m] = time.split(":").map(Number);
-    if(modifier === "PM" && h !== 12) h += 12;
-    if(modifier === "AM" && h === 12) h = 0;
-    return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}`;
-}
-
-// Fetch weather
+// Načtení počasí
 async function fetchWeather(){
     try{
         const res = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${LAT},${LON}&days=7&aqi=no&alerts=no&lang=cs`);
@@ -315,11 +305,7 @@ async function fetchWeather(){
             ["☀️ UV index", c.uv],
             ["💧 Rosný bod", useMetric?c.dewpoint_c+" °C":c.dewpoint_f+" °F"],
             ["❄️ Wind Chill", useMetric?c.windchill_c+" °C":c.windchill_f+" °F"],
-            ["🔥 Heat index", useMetric?c.heatindex_c+" °C":c.heatindex_f+" °F"],
-            ["🌞 Krátkovlnné záření", c.short_rad],
-            ["🌤️ Difuzní záření", c.diff_rad],
-            ["☀️ DNI", c.dni],
-            ["🌞 GTI", c.gti]
+            ["🔥 Heat index", useMetric?c.heatindex_c+" °C":c.heatindex_f+" °F"]
         ];
 
         currentFields.forEach(([label,value])=>{
@@ -338,6 +324,14 @@ async function fetchWeather(){
             const d = new Date(day.date);
             const days = ['Neděle','Pondělí','Úterý','Středa','Čtvrtek','Pátek','Sobota'];
             const datum = d.toLocaleDateString("cs-CZ",{day:"numeric",month:"numeric"});
+            function to24h(timeStr){
+                // timeStr je formát "6:35 AM" – převedeme na 24h
+                let [time,ampm] = timeStr.split(" ");
+                let [h,m] = time.split(":").map(Number);
+                if(ampm==="PM" && h<12) h+=12;
+                if(ampm==="AM" && h===12) h=0;
+                return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}`;
+            }
             return `<div class="day">
                 <h3>${days[d.getDay()]} – ${datum}</h3>
                 <img src="https:${cond.condition.icon}" alt="${cond.condition.text}">
@@ -358,7 +352,8 @@ async function fetchWeather(){
         const now = new Date();
         const lastUpdate = new Date();
         lastUpdate.setMinutes(0,0,0);
-        document.getElementById("lastUpdate").textContent = `Poslední aktualizace: ${lastUpdate.toLocaleString('cs-CZ',{hour12:false})}`;
+        document.getElementById("lastUpdate").textContent =
+            `Poslední aktualizace: ${lastUpdate.toLocaleString('cs-CZ',{hour12:false})}`;
 
     }catch(e){
         console.error(e);
@@ -367,7 +362,7 @@ async function fetchWeather(){
     }
 }
 
-// Automatická aktualizace vždy v celou hodinu
+// Automatická aktualizace dat každou hodinu (bez reloadu stránky)
 function scheduleNext(){
     const now = new Date();
     const nextHour = new Date();
@@ -378,6 +373,17 @@ function scheduleNext(){
         scheduleNext();
     }, delay);
 }
+
+// ► Automatický kompletní reload celé stránky každou celou hodinu
+(function reloadFullPageOnFullHour() {
+    const now = new Date();
+    const nextHour = new Date();
+    nextHour.setHours(now.getHours() + 1, 0, 0, 0);
+    const delay = nextHour.getTime() - now.getTime();
+    setTimeout(function () {
+        location.reload(true); // znovu načte celou stránku
+    }, delay);
+})();
 
 fetchWeather();
 scheduleNext();
