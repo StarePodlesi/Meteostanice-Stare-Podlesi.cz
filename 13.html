@@ -86,10 +86,6 @@ h1 {
     opacity: 1;
 }
 
-#slideshow img.loaded {
-    opacity: 1;
-}
-
 a.button {
     text-decoration: none;
     color: #ffffff;
@@ -197,17 +193,16 @@ a.button:hover {
 </div>
 
 <script>
-// Slideshow s přednačtením a fade-in
+// Slideshow s přednačtením
 const images = document.querySelectorAll('#slideshow img');
 let index = 0;
 let loadedCount = 0;
 
-// Přednačtení všech obrázků
+// Přednačtení obrázků
 images.forEach(img => {
     const tmp = new Image();
     tmp.src = img.src;
     tmp.onload = () => {
-        img.classList.add('loaded'); // fade-in po načtení
         loadedCount++;
         if (loadedCount === images.length) {
             // První obrázek aktivní
@@ -227,4 +222,3 @@ function startSlideshow() {
 </script>
 </body>
 </html>
-
