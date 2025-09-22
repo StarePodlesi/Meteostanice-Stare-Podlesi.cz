@@ -187,7 +187,7 @@ const LAT = 49.69054;
 const LON = 13.9811761;
 let useMetric = true;
 
-// Aktuální čas v hlavičce
+// Aktuální čas – 24h
 function updateDateTime(){
     const now = new Date();
     const days = ['Neděle','Pondělí','Úterý','Středa','Čtvrtek','Pátek','Sobota'];
@@ -200,7 +200,7 @@ updateDateTime();
 // Přepínání jednotek
 document.getElementById("unitToggle").addEventListener("click",()=>{
     useMetric = !useMetric;
-    document.getElementById("unitToggle").textContent = useMetric ?
+    document.getElementById("unitToggle").textContent = useMetric ? 
         "Přepnout na imperialní jednotky" : "Přepnout na metrické jednotky";
     fetchWeather();
 });
@@ -281,10 +281,9 @@ const moonPhases = {
     "Waning Crescent":"Ubývající srpek"
 };
 
-// Načtení počasí – přidán parametr t=Date.now() proti cache
 async function fetchWeather(){
     try{
-        const res = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${LAT},${LON}&days=7&aqi=no&alerts=no&lang=cs&t=${Date.now()}`);
+        const res = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${LAT},${LON}&days=7&aqi=no&alerts=no&lang=cs`);
         const data = await res.json();
 
         const c = data.current;
@@ -302,10 +301,7 @@ async function fetchWeather(){
             ["💧 Vlhkost", c.humidity+" %"],
             ["☁️ Mraky", c.cloud+" %"],
             ["🌫️ Viditelnost", useMetric?c.vis_km+" km":c.vis_miles+" mi"],
-            ["☀️ UV index", c.uv],
-            ["💧 Rosný bod", useMetric?c.dewpoint_c+" °C":c.dewpoint_f+" °F"],
-            ["❄️ Wind Chill", useMetric?c.windchill_c+" °C":c.windchill_f+" °F"],
-            ["🔥 Heat index", useMetric?c.heatindex_c+" °C":c.heatindex_f+" °F"]
+            ["☀️ UV index", c.uv]
         ];
 
         currentFields.forEach(([label,value])=>{
@@ -325,10 +321,10 @@ async function fetchWeather(){
             const days = ['Neděle','Pondělí','Úterý','Středa','Čtvrtek','Pátek','Sobota'];
             const datum = d.toLocaleDateString("cs-CZ",{day:"numeric",month:"numeric"});
             function to24h(timeStr){
-                let [time,ampm] = timeStr.split(" ");
+                let [time, modifier] = timeStr.split(" ");
                 let [h,m] = time.split(":").map(Number);
-                if(ampm==="PM" && h<12) h+=12;
-                if(ampm==="AM" && h===12) h=0;
+                if(modifier === "PM" && h<12) h+=12;
+                if(modifier === "AM" && h===12) h=0;
                 return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}`;
             }
             return `<div class="day">
@@ -347,12 +343,11 @@ async function fetchWeather(){
             </div>`;
         }).join("");
 
-        // Poslední aktualizace – na celou hodinu
-        const now = new Date();
-        const lastUpdate = new Date();
-        lastUpdate.setMinutes(0,0,0);
+        // Poslední aktualizace – vždy z poslední celé hodiny
+        const last = new Date();
+        last.setMinutes(0,0,0);
         document.getElementById("lastUpdate").textContent =
-            `Poslední aktualizace: ${lastUpdate.toLocaleString('cs-CZ',{hour12:false})}`;
+            `Poslední aktualizace: ${last.toLocaleString('cs-CZ',{hour12:false})}`;
 
     }catch(e){
         console.error(e);
@@ -361,20 +356,22 @@ async function fetchWeather(){
     }
 }
 
-// Automatická aktualizace dat každou hodinu (bez reloadu stránky)
-function scheduleNext(){
+// Automatická aktualizace – ihned zobrazí poslední celou hodinu a pak v každou celou hodinu
+function scheduleHourly(){
+    // hned zobrazí data z poslední celé hodiny
+    fetchWeather();
+
     const now = new Date();
-    const nextHour = new Date();
-    nextHour.setHours(now.getHours()+1,0,0,0);
+    const nextHour = new Date(now.getFullYear(),now.getMonth(),now.getDate(),now.getHours()+1,0,0,0);
     const delay = nextHour - now;
-    setTimeout(async ()=>{
-        await fetchWeather();
-        scheduleNext();
+
+    setTimeout(()=>{
+        fetchWeather();                 // aktualizace přesně v celou
+        setInterval(fetchWeather,60*60*1000); // pak každou hodinu
     }, delay);
 }
 
-fetchWeather();
-scheduleNext();
+scheduleHourly();
 </script>
 
 </body>
