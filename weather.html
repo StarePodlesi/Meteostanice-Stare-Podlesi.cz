@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aktuální počasí – Meteostanice Staré Podlesí</title>
+    <!-- Tady přidáš favicon -->
+    <link rel="icon" href="favicon.ico.png" type="image/x-icon">
+<style>
+    body {
+        background: linear-gradient(to right, #00bcd4, #ffffff);
+        font-family: Arial, sans-serif;
+        color: #333;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+    header {
+        text-align: center;
+        padding: 2vh 1vw;
+    }
+    header h1 {
+        margin: 0.5vh 0 1vh 0;
+        color: #00796b;
+        font-size: 4vw;
+    }
+    #datetime {
+        font-weight: bold;
+        color: #004d40;
+        font-size: 1.5vw;
+    }
+    .main-content {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        max-width: 1600px;
+        margin: 0 auto;
+        padding: 4vh 2vw;
+        gap: 2vw;
+        flex-wrap: wrap;
+        height: calc(100vh - 15vh);
+        overflow-y: auto;
+    }
+    .container {
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+        padding: 2vh 2vw;
+        flex: 2;
+        min-width: 300px;
+        max-height: 100%;
+        overflow-y: auto;
+        font-size: 1.4em;
+        text-align: center;
+    }
+    .container h2 {
+        color:#00796b; 
+        margin-bottom:2vh; 
+        text-align:center; 
+        font-size:3vw; 
+    }
+    .weather-item {
+        font-size: 1.2em;
+        margin: 1vh 0;
+    }
+    .emoji { margin-right: 0.5vw; }
+    .weather-item span.value { font-weight: bold; }
+    #lastUpdate {
+        margin-top:2vh;
+        font-style: italic;
+        text-align: center;
+        color: #555;
+        font-size: 1.2em;
+    }
+    .sitemap {
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+        padding: 2vh 1vw;
+        flex: 1;
+        min-width: 200px;
+        max-height: 100%;
+        overflow-y: auto;
+        font-size: 1.2em;
+    }
+    .sitemap h3 {
+        color:#00796b;
+        margin-bottom:2vh;
+        text-align:center;
+        font-size:2.5vw;
+    }
+    .sitemap a {
+        display: block;
+        color: #fff;
+        background: #00796b;
+        padding: 1vh 1vw;
+        border-radius: 10px;
+        margin: 1vh 0;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+        text-align: center;
+        font-size:1.2em;
+    }
+    .sitemap a:hover { background: #004d40; }
+    #unitToggle {
+        display:block;
+        margin:2vh auto;
+        padding:1vh 2vw;
+        background:#00796b;
+        color:white;
+        border:none;
+        border-radius:8px;
+        cursor:pointer;
+        font-size:1.2em;
+    }
+    #unitToggle:hover { background:#004d40; }
+
+    @media (max-width:900px){
+        .main-content { 
+            flex-direction: column; 
+            align-items: center; 
+            padding: 2vh 1vw;
+            height: auto;
+        }
+        .container, .sitemap {
+            flex: unset;
+            width: 90%;
+            font-size: 1.3em;
+            padding: 2vh 1vw;
+            max-height: none;
+        }
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Meteostanice Staré Podlesí</h1>
+    <div id="datetime"></div>
+</header>
+
+<div class="main-content">
+    <div class="container">
+        <h2>Aktuální počasí na stanici</h2>
+        <div id="weather"></div>
+        <button id="unitToggle">Přepnout na imperialní jednotky</button>
+        <div id="lastUpdate"></div>
+    </div>
+
+    <div class="sitemap">
+        <h3>Mapa stránek</h3>
+        <a href="index.html">Domů</a>
+        <a href="about.html">O meteostanici</a>
+        <a href="records.html">Rekordy</a>
+        <a href="map.html">Mapa</a>
+        <a href="aktualnipocasi.html">Počasí</a>
+         <a href="predpoved.html">Předpověď počasí</a>
+        <a href="fotogalerie.html">Fotogalerie</a>
+    </div>
+</div>
+
+<script>
+const STATION_ID = "IPODLE19";
+const API_KEY = "0f95fd0f58a2451a95fd0f58a2a51a75";
+let useMetric = true;
+
+function getLast5MinutePoint(d=new Date()){
+    const ms = d.getTime();
+    const five = 5*60*1000;
+    return new Date(Math.floor(ms/five)*five);
+}
+
+function updateDateTime(){
+    const now = new Date();
+    const days = ['Neděle','Pondělí','Úterý','Středa','Čtvrtek','Pátek','Sobota'];
+    const formatted = days[now.getDay()] + ", " +
+        now.toLocaleDateString('cs-CZ') + " " +
+        now.toLocaleTimeString('cs-CZ');
+    document.getElementById("datetime").textContent = formatted;
+}
+setInterval(updateDateTime,1000);
+updateDateTime();
+
+document.getElementById("unitToggle").addEventListener("click",()=>{
+    useMetric = !useMetric;
+    document.getElementById("unitToggle").textContent = 
+        useMetric ? "Přepnout na imperialní jednotky" : "Přepnout na metrické jednotky";
+    fetchWeather();
+});
+
+async function fetchWeather(){
+    const url = `https://api.weather.com/v2/pws/observations/current?stationId=${STATION_ID}&format=json&units=${useMetric?"m":"e"}&apiKey=${API_KEY}`;
+    try {
+        const res = await fetch(url);
+        const data = await res.json();
+        const obs = data.observations[0];
+        const m = obs.metric;
+        const imperial = obs.imperial;
+
+        const Z = 505;
+        const p = useMetric ? m.pressure : imperial.pressure;
+        const p_hpa = useMetric ? p : p*33.8639;
+        const p0 = p_hpa * Math.pow(1 - (0.0065*Z)/(288.15), -5.257);
+        const p0_display = useMetric ? p0.toFixed(1)+" hPa" : (p0/33.8639).toFixed(2)+" inHg";
+
+        const html = `
+            <div class="weather-item"><span class="emoji">🌡️</span>Teplota vzduchu: <span class="value">${useMetric?m.temp+" °C":imperial.temp+" °F"}</span></div>
+            <div class="weather-item"><span class="emoji">💧</span>Vlhkost vzduchu: <span class="value">${obs.humidity} %</span></div>
+            <div class="weather-item"><span class="emoji">💨</span>Rychlost větru: <span class="value">${useMetric?m.windSpeed+" km/h":imperial.windSpeed+" mph"}</span></div>
+            <div class="weather-item"><span class="emoji">🧭</span>Směr větru: <span class="value">${obs.winddir}°</span></div>
+            <div class="weather-item"><span class="emoji">🌧️</span>Srážky dnes: <span class="value">${useMetric?m.precipTotal+" mm":imperial.precipTotal+" in"}</span></div>
+            <div class="weather-item"><span class="emoji">☔</span>Intenzita srážek: <span class="value">${useMetric?m.precipRate+" mm/h":imperial.precipRate+" in/h"}</span></div>
+            <div class="weather-item"><span class="emoji">🧮</span>Tlak (měřený): <span class="value">${useMetric?m.pressure+" hPa":imperial.pressure+" inHg"}</span></div>
+            <div class="weather-item"><span class="emoji">📏</span>Tlak (hladina moře): <span class="value">${p0_display}</span></div>
+            <div class="weather-item"><span class="emoji">🔥</span>Tepelný index: <span class="value">${useMetric?m.heatIndex+" °C":imperial.heatIndex+" °F"}</span></div>
+            <div class="weather-item"><span class="emoji">❄️</span>Chlad větru: <span class="value">${useMetric?m.windChill+" °C":imperial.windChill+" °F"}</span></div>
+            <div class="weather-item"><span class="emoji">🌫️</span>Rosný bod: <span class="value">${useMetric?m.dewpt+" °C":imperial.dewpt+" °F"}</span></div>
+            <div class="weather-item"><span class="emoji">⛰️</span>Nadmořská výška: <span class="value">${useMetric?Z+" m":(Z*3.28084).toFixed(0)+" ft"}</span></div>
+        `;
+        document.getElementById("weather").innerHTML = html;
+
+        const last5 = getLast5MinutePoint(new Date());
+        document.getElementById("lastUpdate").textContent =
+            "Poslední aktualizace: " + last5.toLocaleTimeString('cs-CZ');
+    } catch(err){
+        document.getElementById("weather").textContent = "Chyba načítání dat.";
+        console.error(err);
+    }
+}
+
+function scheduleNext(){
+    const now = new Date();
+    const five = 5*60*1000;
+    const next = Math.ceil(now.getTime()/five)*five;
+    const delay = next - now.getTime();
+    setTimeout(()=>{
+        fetchWeather();
+        scheduleNext();
+    }, delay);
+}
+
+fetchWeather();
+scheduleNext();
+</script>
+</body>
+</html>
