@@ -200,7 +200,7 @@ updateDateTime();
 // Přepínání jednotek
 document.getElementById("unitToggle").addEventListener("click",()=>{
     useMetric = !useMetric;
-    document.getElementById("unitToggle").textContent = useMetric ? 
+    document.getElementById("unitToggle").textContent = useMetric ?
         "Přepnout na imperialní jednotky" : "Přepnout na metrické jednotky";
     fetchWeather();
 });
@@ -281,10 +281,10 @@ const moonPhases = {
     "Waning Crescent":"Ubývající srpek"
 };
 
-// Načtení počasí
+// Načtení počasí – přidán parametr t=Date.now() proti cache
 async function fetchWeather(){
     try{
-        const res = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${LAT},${LON}&days=7&aqi=no&alerts=no&lang=cs`);
+        const res = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${LAT},${LON}&days=7&aqi=no&alerts=no&lang=cs&t=${Date.now()}`);
         const data = await res.json();
 
         const c = data.current;
@@ -325,7 +325,6 @@ async function fetchWeather(){
             const days = ['Neděle','Pondělí','Úterý','Středa','Čtvrtek','Pátek','Sobota'];
             const datum = d.toLocaleDateString("cs-CZ",{day:"numeric",month:"numeric"});
             function to24h(timeStr){
-                // timeStr je formát "6:35 AM" – převedeme na 24h
                 let [time,ampm] = timeStr.split(" ");
                 let [h,m] = time.split(":").map(Number);
                 if(ampm==="PM" && h<12) h+=12;
@@ -373,17 +372,6 @@ function scheduleNext(){
         scheduleNext();
     }, delay);
 }
-
-// ► Automatický kompletní reload celé stránky každou celou hodinu
-(function reloadFullPageOnFullHour() {
-    const now = new Date();
-    const nextHour = new Date();
-    nextHour.setHours(now.getHours() + 1, 0, 0, 0);
-    const delay = nextHour.getTime() - now.getTime();
-    setTimeout(function () {
-        location.reload(true); // znovu načte celou stránku
-    }, delay);
-})();
 
 fetchWeather();
 scheduleNext();
