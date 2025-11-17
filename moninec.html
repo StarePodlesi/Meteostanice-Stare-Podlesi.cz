@@ -1,366 +1,335 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-<meta charset="utf-8" />
-<title>Monínec – FIS styl overlay</title>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- MONÍNEC – FIS styl overlay -->
+<div class="moninec-overlay" id="moninecOverlay">
+  <div class="moninec-header">
+    <div class="moninec-flag">🇨🇿</div>
+    <div class="moninec-title">
+      <div class="moninec-main">MONÍNEC</div>
+      <div class="moninec-sub">Velká sjezdovka</div>
+    </div>
+  </div>
+
+  <div class="moninec-content">
+    <!-- Levý sloupec: parametry trati -->
+    <div class="moninec-stats">
+      <div class="moninec-stat-card">
+        <div class="icon-circle">
+          <!-- délka -->
+          <span>📏</span>
+        </div>
+        <div class="stat-label">Délka</div>
+        <div class="stat-value">1070 m</div>
+      </div>
+
+      <div class="moninec-stat-card">
+        <div class="icon-circle">
+          <!-- převýšení -->
+          <span>⛰️</span>
+        </div>
+        <div class="stat-label">Převýšení</div>
+        <div class="stat-value">210 m</div>
+      </div>
+
+      <div class="moninec-stat-card">
+        <div class="icon-circle">
+          <!-- průměrný sklon -->
+          <span>📉</span>
+        </div>
+        <div class="stat-label">Průměrný sklon</div>
+        <div class="stat-value">18 %</div>
+      </div>
+
+      <div class="moninec-stat-card">
+        <div class="icon-circle">
+          <!-- max/min sklon -->
+          <span>⚠️</span>
+        </div>
+        <div class="stat-label">Sklon (max / min)</div>
+        <div class="stat-value">31 % / 7 %</div>
+      </div>
+
+      <div class="moninec-stat-card">
+        <div class="icon-circle">
+          <!-- brány -->
+          <span>🎯</span>
+        </div>
+        <div class="stat-label">Počet bran</div>
+        <div class="stat-value">69 / 68</div>
+      </div>
+    </div>
+
+    <!-- Pravý sloupec: počasí -->
+    <div class="moninec-weather">
+      <div class="weather-title">Aktuální podmínky</div>
+
+      <div class="weather-row">
+        <div class="weather-point">
+          <div class="weather-icon" id="startWeatherIcon">⏳</div>
+          <div class="weather-label">Start</div>
+          <div class="weather-temp" id="startTemp">-- °C</div>
+          <div class="weather-alt">~ 720 m</div>
+        </div>
+
+        <div class="weather-point">
+          <div class="weather-icon" id="finishWeatherIcon">⏳</div>
+          <div class="weather-label">Cíl</div>
+          <div class="weather-temp" id="finishTemp">-- °C</div>
+          <div class="weather-alt">~ 510 m</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <style>
-  :root{
-    --bg-glass: rgba(255,255,255,0.86);
-    --bg-glass-soft: rgba(255,255,255,0.72);
-    --accent-blue:#007bff;
-    --accent-dark:#22252b;
-    --accent-text:#1f2228;
-    --muted:#7b8291;
-    --hex-border: rgba(255,255,255,0.25);
+  .moninec-overlay {
+    position: fixed;
+    left: 50%;
+    bottom: 6%;
+    transform: translateX(-50%) translateY(20px);
+    width: min(900px, 95vw);
+    background: linear-gradient(135deg, rgba(4,15,30,0.96), rgba(10,40,70,0.96));
+    border-radius: 18px;
+    padding: 16px 20px;
+    color: #f5f7ff;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    box-shadow: 0 18px 45px rgba(0,0,0,0.65);
+    border: 1px solid rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    z-index: 9999;
   }
 
-  *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;}
-
-  body{
-    /* tady si dej klidně video / obrázek Monínce jako pozadí */
-    min-height:100vh;
-    margin:0;
-    background:
-      linear-gradient(135deg,#203040,#506b91),
-      #111;
-    color:#111;
-    overflow:hidden;
-    display:flex;
-    align-items:center;
-    justify-content:flex-start;
+  .moninec-overlay.visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
   }
 
-  .overlay-wrapper{
-    position:relative;
-    width:100%;
-    max-width:520px;
-    margin-left:2vw;
+  .moninec-overlay.hidden {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+    pointer-events: none;
   }
 
-  /* Hlavní panel */
-  .course-overlay{
-    position:relative;
-    background:var(--bg-glass);
-    border-radius:28px;
-    box-shadow:0 18px 40px rgba(0,0,0,0.35);
-    overflow:hidden;
-    padding:18px 22px 20px;
-    backdrop-filter:blur(12px);
-    transform:translateX(-120%);
-    opacity:0;
-    animation:courseIntro 12s ease-in-out forwards;
+  .moninec-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
   }
 
-  /* horní “špička” do tvaru podobného obrázku */
-  .course-overlay::before{
-    content:"";
-    position:absolute;
-    inset:-60px -80px auto auto;
-    background:radial-gradient(circle at 20% 10%,rgba(255,255,255,0.85),transparent 60%);
-    opacity:.7;
-    pointer-events:none;
+  .moninec-flag {
+    font-size: 32px;
+    filter: drop-shadow(0 0 6px rgba(0,0,0,0.5));
   }
 
-  /* hexagonové bubliny vzadu */
-  .hex{
-    position:absolute;
-    width:110px;
-    aspect-ratio:1 / 1;
-    border:1.5px solid var(--hex-border);
-    border-radius:24px;
-    transform:rotate(7deg);
-    backdrop-filter:blur(6px);
-    background:radial-gradient(circle,rgba(255,255,255,0.18),rgba(255,255,255,0.02));
-    z-index:-1;
-  }
-  .hex.h1{top:-40px;right:-20px;}
-  .hex.h2{top:140px;right:-40px;}
-  .hex.h3{bottom:-30px;right:40px;}
-
-  /* Hlavička – závod / areál */
-  .event-header{
-    text-transform:uppercase;
-    font-size:11px;
-    letter-spacing:.18em;
-    color:var(--muted);
-  }
-  .event-name{
-    font-weight:700;
-    font-size:13px;
-    margin-top:4px;
-  }
-  .location-row{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    margin:8px 0 4px;
-    font-size:12px;
-    color:var(--accent-text);
-  }
-  .flag{
-    width:18px;
-    height:12px;
-    border-radius:2px;
-    background:linear-gradient(to right,#ff0000 0 33.3%,#ffffff 33.3% 66.6%,#0000ff 66.6% 100%);
-    box-shadow:0 0 0 1px rgba(0,0,0,0.15);
-  }
-  .course-name{
-    margin-top:3px;
-    padding:5px 10px;
-    background:#111;
-    color:white;
-    border-radius:999px;
-    display:inline-block;
-    font-size:12px;
-    letter-spacing:.14em;
+  .moninec-title {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
   }
 
-  .section-row{
-    margin-top:12px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-  }
-  .label{
-    font-size:11px;
-    text-transform:uppercase;
-    font-weight:700;
-    color:var(--accent-blue);
-    letter-spacing:.12em;
-  }
-  .value{
-    font-size:13px;
-    font-weight:600;
-    color:var(--accent-text);
-  }
-  .temp-row{
-    display:flex;
-    align-items:center;
-    gap:6px;
-    font-size:13px;
-  }
-  .weather-icon{
-    width:32px;
-    height:32px;
-    border-radius:50%;
-    background:radial-gradient(circle at 30% 30%,#fff7cc,#f4b734);
-    box-shadow:0 0 0 4px rgba(255,255,255,0.55);
-    position:relative;
-  }
-  .weather-icon::after{
-    content:"";
-    position:absolute;
-    bottom:-2px;left:6px;
-    width:20px;height:12px;
-    border-radius:999px;
-    background:linear-gradient(to bottom,#ffffff,#dfe8ff);
+  .moninec-main {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
   }
 
-  /* Blok se sklony */
-  .slope-info{
-    margin-top:10px;
-    padding:10px 12px;
-    border-radius:18px;
-    background:var(--bg-glass-soft);
-    display:flex;
-    justify-content:space-between;
-    gap:12px;
-  }
-  .slope-text{
-    font-size:11px;
-    color:var(--muted);
-    line-height:1.5;
-  }
-  .slope-text strong{
-    display:block;
-    font-size:11px;
-    color:var(--accent-text);
+  .moninec-sub {
+    font-size: 16px;
+    font-weight: 500;
+    opacity: 0.8;
   }
 
-  /* graf profilu trati */
-  .profile{
-    margin-top:10px;
-    padding:10px 12px 4px;
-    border-radius:18px;
-    background:var(--bg-glass-soft);
-  }
-  .profile-title{
-    font-size:11px;
-    text-transform:uppercase;
-    letter-spacing:.16em;
-    color:var(--muted);
-    margin-bottom:6px;
-  }
-  .profile-svg{
-    width:100%;
-    height:90px;
+  .moninec-content {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr);
+    gap: 18px;
+    align-items: stretch;
   }
 
-  .course-setter{
-    margin-top:8px;
-    font-size:11px;
-    display:flex;
-    align-items:center;
-    gap:8px;
-  }
-  .cs-flag{
-    width:16px;height:11px;
-    border-radius:2px;
-    background:linear-gradient(to bottom,#ff0000,#b50000);
-    box-shadow:0 0 0 1px rgba(0,0,0,0.2);
-  }
-  .course-setter span{
-    font-weight:600;
-    color:var(--accent-text);
-  }
-
-  .finish-row{
-    margin-top:12px;
-    padding-top:10px;
-    border-top:1px solid rgba(0,0,0,0.07);
-  }
-
-  /* Animace – přijede zleva, chvíli je vidět, pak zmizí */
-  @keyframes courseIntro{
-    0%{
-      transform:translateX(-120%);
-      opacity:0;
-    }
-    10%{
-      transform:translateX(0);
-      opacity:1;
-    }
-    80%{
-      transform:translateX(0);
-      opacity:1;
-    }
-    100%{
-      transform:translateX(-120%);
-      opacity:0;
+  @media (max-width: 720px) {
+    .moninec-content {
+      grid-template-columns: 1fr;
     }
   }
 
-  /* aby to na mobilu nebylo obří */
-  @media (max-width:700px){
-    body{
-      justify-content:center;
+  .moninec-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 10px;
+  }
+
+  .moninec-stat-card {
+    background: radial-gradient(circle at top left, rgba(255,255,255,0.12), transparent 60%);
+    border-radius: 12px;
+    padding: 8px 10px;
+    border: 1px solid rgba(255,255,255,0.12);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-height: 70px;
+  }
+
+  .icon-circle {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.7;
+  }
+
+  .stat-value {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .moninec-weather {
+    border-radius: 12px;
+    padding: 10px 12px;
+    background: radial-gradient(circle at top right, rgba(130,190,255,0.25), rgba(10,20,40,0.95));
+    border: 1px solid rgba(160,210,255,0.35);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .weather-title {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.85;
+  }
+
+  .weather-row {
+    display: flex;
+    gap: 12px;
+  }
+
+  .weather-point {
+    flex: 1;
+    background: rgba(0,0,0,0.28);
+    border-radius: 10px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .weather-icon {
+    font-size: 20px;
+    margin-bottom: 2px;
+  }
+
+  .weather-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    opacity: 0.8;
+  }
+
+  .weather-temp {
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .weather-alt {
+    font-size: 11px;
+    opacity: 0.7;
+  }
+
+  @media (max-width: 480px) {
+    .moninec-overlay {
+      bottom: 2%;
+      padding: 12px 14px;
     }
-    .overlay-wrapper{
-      margin:10px;
-      max-width:96vw;
+    .moninec-main {
+      font-size: 22px;
+    }
+    .moninec-sub {
+      font-size: 13px;
+    }
+    .weather-row {
+      flex-direction: column;
     }
   }
 </style>
-</head>
-<body>
 
-<div class="overlay-wrapper">
-  <!-- “skleněné” hexagony v pozadí -->
-  <div class="hex h1"></div>
-  <div class="hex h2"></div>
-  <div class="hex h3"></div>
+<script>
+  // zobraz overlay po načtení
+  window.addEventListener('load', () => {
+    const overlay = document.getElementById('moninecOverlay');
+    overlay.classList.add('visible');
 
-  <section class="course-overlay">
-    <!-- HLAVIČKA -->
-    <div class="event-header">Audi fis ski</div>
-    <div class="event-name">MONÍNEC – CZECH REPUBLIC</div>
+    // po 10 sekundách schovej
+    setTimeout(() => {
+      overlay.classList.add('hidden');
+    }, 10000);
 
-    <div class="location-row">
-      <div class="flag" title="CZE"></div>
-      <div>Monínec CZE</div>
-    </div>
+    loadWeather();
+  });
 
-    <div class="course-name">MONÍNEC MAIN SLOPE</div>
+  function weatherIconFromCode(code) {
+    // Open-Meteo weathercode → jednoduché emoji
+    if (code === 0) return '☀️';
+    if (code === 1 || code === 2) return '🌤️';
+    if (code === 3) return '☁️';
+    if (code >= 45 && code <= 48) return '🌫️';
+    if (code >= 51 && code <= 67) return '🌦️';
+    if (code >= 71 && code <= 77) return '🌨️';
+    if (code >= 80 && code <= 82) return '🌧️';
+    if (code >= 95) return '⛈️';
+    return '🌡️';
+  }
 
-    <!-- START -->
-    <div class="section-row" style="margin-top:16px;">
-      <div>
-        <div class="label">Start</div>
-        <!-- TADY SI UPRAV VÝŠKU STARTU -->
-        <div class="value">720 m n. m.</div>
-      </div>
-      <div class="temp-row">
-        <!-- startovní teplota -->
-        <div class="weather-icon"></div>
-        <div>-5&nbsp;°C</div>
-      </div>
-    </div>
+  async function fetchCurrent(lat, lon) {
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weathercode&timezone=auto`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('Weather fetch failed');
+    const data = await res.json();
+    return data.current;
+  }
 
-    <!-- SKLONY, DÉLKA, BRÁNY -->
-    <div class="slope-info">
-      <div class="slope-text">
-        <strong>MAX SKLON</strong>
-        <!-- uprav podle Monínce -->
-        48&nbsp;%<br>
-        <strong>MIN SKLON</strong>
-        12&nbsp;%<br>
-      </div>
-      <div class="slope-text">
-        <strong>PRŮMĚR</strong>
-        28&nbsp;%<br>
-        <strong>DÉLKA TRATĚ</strong>
-        1200&nbsp;m
-      </div>
-      <div class="slope-text">
-        <strong>BRÁNY</strong>
-        40 / 38 (M / Ž)<br>
-        <strong>PŘEVÝŠENÍ</strong>
-        220&nbsp;m
-      </div>
-    </div>
+  async function loadWeather() {
+    const startTempEl = document.getElementById('startTemp');
+    const finishTempEl = document.getElementById('finishTemp');
+    const startIconEl = document.getElementById('startWeatherIcon');
+    const finishIconEl = document.getElementById('finishWeatherIcon');
 
-    <!-- PROFIL TRATĚ -->
-    <div class="profile">
-      <div class="profile-title">Profil trati</div>
-      <!-- jednoduchý stylizovaný profil – můžeš změnit barvy / body -->
-      <svg class="profile-svg" viewBox="0 0 200 80" preserveAspectRatio="none">
-        <!-- podklad -->
-        <path d="M0,10
-                 C40,8 60,18 90,30
-                 C120,44 145,60 200,70
-                 L200,80 L0,80 Z"
-              fill="#dfe9ff" />
-        <!-- tři zvýrazněné sektory -->
-        <path d="M0,10
-                 C40,8 60,18 90,30
-                 L90,80 L0,80 Z"
-              fill="#005fdd" />
-        <path d="M90,30
-                 C120,44 145,60 200,70
-                 L200,80 L90,80 Z"
-              fill="#2084ff" opacity="0.9" />
-        <!-- linka hřebene -->
-        <path d="M0,10
-                 C40,8 60,18 90,30
-                 C120,44 145,60 200,70"
-              fill="none" stroke="#163465" stroke-width="2" />
-      </svg>
-    </div>
+    try {
+      // Start: 49.5432081N, 14.5113658E
+      const start = await fetchCurrent(49.5432081, 14.5113658);
+      startTempEl.textContent = `${Math.round(start.temperature_2m)} °C`;
+      startIconEl.textContent = weatherIconFromCode(start.weathercode);
 
-    <!-- STAVITEL TRATĚ -->
-    <div class="course-setter">
-      <span class="label" style="color:var(--accent-blue);">Course setter</span>
-      <div class="cs-flag"></div>
-      <span>JAN NOVÁK&nbsp;CZE</span>
-    </div>
-
-    <!-- FINISH -->
-    <div class="finish-row section-row">
-      <div>
-        <div class="label">Finish</div>
-        <!-- výška cíle -->
-        <div class="value">500 m n. m.</div>
-      </div>
-      <div class="temp-row">
-        <div class="weather-icon"></div>
-        <div>-7&nbsp;°C</div>
-      </div>
-    </div>
-  </section>
-</div>
-
-</body>
-</html>
+      // Cíl: 49.5500447N, 14.5211678E
+      const finish = await fetchCurrent(49.5500447, 14.5211678);
+      finishTempEl.textContent = `${Math.round(finish.temperature_2m)} °C`;
+      finishIconEl.textContent = weatherIconFromCode(finish.weathercode);
+    } catch (e) {
+      // když selže API, necháme defaultní hodnoty
+      console.error(e);
+      startTempEl.textContent = '-- °C';
+      finishTempEl.textContent = '-- °C';
+      startIconEl.textContent = '🌡️';
+      finishIconEl.textContent = '🌡️';
+    }
+  }
+</script>
