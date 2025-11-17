@@ -1,81 +1,366 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
-<Document>
-	<name>Mapa bez názvu</name>
-	<visibility>0</visibility>
-	<gx:CascadingStyle kml:id="__managed_style_2EC62AA6E13BC7384D98">
-		<Style>
-			<IconStyle>
-				<scale>1.2</scale>
-				<Icon>
-					<href>https://earth.google.com/earth/document/icon?color=1976d2&amp;id=2000&amp;scale=4</href>
-				</Icon>
-				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
-			</IconStyle>
-			<LabelStyle>
-			</LabelStyle>
-			<LineStyle>
-				<color>fff5a542</color>
-				<width>4.8</width>
-			</LineStyle>
-			<PolyStyle>
-				<color>40ffffff</color>
-			</PolyStyle>
-			<BalloonStyle>
-				<displayMode>hide</displayMode>
-			</BalloonStyle>
-		</Style>
-	</gx:CascadingStyle>
-	<gx:CascadingStyle kml:id="__managed_style_1AFF24304C3BC7384D98">
-		<Style>
-			<IconStyle>
-				<Icon>
-					<href>https://earth.google.com/earth/document/icon?color=1976d2&amp;id=2000&amp;scale=4</href>
-				</Icon>
-				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
-			</IconStyle>
-			<LabelStyle>
-			</LabelStyle>
-			<LineStyle>
-				<color>fff5a542</color>
-				<width>3.2</width>
-			</LineStyle>
-			<PolyStyle>
-				<color>40ffffff</color>
-			</PolyStyle>
-			<BalloonStyle>
-				<displayMode>hide</displayMode>
-			</BalloonStyle>
-		</Style>
-	</gx:CascadingStyle>
-	<StyleMap id="__managed_style_0185B4CD1F3BC7384D98">
-		<Pair>
-			<key>normal</key>
-			<styleUrl>#__managed_style_1AFF24304C3BC7384D98</styleUrl>
-		</Pair>
-		<Pair>
-			<key>highlight</key>
-			<styleUrl>#__managed_style_2EC62AA6E13BC7384D98</styleUrl>
-		</Pair>
-	</StyleMap>
-	<Placemark id="0A95CF34473BC7378BF4">
-		<name>Monínec</name>
-		<LookAt>
-			<longitude>14.51875373454738</longitude>
-			<latitude>49.546012659866</latitude>
-			<altitude>571.5659267359918</altitude>
-			<heading>359.7720115083295</heading>
-			<tilt>0</tilt>
-			<gx:fovy>35</gx:fovy>
-			<range>3216.452994493302</range>
-			<altitudeMode>absolute</altitudeMode>
-		</LookAt>
-		<styleUrl>#__managed_style_0185B4CD1F3BC7384D98</styleUrl>
-		<LineString>
-			<coordinates>
-				14.51119340548687,49.5431335864921,0 14.51194666221298,49.54354107947056,0 14.51276440433885,49.54394078543273,0 14.51541276132179,49.54549803352054,0 14.51576123473054,49.54578318193063,0 14.51605910625065,49.54610594929798,0 14.51642581723359,49.54673844873168,0 14.51747039690751,49.54762459190825,0 14.51820424538239,49.5482513673182,0 14.51891358730941,49.54856382005801,0 14.51964135651195,49.548773672381,0 14.5201137302262,49.54889607432784,0 14.52053312997405,49.54910541052647,0 14.52065303983798,49.54941755639516,0 14.5208145295067,49.54973014389732,0 14.52103259444985,49.54995112496137,0 
-			</coordinates>
-		</LineString>
-	</Placemark>
-</Document>
-</kml>
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8" />
+<title>Monínec – FIS styl overlay</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<style>
+  :root{
+    --bg-glass: rgba(255,255,255,0.86);
+    --bg-glass-soft: rgba(255,255,255,0.72);
+    --accent-blue:#007bff;
+    --accent-dark:#22252b;
+    --accent-text:#1f2228;
+    --muted:#7b8291;
+    --hex-border: rgba(255,255,255,0.25);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;}
+
+  body{
+    /* tady si dej klidně video / obrázek Monínce jako pozadí */
+    min-height:100vh;
+    margin:0;
+    background:
+      linear-gradient(135deg,#203040,#506b91),
+      #111;
+    color:#111;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+  }
+
+  .overlay-wrapper{
+    position:relative;
+    width:100%;
+    max-width:520px;
+    margin-left:2vw;
+  }
+
+  /* Hlavní panel */
+  .course-overlay{
+    position:relative;
+    background:var(--bg-glass);
+    border-radius:28px;
+    box-shadow:0 18px 40px rgba(0,0,0,0.35);
+    overflow:hidden;
+    padding:18px 22px 20px;
+    backdrop-filter:blur(12px);
+    transform:translateX(-120%);
+    opacity:0;
+    animation:courseIntro 12s ease-in-out forwards;
+  }
+
+  /* horní “špička” do tvaru podobného obrázku */
+  .course-overlay::before{
+    content:"";
+    position:absolute;
+    inset:-60px -80px auto auto;
+    background:radial-gradient(circle at 20% 10%,rgba(255,255,255,0.85),transparent 60%);
+    opacity:.7;
+    pointer-events:none;
+  }
+
+  /* hexagonové bubliny vzadu */
+  .hex{
+    position:absolute;
+    width:110px;
+    aspect-ratio:1 / 1;
+    border:1.5px solid var(--hex-border);
+    border-radius:24px;
+    transform:rotate(7deg);
+    backdrop-filter:blur(6px);
+    background:radial-gradient(circle,rgba(255,255,255,0.18),rgba(255,255,255,0.02));
+    z-index:-1;
+  }
+  .hex.h1{top:-40px;right:-20px;}
+  .hex.h2{top:140px;right:-40px;}
+  .hex.h3{bottom:-30px;right:40px;}
+
+  /* Hlavička – závod / areál */
+  .event-header{
+    text-transform:uppercase;
+    font-size:11px;
+    letter-spacing:.18em;
+    color:var(--muted);
+  }
+  .event-name{
+    font-weight:700;
+    font-size:13px;
+    margin-top:4px;
+  }
+  .location-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin:8px 0 4px;
+    font-size:12px;
+    color:var(--accent-text);
+  }
+  .flag{
+    width:18px;
+    height:12px;
+    border-radius:2px;
+    background:linear-gradient(to right,#ff0000 0 33.3%,#ffffff 33.3% 66.6%,#0000ff 66.6% 100%);
+    box-shadow:0 0 0 1px rgba(0,0,0,0.15);
+  }
+  .course-name{
+    margin-top:3px;
+    padding:5px 10px;
+    background:#111;
+    color:white;
+    border-radius:999px;
+    display:inline-block;
+    font-size:12px;
+    letter-spacing:.14em;
+  }
+
+  .section-row{
+    margin-top:12px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+  }
+  .label{
+    font-size:11px;
+    text-transform:uppercase;
+    font-weight:700;
+    color:var(--accent-blue);
+    letter-spacing:.12em;
+  }
+  .value{
+    font-size:13px;
+    font-weight:600;
+    color:var(--accent-text);
+  }
+  .temp-row{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:13px;
+  }
+  .weather-icon{
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    background:radial-gradient(circle at 30% 30%,#fff7cc,#f4b734);
+    box-shadow:0 0 0 4px rgba(255,255,255,0.55);
+    position:relative;
+  }
+  .weather-icon::after{
+    content:"";
+    position:absolute;
+    bottom:-2px;left:6px;
+    width:20px;height:12px;
+    border-radius:999px;
+    background:linear-gradient(to bottom,#ffffff,#dfe8ff);
+  }
+
+  /* Blok se sklony */
+  .slope-info{
+    margin-top:10px;
+    padding:10px 12px;
+    border-radius:18px;
+    background:var(--bg-glass-soft);
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+  }
+  .slope-text{
+    font-size:11px;
+    color:var(--muted);
+    line-height:1.5;
+  }
+  .slope-text strong{
+    display:block;
+    font-size:11px;
+    color:var(--accent-text);
+  }
+
+  /* graf profilu trati */
+  .profile{
+    margin-top:10px;
+    padding:10px 12px 4px;
+    border-radius:18px;
+    background:var(--bg-glass-soft);
+  }
+  .profile-title{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.16em;
+    color:var(--muted);
+    margin-bottom:6px;
+  }
+  .profile-svg{
+    width:100%;
+    height:90px;
+  }
+
+  .course-setter{
+    margin-top:8px;
+    font-size:11px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .cs-flag{
+    width:16px;height:11px;
+    border-radius:2px;
+    background:linear-gradient(to bottom,#ff0000,#b50000);
+    box-shadow:0 0 0 1px rgba(0,0,0,0.2);
+  }
+  .course-setter span{
+    font-weight:600;
+    color:var(--accent-text);
+  }
+
+  .finish-row{
+    margin-top:12px;
+    padding-top:10px;
+    border-top:1px solid rgba(0,0,0,0.07);
+  }
+
+  /* Animace – přijede zleva, chvíli je vidět, pak zmizí */
+  @keyframes courseIntro{
+    0%{
+      transform:translateX(-120%);
+      opacity:0;
+    }
+    10%{
+      transform:translateX(0);
+      opacity:1;
+    }
+    80%{
+      transform:translateX(0);
+      opacity:1;
+    }
+    100%{
+      transform:translateX(-120%);
+      opacity:0;
+    }
+  }
+
+  /* aby to na mobilu nebylo obří */
+  @media (max-width:700px){
+    body{
+      justify-content:center;
+    }
+    .overlay-wrapper{
+      margin:10px;
+      max-width:96vw;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="overlay-wrapper">
+  <!-- “skleněné” hexagony v pozadí -->
+  <div class="hex h1"></div>
+  <div class="hex h2"></div>
+  <div class="hex h3"></div>
+
+  <section class="course-overlay">
+    <!-- HLAVIČKA -->
+    <div class="event-header">Audi fis ski</div>
+    <div class="event-name">MONÍNEC – CZECH REPUBLIC</div>
+
+    <div class="location-row">
+      <div class="flag" title="CZE"></div>
+      <div>Monínec CZE</div>
+    </div>
+
+    <div class="course-name">MONÍNEC MAIN SLOPE</div>
+
+    <!-- START -->
+    <div class="section-row" style="margin-top:16px;">
+      <div>
+        <div class="label">Start</div>
+        <!-- TADY SI UPRAV VÝŠKU STARTU -->
+        <div class="value">720 m n. m.</div>
+      </div>
+      <div class="temp-row">
+        <!-- startovní teplota -->
+        <div class="weather-icon"></div>
+        <div>-5&nbsp;°C</div>
+      </div>
+    </div>
+
+    <!-- SKLONY, DÉLKA, BRÁNY -->
+    <div class="slope-info">
+      <div class="slope-text">
+        <strong>MAX SKLON</strong>
+        <!-- uprav podle Monínce -->
+        48&nbsp;%<br>
+        <strong>MIN SKLON</strong>
+        12&nbsp;%<br>
+      </div>
+      <div class="slope-text">
+        <strong>PRŮMĚR</strong>
+        28&nbsp;%<br>
+        <strong>DÉLKA TRATĚ</strong>
+        1200&nbsp;m
+      </div>
+      <div class="slope-text">
+        <strong>BRÁNY</strong>
+        40 / 38 (M / Ž)<br>
+        <strong>PŘEVÝŠENÍ</strong>
+        220&nbsp;m
+      </div>
+    </div>
+
+    <!-- PROFIL TRATĚ -->
+    <div class="profile">
+      <div class="profile-title">Profil trati</div>
+      <!-- jednoduchý stylizovaný profil – můžeš změnit barvy / body -->
+      <svg class="profile-svg" viewBox="0 0 200 80" preserveAspectRatio="none">
+        <!-- podklad -->
+        <path d="M0,10
+                 C40,8 60,18 90,30
+                 C120,44 145,60 200,70
+                 L200,80 L0,80 Z"
+              fill="#dfe9ff" />
+        <!-- tři zvýrazněné sektory -->
+        <path d="M0,10
+                 C40,8 60,18 90,30
+                 L90,80 L0,80 Z"
+              fill="#005fdd" />
+        <path d="M90,30
+                 C120,44 145,60 200,70
+                 L200,80 L90,80 Z"
+              fill="#2084ff" opacity="0.9" />
+        <!-- linka hřebene -->
+        <path d="M0,10
+                 C40,8 60,18 90,30
+                 C120,44 145,60 200,70"
+              fill="none" stroke="#163465" stroke-width="2" />
+      </svg>
+    </div>
+
+    <!-- STAVITEL TRATĚ -->
+    <div class="course-setter">
+      <span class="label" style="color:var(--accent-blue);">Course setter</span>
+      <div class="cs-flag"></div>
+      <span>JAN NOVÁK&nbsp;CZE</span>
+    </div>
+
+    <!-- FINISH -->
+    <div class="finish-row section-row">
+      <div>
+        <div class="label">Finish</div>
+        <!-- výška cíle -->
+        <div class="value">500 m n. m.</div>
+      </div>
+      <div class="temp-row">
+        <div class="weather-icon"></div>
+        <div>-7&nbsp;°C</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+</body>
+</html>
