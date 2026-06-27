@@ -7,34 +7,25 @@
     <!-- Tady přidáš favicon -->
     <link rel="icon" href="favicon.ico.png" type="image/x-icon">
 <style>
-html, body {
-    height: 100%;
+body {
+    background: linear-gradient(to right, #00bcd4, #ffffff);
+    font-family: Arial, sans-serif;
+    color: #333;
     margin: 0;
     padding: 0;
-}
-
-/* 🔥 STEJNÝ LAYOUT JAKO FOTOGALERIE */
-body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(to bottom, #00bcd4 0%, #ffffff 50%, #00bcd4 100%);
-    font-family: Arial, sans-serif;
-    color: #333;
-    overflow-x: hidden;
+    min-height: 100vh;
 }
-
-/* HLAVNÍ ROZLOŽENÍ */
 .main-content {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    gap: 40px;
     width: 90%;
-    max-width: 1700px;
+    max-width: 1400px;
+    flex-wrap: wrap;
+    margin: 20px;
 }
-
-/* 🔥 TVŮJ PŮVODNÍ DESIGN KARTY (NEZMENĚNÝ) */
 .container {
     flex: 2;
     padding: 60px;
@@ -42,13 +33,12 @@ body {
     border-radius: 25px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     text-align: center;
+    margin-right: 50px;
     min-width: 350px;
     font-size: 20px;
     line-height: 1.8;
     position: relative;
 }
-
-/* GLOW RÁM */
 .container::before {
     content: "";
     position: absolute;
@@ -57,29 +47,22 @@ body {
     border-radius: 30px;
     z-index: -1;
 }
-
-/* NADPIS (TVŮJ STYL) */
 h1 {
     color: #00796b;
     margin-bottom: 30px;
     font-size: 2.8em;
 }
-
-/* LIST */
 ul {
     list-style: none;
     padding: 0;
     text-align: left;
 }
-
 li {
     margin: 15px 0;
 }
-
 span.value { font-weight: bold; }
 span.date { font-style: italic; margin-left: 5px; }
 
-/* 🔥 TLAČÍTKA – TVŮJ STYL (DŮLEŽITÉ) */
 a {
     text-decoration: none;
     color: #fff;
@@ -90,10 +73,8 @@ a {
     margin-top: 20px;
     transition: 0.3s;
 }
-
 a:hover { background-color: #004d40; }
 
-/* SIDEBAR */
 .sitemap {
     flex: 1;
     background-color: #ffffff;
@@ -101,9 +82,9 @@ a:hover { background-color: #004d40; }
     border-radius: 25px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     min-width: 250px;
+    margin-top: 20px;
     position: relative;
 }
-
 .sitemap::before {
     content: "";
     position: absolute;
@@ -112,13 +93,10 @@ a:hover { background-color: #004d40; }
     border-radius: 30px;
     z-index: -1;
 }
-
 .sitemap h3 {
     color: #00796b;
     text-align: center;
 }
-
-/* SIDEBAR BUTTONS */
 .sitemap a {
     display: block;
     color: #fff;
@@ -129,27 +107,28 @@ a:hover { background-color: #004d40; }
     text-align: center;
     font-size: 16px;
 }
+.sitemap a:hover { background-color: #004d40; }
 
-.sitemap a:hover {
-    background-color: #004d40;
+.unit-switch {
+    margin-top: 20px;
 }
+.unit-switch button {
+    padding: 12px 24px;
+    margin: 5px;
+    border: none;
+    border-radius: 10px;
+    background-color: #00796b;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 16px;
+}
+.unit-switch button:hover { background-color: #004d40; }
 
-/* 🔥 MOBILE BEZ ROZBITÍ */
 @media (max-width: 900px) {
-    body {
-        align-items: flex-start;
-    }
-
-    .main-content {
-        flex-direction: column;
-        width: 100%;
-        gap: 25px;
-        margin: 20px 0;
-    }
-
-    .container, .sitemap {
-        width: 90%;
-    }
+    .main-content { flex-direction: column; align-items: center; }
+    .container { margin-right: 0; margin-bottom: 20px; }
+    .sitemap { width: 100%; margin-top: 0; }
 }
 </style>
 </head>
@@ -158,7 +137,7 @@ a:hover { background-color: #004d40; }
     <div class="container">
         <h1>Rekordy meteostanice</h1>
         <ul id="records-list">
-            <li>Nejvyšší teplota: <span class="value" data-metric="35.8" data-imperial="96.4">35.8</span> °C <span class="date">- 26. 6 2026</span></li>
+            <li>Nejvyšší teplota: <span class="value" data-metric="36.8" data-imperial="98.2">36.8</span> °C <span class="date">- 27. 6 2026</span></li>
             <li>Nejnižší teplota: <span class="value" data-metric="-14.4" data-imperial="6.1">-14.4</span> °C <span class="date">- 25. 2 2025</span></li>
             <li>Nejvyšší vlhkost: <span class="value" data-metric="99.9" data-imperial="99.9">99.9</span> % <span class="date">- 23. 3 2024</span></li>
             <li>Nejnižší vlhkost: <span class="value" data-metric="4" data-imperial="4">4</span> % <span class="date">- 26. 7 2024</span></li>
