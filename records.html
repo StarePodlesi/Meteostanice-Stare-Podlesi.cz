@@ -15,6 +15,7 @@ body {
     padding: 0;
     overflow-x: hidden;
 }
+}
 
 /* 🔥 STEJNÉ JAKO AKTUÁLNÍ POČASÍ */
 .main-content {
@@ -26,23 +27,23 @@ body {
     padding: 4vh 2vw;
     gap: 2vw;
     flex-wrap: wrap;
-
     height: calc(100vh - 15vh);
     overflow-y: auto;
 }
+}
     
 .container {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    padding: 2vh 2vw;
     flex: 2;
-    padding: 60px;
-    background-color: #ffffff;
-    border-radius: 25px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    min-width: 300px;
+    max-height: 100%;
+    overflow-y: auto;
+    font-size: 1.4em;
     text-align: center;
-    margin-right: 50px;
-    min-width: 350px;
-    font-size: 20px;
-    line-height: 1.8;
-    position: relative;
+}
 }
 .container::before {
     content: "";
